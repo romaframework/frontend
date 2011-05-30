@@ -30,12 +30,10 @@ import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
 import org.romaframework.aspect.view.form.ContentForm;
 import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.Refreshable;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.repository.GenericRepository;
 import org.romaframework.core.repository.PersistenceAspectRepositorySingleton;
 import org.romaframework.core.schema.SchemaHelper;
@@ -70,20 +68,17 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 	@SuppressWarnings("unchecked")
 	public void onShow() {
 		if (RomaFrontend.reporting() == null || mode == MODE_CREATE || mode == MODE_EMBEDDED)
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "report", ViewActionFeatures.VISIBLE,
-					Boolean.FALSE);
+			Roma.setFeature(this, "report", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 
 		if (mode == MODE_READ)
 			// ENABLE/DISABLE ALL FIELDS DEPENDING ON MODE
 			ViewHelper.enableFields(this, false);
 
 		// HIDE/SHOW THE SAVE BUTTON
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "save", ViewElementFeatures.VISIBLE,
-				mode != MODE_READ && mode != MODE_EMBEDDED);
+		Roma.setFeature(this, "save", ViewActionFeatures.VISIBLE, mode != MODE_READ && mode != MODE_EMBEDDED);
 
 		// HIDE/SHOW THE CANCEL BUTTON
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "cancel", ViewElementFeatures.VISIBLE,
-				mode != MODE_EMBEDDED);
+		Roma.setFeature(this, "cancel", ViewActionFeatures.VISIBLE, mode != MODE_EMBEDDED);
 
 		if (mode != MODE_EMBEDDED && repository == null) {
 			if (entity != null) {
@@ -120,7 +115,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 	public void onUpdate() {
 	}
 
-	@ValidationAction(validation = AnnotationConstants.TRUE)
+	@ValidationAction(validate = AnnotationConstants.TRUE)
 	@Persistence(mode = PersistenceConstants.MODE_TX)
 	public void save() {
 		saveEntity();
@@ -141,7 +136,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 		}
 	}
 
-	@ValidationAction(validation = AnnotationConstants.TRUE)
+	@ValidationAction(validate = AnnotationConstants.TRUE)
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	@Persistence(mode = PersistenceConstants.MODE_TX)
 	public void apply() {
@@ -168,7 +163,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 		case MODE_READ:
 			return;
 		}
-		
+
 	}
 
 	public int getMode() {

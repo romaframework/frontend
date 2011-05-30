@@ -15,17 +15,12 @@
  */
 package org.romaframework.aspect.reporting.feature;
 
-import org.romaframework.core.util.DynaBean;
+import org.romaframework.core.schema.Feature;
 
-public class ReportingBaseFeatures extends DynaBean {
-	public ReportingBaseFeatures() {
-		defineAttribute(LABEL, null);
-		defineAttribute(RENDER, null);
-		defineAttribute(LAYOUT, null);		
-	}
+public class ReportingBaseFeatures {
 
-	public static final String	LABEL		= "label";
-	public static final String	LAYOUT	= "layout";
-	public static final String	RENDER	= "render";
+	public static final Feature<String>	LABEL		= ReportingFieldFeatures.LABEL;
+	public static final Feature<String>	LAYOUT	= ReportingFieldFeatures.LAYOUT;
+	public static final Feature<String>	RENDER	= ReportingFieldFeatures.RENDER;
 
 }

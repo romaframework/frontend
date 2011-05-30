@@ -2,7 +2,6 @@ package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.core.Roma;
@@ -31,7 +30,7 @@ public class SchemaEventOpen extends SchemaEvent {
 			return defaultEvent.invoke(iContent, params);
 		}
 
-		Boolean embedded = (Boolean) field.getFeature(CoreAspect.ASPECT_NAME, CoreFieldFeatures.EMBEDDED);
+		Boolean embedded = (Boolean) field.getFeature(CoreFieldFeatures.EMBEDDED);
 		Object instance;
 		if (embedded != null && embedded) {
 			instance = createInstance(iContent, field);

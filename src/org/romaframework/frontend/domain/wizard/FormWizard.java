@@ -6,9 +6,8 @@ import java.util.Map;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.validation.annotation.ValidationAction;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.RomaFrontend;
 
@@ -42,7 +41,7 @@ public class FormWizard<T> implements ViewCallback {
 		}
 	}
 
-	@ValidationAction(validation = AnnotationConstants.TRUE)
+	@ValidationAction(validate = AnnotationConstants.TRUE)
 	public void next() {
 		if (currentStep < steps.length - 1) {
 
@@ -52,7 +51,7 @@ public class FormWizard<T> implements ViewCallback {
 		}
 	}
 
-	@ValidationAction(validation = AnnotationConstants.TRUE)
+	@ValidationAction(validate = AnnotationConstants.TRUE)
 	public void finish() {
 		if (content.onFinish()) {
 
@@ -135,10 +134,10 @@ public class FormWizard<T> implements ViewCallback {
 	}
 
 	protected void onAfterShowContent() {
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "begin", ViewFieldFeatures.ENABLED, currentStep > 0);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "back", ViewFieldFeatures.ENABLED, currentStep > 0);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "next", ViewFieldFeatures.ENABLED, currentStep < steps.length - 1);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "finish", ViewFieldFeatures.ENABLED, currentStep == steps.length - 1);
+		Roma.setFeature(this, "begin", ViewActionFeatures.ENABLED, currentStep > 0);
+		Roma.setFeature(this, "back", ViewActionFeatures.ENABLED, currentStep > 0);
+		Roma.setFeature(this, "next", ViewActionFeatures.ENABLED, currentStep < steps.length - 1);
+		Roma.setFeature(this, "finish", ViewActionFeatures.ENABLED, currentStep == steps.length - 1);
 	}
 
 }

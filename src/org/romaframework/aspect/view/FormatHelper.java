@@ -163,7 +163,7 @@ public class FormatHelper {
 		String message = null;
 		String format = null;
 		if (iField != null) {
-			format = (String) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.FORMAT);
+			format = (String) iField.getFeature(ViewFieldFeatures.FORMAT);
 			message = "Invalid date format for field'" + iField.getEntity().getName() + "." + iField.getName() + "' : " + format;
 		} else {
 			message = "Invalid default date format.";
@@ -200,7 +200,7 @@ public class FormatHelper {
 		String message = null;
 		String format = null;
 		if (iField != null) {
-			format = (String) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.FORMAT);
+			format = (String) iField.getFeature(ViewFieldFeatures.FORMAT);
 			message = "Invalid  number format for field'" + iField.getEntity().getName() + "." + iField.getName() + "' : " + format;
 		} else {
 			message = "Invalid default number format.";

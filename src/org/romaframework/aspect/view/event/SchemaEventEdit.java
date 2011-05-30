@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.romaframework.aspect.flow.FlowAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
@@ -113,7 +112,8 @@ public class SchemaEventEdit extends SchemaEvent {
 	protected Object getSelectedValues(Object parent) {
 		SchemaField listComponent = this.field;
 		try {
-			final String selectionFieldString = (String) listComponent.getFeature(ViewAspect.ASPECT_NAME,
+			final String selectionFieldString = (String) listComponent.getFeature(
+
 					ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionFieldString == null) {
 				return null;

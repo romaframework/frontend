@@ -15,7 +15,6 @@
  */
 package org.romaframework.aspect.view.screen;
 
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
@@ -23,17 +22,16 @@ import org.romaframework.core.schema.xmlannotations.XmlFormAreaAnnotation;
 
 public abstract class AbstractConfigurableScreenFactory implements ScreenFactory {
 
-  public static XmlFormAreaAnnotation getScreenConfiguration(SchemaClass currentClass) {
-    while (currentClass != null) {
-    	XmlFormAreaAnnotation rootArea = (XmlFormAreaAnnotation) currentClass.getFeature(ViewAspect.ASPECT_NAME, ViewClassFeatures.FORM);
-      if (rootArea != null) {
-        return rootArea;
-      }
-      currentClass = currentClass.getSuperClass();
-    }
+	public static XmlFormAreaAnnotation getScreenConfiguration(SchemaClass currentClass) {
+		while (currentClass != null) {
+			XmlFormAreaAnnotation rootArea = currentClass.getFeature(ViewClassFeatures.FORM);
+			if (rootArea != null) {
+				return rootArea;
+			}
+			currentClass = currentClass.getSuperClass();
+		}
 
-    // RETURN OBJECT FORM AREA
-    return (XmlFormAreaAnnotation) Roma.schema().getSchemaClass(Object.class)
-        .getFeature(ViewAspect.ASPECT_NAME, ViewClassFeatures.FORM);
-  }
+		// RETURN OBJECT FORM AREA
+		return Roma.schema().getSchemaClass(Object.class).getFeature(ViewClassFeatures.FORM);
+	}
 }

@@ -30,7 +30,6 @@ import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.type.Pair;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.flow.UserObjectEventListener;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
@@ -48,7 +47,7 @@ import org.romaframework.frontend.domain.message.MessageYesNo;
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
-public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListener {
+public class POJOFlow extends FlowAspectAbstract {
 	private static final String	INHIBIT_CONFIRM_ACTION	= "pojoflow_inhibitConfirm";
 	public static final String	SESS_PROPERTY_HISTORY		= "_HISTORY_";
 	protected SessionAspect			sessionAspect;
@@ -106,8 +105,7 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 		forward(iNextObject, iPosition, iScreen, iSession, iSchema, false);
 	}
 
-	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema,
-			boolean iPushMode) {
+	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode) {
 		if (iNextObject instanceof String) {
 			SchemaClass cls = Roma.schema().getSchemaClass((String) iNextObject);
 			if (cls == null)
@@ -220,8 +218,7 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 	}
 
 	protected void moveForward(SessionInfo iSession, Object iNextObject, String iPosition) {
-		if (Controller.getInstance().getContext().getActiveArea() != null
-				&& Controller.getInstance().getContext().getActiveArea().startsWith(Screen.POPUP)) {
+		if (Controller.getInstance().getContext().getActiveArea() != null && Controller.getInstance().getContext().getActiveArea().startsWith(Screen.POPUP)) {
 			if (iPosition != null && (!iPosition.startsWith("screen:" + Screen.POPUP) && !iPosition.startsWith(Screen.POPUP)))
 				return;
 		}
@@ -230,8 +227,7 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 		if (!history.isEmpty()) {
 			Pair<Object, String> last = history.peek();
 
-			if (last.getKey() != null && last.getKey().equals(iNextObject)
-					&& (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
+			if (last.getKey() != null && last.getKey().equals(iNextObject) && (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
 				// SAME OBJECT: JUST A REFRESH, DON'T STORE IN HISTORY
 				return;
 		}
@@ -244,33 +240,33 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 		return current();
 	}
 
-	public void onAfterActionExecution(Object iContent, SchemaClassElement iAction, Object returnedValue) {
-		Boolean goBack = (Boolean) iAction.getFeature(FlowAspectAbstract.ASPECT_NAME, FlowActionFeatures.BACK);
+	public void onAfterAction(Object iContent, SchemaAction iAction, Object returnedValue) {
+		Boolean goBack = (Boolean) iAction.getFeature(FlowActionFeatures.BACK);
 		if (goBack != null && goBack) {
 			back();
 			return;
 		}
 
-		SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowAspectAbstract.ASPECT_NAME, FlowActionFeatures.NEXT);
+		SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowActionFeatures.NEXT);
 
 		if (nextClass != null) {
-			String nextPosition = (String) iAction.getFeature(FlowAspectAbstract.ASPECT_NAME, FlowActionFeatures.POSITION);
+			String nextPosition = (String) iAction.getFeature(FlowActionFeatures.POSITION);
 			forward(iContent, nextClass, nextPosition);
 		}
 	}
 
-	public boolean onBeforeActionExecution(Object content, SchemaClassElement action) {
-		if (!(Boolean.TRUE.equals(action.getFeature(ASPECT_NAME, FlowActionFeatures.CONFIRM_REQUIRED)))) {
+	public boolean onBeforeAction(Object iContent, SchemaAction iAction) {
+		if (!(Boolean.TRUE.equals(iAction.getFeature(FlowActionFeatures.CONFIRM_REQUIRED)))) {
 			return true;
 		}
 		if (Boolean.TRUE.equals(Roma.context().component(INHIBIT_CONFIRM_ACTION))) {
 			return true;
 		}
 
-		String confirmMessage = (String) action.getFeature(ASPECT_NAME, FlowActionFeatures.CONFIRM_MESSAGE);
+		String confirmMessage = (String) iAction.getFeature(FlowActionFeatures.CONFIRM_MESSAGE);
 		if (confirmMessage == null) {
 			try {
-				confirmMessage = Roma.i18n().resolveString(action.getEntity(), "$" + action.getName() + ".confirmMessage");
+				confirmMessage = Roma.i18n().resolveString(iAction.getEntity(), "$" + iAction.getName() + ".confirmMessage");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -280,9 +276,12 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 			} catch (Exception e) {
 			}
 		}
-		MessageYesNo msg = new MessageYesNo("confirm", "", new ConfirmListener(action, content), confirmMessage);
+		MessageYesNo msg = new MessageYesNo("confirm", "", new ConfirmListener(iAction, iContent), confirmMessage);
 		forward(msg, "screen:popup");
 		return false;
+	}
+
+	public void onExceptionAction(Object iContent, SchemaAction iAction, Exception exception) {
 	}
 
 	static class ConfirmListener implements MessageResponseListener {
@@ -308,37 +307,11 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 		}
 	}
 
-	public Object onBeforeFieldRead(Object content, SchemaField field, Object currentValue) {
-		return IGNORED;
-	}
-
-	public void onFieldRefresh(SessionInfo session, Object content, SchemaField field) {
-	}
-
-	public Object onBeforeFieldWrite(Object content, SchemaField field, Object currentValue) {
-		return currentValue;
-	}
-
-	public Object onAfterFieldWrite(Object content, SchemaField field, Object currentValue) {
-		return currentValue;
-	}
-
-	public Object onAfterFieldRead(Object content, SchemaField field, Object currentValue) {
-		return currentValue;
-	}
-
-	public Object onException(Object content, SchemaClassElement element, Throwable throwed) {
-		return null;
-	}
-
-	public int getPriority() {
-		return 0;
-	}
-
 	public Stack<Pair<Object, String>> getHistory() {
 		return getHistory(null);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Stack<Pair<Object, String>> getHistory(SessionInfo iSession) {
 		Stack<Pair<Object, String>> history = (Stack<Pair<Object, String>>) sessionAspect.getProperty(iSession, SESS_PROPERTY_HISTORY);
 		if (history == null) {
@@ -364,8 +337,7 @@ public class POJOFlow extends FlowAspectAbstract implements UserObjectEventListe
 	public void configClass(SchemaClassDefinition class1, Annotation annotation, XmlClassAnnotation node) {
 	}
 
-	public void configField(SchemaField field, Annotation fieldAnnotation, Annotation genericAnnotation, Annotation getterAnnotation,
-			XmlFieldAnnotation node) {
+	public void configField(SchemaField field, Annotation fieldAnnotation, Annotation genericAnnotation, Annotation getterAnnotation, XmlFieldAnnotation node) {
 	}
 
 	public Object getUnderlyingComponent() {

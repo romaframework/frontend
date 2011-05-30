@@ -16,10 +16,10 @@
 package org.romaframework.frontend.domain.message;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.ApplicationConfiguration;
 import org.romaframework.frontend.RomaFrontend;
@@ -54,14 +54,14 @@ public class ErrorMessageTextDetail extends MessageTextDetail {
 	public void onShow() {
 		super.onShow();
 		if (!Roma.existComponent(ErrorReporter.class)) {
-			Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "sendReport", ViewActionFeatures.VISIBLE, Boolean.FALSE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "customMessage", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "sendReport", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "customMessage", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		} else {
-			Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "sendReport", ViewActionFeatures.VISIBLE, Boolean.TRUE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "customMessage", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "sendReport", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "customMessage", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
 		}
-		if(Boolean.FALSE.equals(Roma.component(ApplicationConfiguration.class).isApplicationDevelopment())){
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "detail", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+		if (Boolean.FALSE.equals(Roma.component(ApplicationConfiguration.class).isApplicationDevelopment())) {
+			Roma.setFeature(this, "detail", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		}
 	}
 

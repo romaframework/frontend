@@ -16,20 +16,12 @@
 
 package org.romaframework.aspect.view.feature;
 
-import org.romaframework.core.util.DynaBean;
+import org.romaframework.core.schema.Feature;
 
-public abstract class ViewBaseFeatures extends DynaBean {
-	public ViewBaseFeatures() {
-		defineAttribute(LABEL, null);
-		defineAttribute(STYLE, null);
-		defineAttribute(RENDER, null);
-		defineAttribute(LAYOUT, null);
-		defineAttribute(DESCRIPTION, null);
-	}
-
-	public static final String	DESCRIPTION	= "description";
-	public static final String	LAYOUT			= "layout";
-	public static final String	RENDER			= "render";
-	public static final String	STYLE				= "style";
-	public static final String	LABEL				= "label";
+public abstract class ViewBaseFeatures {
+	public static final Feature<String>		DESCRIPTION	= ViewElementFeatures.DESCRIPTION;
+	public static final Feature<String>		LAYOUT			= ViewElementFeatures.LAYOUT;
+	public static final Feature<String>		RENDER			= ViewElementFeatures.RENDER;
+	public static final Feature<String>		STYLE				= ViewElementFeatures.STYLE;
+	public static final Feature<String>		LABEL				= ViewElementFeatures.LABEL;
 }

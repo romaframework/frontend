@@ -2,9 +2,6 @@ package org.romaframework.frontend.util;
 
 import java.util.Hashtable;
 
-import au.id.jericho.lib.html.Source;
-import au.id.jericho.lib.html.TextExtractor;
-
 /**
  * Converts String in HTML mark-up replacing characters,
  * 
@@ -72,18 +69,6 @@ public class HtmlEncoder {
 			}
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Decode HTML Markup in a java String
-	 * 
-	 * @param toDecode
-	 * @return The decoded string
-	 */
-	public static String decode(String toDecode) {
-		Source source = new Source(toDecode);
-		TextExtractor extractor = source.getTextExtractor();
-		return extractor.toString();
 	}
 
 }

@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.romaframework.aspect.reporting.ReportingConstants;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
@@ -32,7 +31,7 @@ import org.romaframework.frontend.RomaFrontend;
 
 /**
  * CSV Generator from List or Object[] using SchemaClass to render columns and data
- *
+ * 
  * @author luca.molino
  * 
  */
@@ -70,8 +69,8 @@ public class RomaCsvGenerator {
 		}
 
 		RomaFrontend.view().pushCommand(
-				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "."
-						+ ReportingConstants.DOCUMENT_TYPE_CSV, ReportingConstants.DOCUMENT_TYPE_CSV));
+				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "." + ReportingConstants.DOCUMENT_TYPE_CSV,
+						ReportingConstants.DOCUMENT_TYPE_CSV));
 	}
 
 	public static void generateCsv(List<? extends Object> list, SchemaClass schema, String fileName) {
@@ -85,18 +84,17 @@ public class RomaCsvGenerator {
 		}
 
 		RomaFrontend.view().pushCommand(
-				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "."
-						+ ReportingConstants.DOCUMENT_TYPE_CSV, ReportingConstants.DOCUMENT_TYPE_CSV));
+				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "." + ReportingConstants.DOCUMENT_TYPE_CSV,
+						ReportingConstants.DOCUMENT_TYPE_CSV));
 	}
 
 	private static void generateHeaderCsvObject(StringBuilder csv, SchemaClass schema) {
 		Iterator<SchemaField> iterator = schema.getFieldIterator();
 		while (iterator.hasNext()) {
 			SchemaField schemaField = iterator.next();
-			if ((Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE)) {
-				if (schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER) != null
-						&& ((String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER))
-								.equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
+			if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
+				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null
+						&& ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 					generateHeaderCsvObjectEmbedded(csv, schemaField.getType());
 				} else {
 					csv.append(TEXT_DELIMITER);
@@ -113,10 +111,9 @@ public class RomaCsvGenerator {
 		Iterator<SchemaField> iterator = schema.getFieldIterator();
 		while (iterator.hasNext()) {
 			SchemaField schemaField = iterator.next();
-			if ((Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE)) {
-				if (schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER) != null
-						&& ((String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER))
-								.equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
+			if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
+				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null
+						&& ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 					generateHeaderCsvObjectEmbedded(csv, schemaField.getType());
 				} else {
 					csv.append(TEXT_DELIMITER);
@@ -138,9 +135,9 @@ public class RomaCsvGenerator {
 			Iterator<SchemaField> iterator = schema.getFieldIterator();
 			while (iterator.hasNext()) {
 				SchemaField schemaField = iterator.next();
-				if ((Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE)) {
+				if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
 					Object valueObject = schemaField.getValue(entity);
-					String renderMode = (String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER);
+					String renderMode = (String) schemaField.getFeature(ViewFieldFeatures.RENDER);
 					if (renderMode != null && renderMode.equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 						generateRowCsvObjectEmbedded(csv, schemaField.getType(), valueObject);
 					} else {
@@ -166,9 +163,9 @@ public class RomaCsvGenerator {
 			Iterator<SchemaField> iterator = schema.getFieldIterator();
 			while (iterator.hasNext()) {
 				SchemaField schemaField = iterator.next();
-				if ((Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE)) {
+				if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
 					Object valueObject = schemaField.getValue(entity);
-					String renderMode = (String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER);
+					String renderMode = (String) schemaField.getFeature(ViewFieldFeatures.RENDER);
 					if (renderMode != null && renderMode.equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 						generateRowCsvObjectEmbedded(csv, schemaField.getType(), valueObject);
 					} else {

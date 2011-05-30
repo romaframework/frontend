@@ -49,4 +49,7 @@ public @interface ViewClass {
    */
   @Deprecated
   String orderAreas() default AnnotationConstants.DEF_VALUE;
+  
+  String form() default AnnotationConstants.DEF_VALUE;
+  
 }

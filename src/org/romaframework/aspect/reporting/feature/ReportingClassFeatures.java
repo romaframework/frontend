@@ -15,27 +15,23 @@
  */
 package org.romaframework.aspect.reporting.feature;
 
-import org.romaframework.aspect.reporting.ReportingConstants;
+import org.romaframework.aspect.reporting.ReportingAspect;
+import org.romaframework.core.schema.Feature;
+import org.romaframework.core.schema.FeatureType;
 
-public class ReportingClassFeatures extends ReportingBaseFeatures {
+public class ReportingClassFeatures {
 
-	public ReportingClassFeatures() {
-		super();
-		defineAttribute(ENTITY, null);
-		defineAttribute(EXPLICIT_ELEMENTS, Boolean.FALSE);
-		defineAttribute(INHERIT_VIEW_CONFIGURATION, Boolean.TRUE);
-		defineAttribute(DOCUMENT_TYPE, ReportingConstants.DOCUMENT_TYPE_PDF);
-	}
-
-
-	public static final String	DOCUMENT_TYPE								= "documentType";
-
-	public static final String	ENTITY											= "entity";
-
-	public static final String	EXPLICIT_ELEMENTS						= "explicitElements";
-
-	public static final String	INHERIT_VIEW_CONFIGURATION	= "inheritViewConfiguration";
-
-	
+	public static final Feature<String>		LABEL												= new Feature<String>(ReportingAspect.ASPECT_NAME, "label", FeatureType.CLASS, String.class);
+	public static final Feature<String>		LAYOUT											= new Feature<String>(ReportingAspect.ASPECT_NAME, "layout", FeatureType.CLASS,
+																																				String.class);
+	public static final Feature<String>		RENDER											= new Feature<String>(ReportingAspect.ASPECT_NAME, "render", FeatureType.CLASS,
+																																				String.class);
+	public static final Feature<String>		DOCUMENT_TYPE								= new Feature<String>(ReportingAspect.ASPECT_NAME, "documentType", FeatureType.CLASS,
+																																				String.class);
+	public static final Feature<Class>		ENTITY											= new Feature<Class>(ReportingAspect.ASPECT_NAME, "entity", FeatureType.CLASS, Class.class);
+	public static final Feature<Boolean>	EXPLICIT_ELEMENTS						= new Feature<Boolean>(ReportingAspect.ASPECT_NAME, "explicitElements", FeatureType.CLASS,
+																																				Boolean.class, Boolean.FALSE);
+	public static final Feature<Boolean>	INHERIT_VIEW_CONFIGURATION	= new Feature<Boolean>(ReportingAspect.ASPECT_NAME, "inheritViewConfiguration",
+																																				FeatureType.CLASS, Boolean.class, Boolean.TRUE);
 
 }

@@ -22,7 +22,6 @@ import org.romaframework.aspect.serialization.SerializationData;
 import org.romaframework.aspect.serialization.SerializationElement;
 import org.romaframework.aspect.serialization.exception.SerializationException;
 import org.romaframework.aspect.serialization.impl.SchemaSerializationInspectionStrategy;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
@@ -47,13 +46,13 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 
 	@Override
 	protected SerializationElement inspectField(Object fieldValue, SchemaField schemaField, Stack<Object> inspected) {
-		Boolean visible = (Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE);
+		Boolean visible = (Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE);
 		if (visible != null && !visible) {
 			return null;
 		}
-		Object renderMode =  schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER);
+		Object renderMode =  schemaField.getFeature(ViewFieldFeatures.RENDER);
 		if (ViewConstants.RENDER_SELECT.equals(renderMode)) {
-			final String selectionField = (String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.SELECTION_FIELD);
+			final String selectionField = (String) schemaField.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionField == null) {
 				return null;
 			}
@@ -92,7 +91,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 
 	@Override
 	protected void fillField(Object toFill, SerializationElement serializationField, SchemaField schemaField, boolean copyFeatures) {
-		Object renderMode =  schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER);
+		Object renderMode =  schemaField.getFeature(ViewFieldFeatures.RENDER);
 		SerializationData fieldData = serializationField.getData();
 		if (ViewConstants.RENDER_SELECT.equals(renderMode)) {
 			if (copyFeatures) {
@@ -102,7 +101,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 					copyFeatures(serializationElement, destElement, modeFill);
 				}
 			}
-			final String selectionField = (String) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.SELECTION_FIELD);
+			final String selectionField = (String) schemaField.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionField != null) {
 				Object curValue = SchemaHelper.getFieldValue(toFill, selectionField);
 				Object value = super.getFieldValue(fieldData, schemaField.getEntity().getField(selectionField), curValue, copyFeatures);
@@ -142,7 +141,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 
 	@Override
 	protected Object getFieldValue(SerializationData fieldData, SchemaField schemaField, Object currentValue, boolean copyFeatures) {
-		Boolean visible = (Boolean) schemaField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE);
+		Boolean visible = (Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE);
 		if (visible != null && !visible) {
 			return null;
 		}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties PUBLIC "JAVA PROPERTIES" "http://www.romaframework.org/schema/properties.dtd">
+<properties>
+	<comment>Frontend basic module shared between all view aspects</comment>
+	<entry key="name">FRONTEND module</entry>
+	<entry key="version">2.2.0</entry>
+	<entry key="repository">romaframework</entry>
+</properties>

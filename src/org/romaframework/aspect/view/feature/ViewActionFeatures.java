@@ -16,13 +16,20 @@
 
 package org.romaframework.aspect.view.feature;
 
-public class ViewActionFeatures extends ViewElementFeatures {
+import org.romaframework.aspect.view.ViewAspect;
+import org.romaframework.core.schema.Feature;
+import org.romaframework.core.schema.FeatureType;
 
-	public ViewActionFeatures() {
-		defineAttribute(BIND, true);
-		defineAttribute(SUBMIT, false);
-	}
+public class ViewActionFeatures {
 
-	public static final String	BIND		= "bind";
-	public static final String	SUBMIT	= "submit";
+	public static final Feature<String>		DESCRIPTION	= new Feature<String>(ViewAspect.ASPECT_NAME, "description", FeatureType.ACTION, String.class);
+	public static final Feature<String>		LAYOUT			= new Feature<String>(ViewAspect.ASPECT_NAME, "layout", FeatureType.ACTION, String.class);
+	public static final Feature<String>		RENDER			= new Feature<String>(ViewAspect.ASPECT_NAME, "render", FeatureType.ACTION, String.class);
+	public static final Feature<String>		STYLE				= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.ACTION, String.class);
+	public static final Feature<String>		LABEL				= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.ACTION, String.class);
+	public static final Feature<Boolean>	ENABLED			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "enabled", FeatureType.ACTION, Boolean.class);
+	public static final Feature<Boolean>	VISIBLE			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.ACTION, Boolean.class,Boolean.TRUE);
+	public static final Feature<Boolean>	BIND				= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "bind", FeatureType.ACTION, Boolean.class);
+	public static final Feature<Boolean>	SUBMIT			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "submit", FeatureType.ACTION, Boolean.class);
+
 }

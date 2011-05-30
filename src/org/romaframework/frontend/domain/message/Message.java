@@ -17,14 +17,12 @@
 package org.romaframework.frontend.domain.message;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewBaseFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.frontend.RomaFrontend;
 
 @ViewClass(render = "popup", layout = "screen:popup:message")
@@ -47,7 +45,7 @@ public class Message implements ViewCallback {
 	}
 
 	public void onShow() {
-		ObjectContext.getInstance().setClassFeature(this, ViewAspect.ASPECT_NAME, ViewBaseFeatures.LABEL, title);
+		Roma.setFeature(this, ViewFieldFeatures.LABEL, title);
 	}
 
 	public void onDispose() {

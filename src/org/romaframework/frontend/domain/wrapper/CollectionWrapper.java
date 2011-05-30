@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.core.annotation.CoreField;
@@ -42,16 +41,15 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 	protected static Log											log		= LogFactory.getLog(CollectionWrapper.class);
 
 	public void onShow() {
-		SchemaClass embType = (SchemaClass) Roma.getFieldFeature(this, CoreAspect.ASPECT_NAME, "elements",
-				CoreFieldFeatures.EMBEDDED_TYPE);
+		SchemaClass embType = (SchemaClass) Roma.getFeature(this, "elements", CoreFieldFeatures.EMBEDDED_TYPE);
 
 		if (embType == null || embType.getLanguageType().equals(Object.class))
-			Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listClass);
+			Roma.setFeature(this, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listClass);
 
 		Roma.fieldChanged(this, "elements");
 
 		if (object != null && selectionFieldName != null) {
-			Roma.setFieldFeature(object, ViewAspect.ASPECT_NAME, selectionFieldName, ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(object, selectionFieldName, ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		}
 
 		if (lazy)
@@ -63,8 +61,7 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 
 	public void add() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component.getContainerComponent(), component.getSchemaField().getName(),
-				SchemaEvent.COLLECTION_ADD_EVENT);
+		SchemaHelper.invokeEvent(component.getContainerComponent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_ADD_EVENT);
 	}
 
 	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -96,8 +93,7 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void load() {
 		if (object != null && selectionFieldName != null) {
-			setDomainElements((Collection<T>) SchemaHelper.getFieldValue(Roma.schema().getSchemaClass(object.getClass()),
-					selectionFieldName, object));
+			setDomainElements((Collection<T>) SchemaHelper.getFieldValue(Roma.schema().getSchemaClass(object.getClass()), selectionFieldName, object));
 		}
 	}
 

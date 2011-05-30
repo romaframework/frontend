@@ -3,7 +3,6 @@ package org.romaframework.frontend.domain.crud;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.persistence.Query;
@@ -106,8 +105,8 @@ public class QueryPaging<T, E> implements PagingListener, ViewCallback {
 	}
 
 	public void onShow() {
-		Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
-		Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "selected", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
+		Roma.setFeature(this, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
+		Roma.setFeature(this, "selected", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
 	}
 
 	public void onDispose() {

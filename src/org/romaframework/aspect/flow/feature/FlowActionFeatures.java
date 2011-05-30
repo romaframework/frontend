@@ -16,23 +16,23 @@
 
 package org.romaframework.aspect.flow.feature;
 
-import org.romaframework.core.util.DynaBean;
+import org.romaframework.aspect.flow.FlowAspectAbstract;
+import org.romaframework.core.schema.Feature;
+import org.romaframework.core.schema.FeatureType;
+import org.romaframework.core.schema.SchemaClass;
 
-public class FlowActionFeatures extends DynaBean {
-	public FlowActionFeatures() {
-		defineAttribute(NEXT, null);
-		defineAttribute(POSITION, null);
-		defineAttribute(ERROR, null);
-		defineAttribute(BACK, null);
-		defineAttribute(CONFIRM_REQUIRED, null);
-		defineAttribute(CONFIRM_MESSAGE, null);
-	}
+public class FlowActionFeatures {
 
-	public static final String	NEXT			= "next";
-	public static final String	POSITION	= "position";
-	public static final String	ERROR			= "error";
-	public static final String	BACK			= "back";
-	
-	public static final String	CONFIRM_REQUIRED = "confirmRequired";
-	public static final String	CONFIRM_MESSAGE = "confirmMessage";
+	public static final Feature<SchemaClass>	NEXT							= new Feature<SchemaClass>(FlowAspectAbstract.ASPECT_NAME, "next", FeatureType.ACTION,
+																																	SchemaClass.class);
+	public static final Feature<String>				POSITION					= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "position", FeatureType.ACTION,
+																																	String.class);
+	public static final Feature<String>				ERROR							= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "error", FeatureType.ACTION, String.class);
+	public static final Feature<Boolean>			BACK							= new Feature<Boolean>(FlowAspectAbstract.ASPECT_NAME, "back", FeatureType.ACTION, Boolean.class);
+
+	public static final Feature<Boolean>			CONFIRM_REQUIRED	= new Feature<Boolean>(FlowAspectAbstract.ASPECT_NAME, "confirmRequired", FeatureType.ACTION,
+																																	Boolean.class);
+	public static final Feature<String>				CONFIRM_MESSAGE		= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "confirmMessage", FeatureType.ACTION,
+																																	String.class);
+
 }

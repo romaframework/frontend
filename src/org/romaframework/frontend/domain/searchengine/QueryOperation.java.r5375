@@ -16,16 +16,14 @@
  */
 package org.romaframework.frontend.domain.searchengine;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,15 +32,15 @@ import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.i18n.I18NAspect;
 import org.romaframework.aspect.persistence.PersistenceAspect;
+import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
+import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClassResolver;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageText;
 import org.romaframework.frontend.domain.searchengine.filter.AbstractBaseFilter;
@@ -54,17 +52,18 @@ import org.romaframework.frontend.domain.searchengine.filter.BaseFilter;
  */
 public class QueryOperation implements ViewCallback {
 
-	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection", label = "")
+	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection")
 	protected Map<String, String>	filters				= new HashMap<String, String>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected String							selection;
 
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
-	@ViewField(render = ViewConstants.RENDER_COLSET, label = "", style = "queryOperation")
+	@ViewField(render = ViewConstants.RENDER_COLSET)
 	protected List<QueryItem>			operation			= new ArrayList<QueryItem>();
 
-	@ViewField(visible = AnnotationConstants.FALSE)
+	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
+	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = "form://selectedFilter")
 	protected BaseFilter<?>				editCondition;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -102,6 +101,8 @@ public class QueryOperation implements ViewCallback {
 
 		if (operation.size() > 0)
 			showFilters();
+
+		hideEditFilter();
 	}
 
 	public void onDispose() {
@@ -141,7 +142,6 @@ public class QueryOperation implements ViewCallback {
 		this.positionToAdd = positionToAdd;
 	}
 
-	@ViewAction(layout = "form://availableFilters", style = "queryOperationAddOperator")
 	public void add() throws ClassNotFoundException {
 		if (selection == null) {
 			showSelectOnlyOneError();
@@ -157,7 +157,8 @@ public class QueryOperation implements ViewCallback {
 		}
 	}
 
-	protected void add(Integer position) throws ClassNotFoundException {
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void add(Integer position) throws ClassNotFoundException {
 		BaseFilter<?> selectionInstance;
 		try {
 			selectionInstance = (BaseFilter<?>) Class.forName(filters.get(selection)).newInstance();
@@ -190,29 +191,13 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void addFilter(Integer position, BaseFilter<?> iSelectedFilter) {
-		try {
-			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class,
-					QueryOperation.class);
-			QueryCondition condition = conditionConstructor.newInstance(iSelectedFilter, this);
-			if (position < 0)
-				position = 0;
-			operation.add(position, condition);
-			int operationSize = operation.size();
-			updateOperationAfterAdd(position, operationSize, false);
-			Roma.fieldChanged(this, "operation");
-		} catch (SecurityException se) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + se, se);
-		} catch (NoSuchMethodException nsme) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + nsme, nsme);
-		} catch (IllegalArgumentException iare) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + iare, iare);
-		} catch (InstantiationException ie) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + ie, ie);
-		} catch (IllegalAccessException iae) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + iae, iae);
-		} catch (InvocationTargetException ite) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + ite, ite);
-		}
+		QueryCondition condition = new QueryCondition(iSelectedFilter, this);
+		if (position < 0)
+			position = 0;
+		operation.add(position, condition);
+		int operationSize = operation.size();
+		updateOperationAfterAdd(position, operationSize, false);
+		Roma.fieldChanged(this, "operation");
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
@@ -235,20 +220,28 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void showFilters() {
-		Roma.setFeature(this, "filters", ViewFieldFeatures.VISIBLE, true);
-		Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, true);
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "filters", ViewFieldFeatures.VISIBLE, true);
+		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.VISIBLE, true);
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void hideFilters() {
-		Roma.setFeature(this, "filters", ViewFieldFeatures.VISIBLE, false);
-		Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, false);
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "filters", ViewFieldFeatures.VISIBLE, false);
+		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.VISIBLE, false);
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void showEditFilter() {
-		RomaFrontend.flow().forward(editCondition, "screen:popup");
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "editCondition", ViewFieldFeatures.VISIBLE, true);
+		Roma.fieldChanged(this, "editCondition");
 		Roma.fieldChanged(this, "operation");
+	}
+
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void hideEditFilter() {
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "editCondition", ViewFieldFeatures.VISIBLE, false);
+		Roma.fieldChanged(this, "editCondition");
+		Roma.fieldChanged(this, "editCondition");
 	}
 
 	protected void loadFilters() {
@@ -300,7 +293,8 @@ public class QueryOperation implements ViewCallback {
 		int operationSize = operation.size();
 		if (operationSize == 2 && isQuerySubOperation(operation.get(0)) && isQuerySubOperation(operation.get(1)))
 			return;
-		if ((position == operationSize - 1 && isQuerySubOperation(operation.get(position))) || (operationSize != 0 && position >= operationSize))
+		if ((position == operationSize - 1 && isQuerySubOperation(operation.get(position)))
+				|| (operationSize != 0 && position >= operationSize))
 			operation.remove(position.intValue() - 1);
 		else if (operationSize > 1) {
 			operation.remove(position.intValue());

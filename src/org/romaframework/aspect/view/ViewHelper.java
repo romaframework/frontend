@@ -31,14 +31,12 @@ import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.exception.ConfigurationException;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.virtual.VirtualObject;
-import org.romaframework.core.util.DynaBean;
 
 /**
  * Helper class to resolve common tasks about View Aspect.
@@ -116,15 +114,12 @@ public class ViewHelper {
 	 */
 	public static void enableFields(Object iUserObject, SchemaClassDefinition iSchema, boolean iValue) {
 		SchemaField field;
-		DynaBean property;
 		for (Iterator<SchemaField> itField = iSchema.getFieldIterator(); itField.hasNext();) {
 			field = itField.next();
-			property = field.getFeatures(ViewAspect.ASPECT_NAME);
-			if (property == null || !(Boolean) property.getAttribute(ViewElementFeatures.VISIBLE))
+			if (!field.getFeature(ViewElementFeatures.VISIBLE))
 				continue;
 
-			ObjectContext.getInstance().setFieldFeature(iUserObject, ViewAspect.ASPECT_NAME, field.getName(),
-					ViewElementFeatures.ENABLED, iValue, iSchema);
+			Roma.setFeature(iUserObject, field.getName(), ViewFieldFeatures.ENABLED, iValue);
 
 			if (SchemaHelper.isAssignableAs(field.getType(), java.util.Collection.class)) {
 				// DISABLE ALL SUB-OBJECT IF THEY ARE FORMS
@@ -146,8 +141,8 @@ public class ViewHelper {
 				}
 			} else if (field.getType() != null) {
 				Object subObj = SchemaHelper.getFieldValue(field, iUserObject);
-				String fieldLayout = (String) field.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.LAYOUT);
-				String fieldRender = (String) field.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.RENDER);
+				String fieldLayout = (String) field.getFeature(ViewFieldFeatures.LAYOUT);
+				String fieldRender = (String) field.getFeature(ViewFieldFeatures.RENDER);
 				if (subObj != null
 						&& ((fieldLayout != null && !fieldLayout.equals(ViewConstants.LAYOUT_DEFAULT)) || fieldRender != null
 								&& fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))
@@ -173,11 +168,11 @@ public class ViewHelper {
 			log.error("[ViewHelper.invokeOnShow] Error on invoking onShow() method on object: " + content, e);
 		}
 	}
-	
-//	public static void invokeOnShow(Object content, String log) {
-//		invokeOnShow(content);
-//		System.out.println(log + content);
-//	}
+
+	// public static void invokeOnShow(Object content, String log) {
+	// invokeOnShow(content);
+	// System.out.println(log + content);
+	// }
 
 	/**
 	 * Invoke the onDispose() event (if any) against the object passed.
@@ -205,13 +200,13 @@ public class ViewHelper {
 	 * @param iSelection
 	 */
 	public static void bindSelectionForField(SchemaField iField, Object iContent, Object[] iSelection) {
-		String selectionFieldName = (String) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.SELECTION_FIELD);
+		String selectionFieldName = (String) iField.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 		if (selectionFieldName != null) {
 			// UPDATE SELECTION
 			SchemaField selectionField = iField.getEntity().getField(selectionFieldName);
 			Object selectedObject = SchemaHelper.getFieldObject(iContent, selectionFieldName);
 
-			SchemaHelper.insertElements(selectionField, selectedObject, iSelection,true);
+			SchemaHelper.insertElements(selectionField, selectedObject, iSelection, true);
 		}
 	}
 
@@ -219,22 +214,22 @@ public class ViewHelper {
 		Type embeddedType = SchemaHelper.getEmbeddedType(iField);
 
 		if (embeddedType.equals(Object.class)) {
-			String selectionFieldName = (String) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.SELECTION_FIELD);
+			String selectionFieldName = (String) iField.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			// NO EMBEDDED TYPE SETTED: TRY TO DETERMINE IT BY SELECTION FIELD
 			if (selectionFieldName != null) {
 				SchemaField selectionField = SchemaHelper.getFieldName(iField.getEntity(), selectionFieldName);
 
 				if (selectionField == null) {
-					throw new ConfigurationException("Cannot find the selection field called " + selectionFieldName
-							+ " defined in the correlated field " + iField.getEntity().getSchemaClass().getName() + "." + iField.getName());
+					throw new ConfigurationException("Cannot find the selection field called " + selectionFieldName + " defined in the correlated field "
+							+ iField.getEntity().getSchemaClass().getName() + "." + iField.getName());
 				}
 
 				embeddedType = (Class<?>) selectionField.getLanguageType();
 			}
 
 			if (embeddedType == null) {
-				throw new ConfigurationException("Cannot find embedded type definition for the field "
-						+ iField.getEntity().getSchemaClass().getName() + "." + iField.getName());
+				throw new ConfigurationException("Cannot find embedded type definition for the field " + iField.getEntity().getSchemaClass().getName() + "."
+						+ iField.getName());
 			}
 		}
 

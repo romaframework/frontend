@@ -6,14 +6,12 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.persistence.QueryByFilterItemGroup;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaObject;
@@ -43,9 +41,9 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 		}
 		try {
 			Class<?> filterEntity = iEntity.getClass();
-			while(!filterEntity.equals(Object.class)){
+			while (!filterEntity.equals(Object.class)) {
 				SchemaClass filterClass = CRUDHelper.getCRUDFilter(filterEntity);
-				if(filterClass != null){
+				if (filterClass != null) {
 					advancedFilter = (CRUDFilter<T>) filterClass.newInstance();
 					advancedFilter.setEntity(iEntity);
 					break;
@@ -84,14 +82,13 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 		}
 		String[] splittato = fullTextSearch.split(" ");
 		QueryByFilter query = new QueryByFilter(getEntity().getClass(), QueryByFilter.PREDICATE_AND);
-		SchemaObject schema = ObjectContext.getInstance().getSchemaObject(this.getAdvancedFilter());
+		SchemaObject schema = Roma.getSchemaObject(this.getAdvancedFilter());
 		for (String token : splittato) {
 			QueryByFilterItemGroup subfilter = new QueryByFilterItemGroup(QueryByFilter.PREDICATE_OR);
 			Iterator<SchemaField> iterator = schema.getField("entity").getType().getFieldIterator();
 			while (iterator.hasNext()) {
 				SchemaField field = iterator.next();
-				if (String.class.equals(field.getLanguageType())
-						&& Boolean.TRUE.equals(field.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.VISIBLE))) {
+				if (String.class.equals(field.getLanguageType()) && Boolean.TRUE.equals(field.getFeature(ViewFieldFeatures.VISIBLE))) {
 
 					if (token.length() > 0) {
 						subfilter.addItem(field.getName(), QueryByFilter.FIELD_LIKE, token);
@@ -115,10 +112,10 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 	}
 
 	protected void refresh() {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "fullTextSearch", ViewElementFeatures.VISIBLE, !expanded);
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "advancedFilter", ViewElementFeatures.VISIBLE, expanded);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "simpleSearch", ViewElementFeatures.VISIBLE, expanded);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "advancedSearch", ViewElementFeatures.VISIBLE, !expanded);
+		Roma.setFeature(this, "fullTextSearch", ViewFieldFeatures.VISIBLE, !expanded);
+		Roma.setFeature(this, "advancedFilter", ViewFieldFeatures.VISIBLE, expanded);
+		Roma.setFeature(this, "simpleSearch", ViewActionFeatures.VISIBLE, expanded);
+		Roma.setFeature(this, "advancedSearch", ViewActionFeatures.VISIBLE, !expanded);
 	}
 
 	public void simpleSearch() {

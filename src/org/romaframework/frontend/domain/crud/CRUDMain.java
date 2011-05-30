@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.core.annotation.CoreField;
@@ -41,13 +40,11 @@ import org.romaframework.aspect.persistence.QueryByText;
 import org.romaframework.aspect.persistence.annotation.Persistence;
 import org.romaframework.aspect.reporting.annotation.ReportingField;
 import org.romaframework.aspect.security.Secure;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
 import org.romaframework.aspect.view.form.SelectableInstance;
 import org.romaframework.core.Roma;
 import org.romaframework.core.classloader.ClassLoaderListener;
@@ -84,8 +81,7 @@ import org.romaframework.frontend.util.RomaCsvGenerator;
 @CoreClass(orderFields = "filter paging result", orderActions = "search create read update delete report selectAll deselectAll")
 @LoggingClass(mode = LoggingConstants.MODE_DB)
 @SuppressWarnings("unchecked")
-public abstract class CRUDMain<T> extends SelectableInstance implements PagingListener, MessageResponseListener, Refreshable,
-		ViewCallback {
+public abstract class CRUDMain<T> extends SelectableInstance implements PagingListener, MessageResponseListener, Refreshable, ViewCallback {
 
 	@ReportingField(visible = AnnotationConstants.FALSE)
 	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = "form://paging")
@@ -115,9 +111,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		this(null, iListClass, iCreateClass, iReadClass, iEditClass);
 	}
 
-	protected CRUDMain(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass,
-			Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
-			Class<? extends ComposedEntity<?>> iEditClass) {
+	protected CRUDMain(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
+			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
 
 		paging = new CRUDPaging(this);
 
@@ -139,8 +134,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	@LoggingAction(enabled = AnnotationConstants.FALSE)
 	public void onShow() {
 		if (RomaFrontend.reporting() == null) {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "report", ViewActionFeatures.VISIBLE,
-					Boolean.FALSE);
+			Roma.setFeature(this, "report", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		}
 	}
 
@@ -340,8 +334,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 */
 	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	@ViewAction(visible = AnnotationConstants.TRUE)
-	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException {
+	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException,
+			InvocationTargetException {
 		return createInstance();
 	}
 
@@ -416,12 +410,10 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected Object loadObjectDetails(Object iObj) {
-		Object obj = repository.load(((ComposedEntity<T>) iObj).getEntity(), PersistenceAspect.FULL_MODE_LOADING,
-				PersistenceAspect.STRATEGY_DETACHING);
+		Object obj = repository.load(((ComposedEntity<T>) iObj).getEntity(), PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING);
 
 		if (obj == null) {
-			throw new ConfigurationException(
-					"Cannot load object. Check the PersistenceAspect configuration and assure the class you're using is detachable");
+			throw new ConfigurationException("Cannot load object. Check the PersistenceAspect configuration and assure the class you're using is detachable");
 		}
 
 		return obj;
@@ -522,22 +514,16 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	public void setSelection(Object[] iSelectedObjects) {
 		if (iSelectedObjects == null || iSelectedObjects.length == 0) {
 			// TEMPORARY PATCH TO GET WORKING CRUDS WITH THE NEW VIEW ASPECT
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "update", ViewElementFeatures.ENABLED,
-					Boolean.FALSE);
-
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "delete", ViewElementFeatures.ENABLED,
-					Boolean.FALSE);
+			Roma.setFeature(this, "delete", ViewActionFeatures.ENABLED, Boolean.FALSE);
 		} else {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "delete", ViewElementFeatures.ENABLED,
-					iSelectedObjects.length > 0);
+			Roma.setFeature(this, "delete", ViewActionFeatures.ENABLED, iSelectedObjects.length > 0);
 
 			boolean enableUpdate = iSelectedObjects.length == 1;
 
 			if (iSelectedObjects.length == 1 && iSelectedObjects[0] instanceof ComposedEntity<?>)
 				enableUpdate = ((Secure) iSelectedObjects[0]).canWrite();
 
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "update", ViewElementFeatures.ENABLED,
-					enableUpdate);
+			Roma.setFeature(this, "update", ViewActionFeatures.ENABLED, enableUpdate);
 		}
 
 		super.setSelection(iSelectedObjects);
@@ -546,9 +532,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected boolean checkDoubleClick(Object[] iSelectedObjects) {
-		if (handleDoubleClick && iSelectedObjects != null && iSelectedObjects.length == 1 && getSelection() != null
-				&& getSelection().length == 1 && iSelectedObjects[0].equals(getSelection()[0])
-				&& System.currentTimeMillis() - lastSelectionTime < DOUBLE_CLICK_TIMEOUT) {
+		if (handleDoubleClick && iSelectedObjects != null && iSelectedObjects.length == 1 && getSelection() != null && getSelection().length == 1
+				&& iSelectedObjects[0].equals(getSelection()[0]) && System.currentTimeMillis() - lastSelectionTime < DOUBLE_CLICK_TIMEOUT) {
 
 			// DOUBLE CLICK:
 			onDoubleClick();
@@ -626,9 +611,9 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		return Roma.context().persistence();
 	}
 
-	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, IllegalArgumentException, SecurityException, NoSuchMethodException {
-		SchemaClass entityClass = (SchemaClass) createClass.getFeature(CoreAspect.ASPECT_NAME, CoreClassFeatures.ENTITY);
+	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException,
+			SecurityException, NoSuchMethodException {
+		SchemaClass entityClass = (SchemaClass) createClass.getFeature(CoreClassFeatures.ENTITY);
 		Object entityObject = SchemaHelper.createObject(entityClass, iArgs);
 
 		Object createInstance = ObjectContext.getInstance().getObject(createClass, entityObject);
@@ -692,8 +677,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 			if (realmField != null) {
 				if (realmField.getValue(getFilter().getEntity()) != null) {
 					addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, realmField.getValue(getFilter().getEntity()));
-				} else if (Roma.session().getActiveSessionInfo().getAccount() != null
-						&& Roma.session().getActiveSessionInfo().getAccount().getRealm() != null) {
+				} else if (Roma.session().getActiveSessionInfo().getAccount() != null && Roma.session().getActiveSessionInfo().getAccount().getRealm() != null) {
 					addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, Roma.session().getActiveSessionInfo().getAccount().getRealm());
 				}
 			}
@@ -701,7 +685,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected void addDefaultOrder(QueryByFilter addFilter) {
-		SchemaClass entityClass = (SchemaClass) listClass.getFeature(CoreAspect.ASPECT_NAME, CoreClassFeatures.ENTITY);
+		SchemaClass entityClass = (SchemaClass) listClass.getFeature(CoreClassFeatures.ENTITY);
 		Iterator<SchemaField> it = entityClass.getFieldIterator();
 		while (it.hasNext()) {
 			SchemaField sf = it.next();

@@ -16,8 +16,6 @@
  */
 package org.romaframework.frontend.domain.searchengine;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,17 +52,18 @@ import org.romaframework.frontend.domain.searchengine.filter.BaseFilter;
  */
 public class QueryOperation implements ViewCallback {
 
-	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection", label = "")
+	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection")
 	protected Map<String, String>	filters				= new HashMap<String, String>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected String							selection;
 
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
-	@ViewField(render = ViewConstants.RENDER_COLSET, label = "", style = "queryOperation")
+	@ViewField(render = ViewConstants.RENDER_COLSET)
 	protected List<QueryItem>			operation			= new ArrayList<QueryItem>();
 
-	@ViewField(visible = AnnotationConstants.FALSE)
+	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
+	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = "form://selectedFilter")
 	protected BaseFilter<?>				editCondition;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -141,7 +140,6 @@ public class QueryOperation implements ViewCallback {
 		this.positionToAdd = positionToAdd;
 	}
 
-	@ViewAction(layout = "form://availableFilters", style = "queryOperationAddOperator")
 	public void add() throws ClassNotFoundException {
 		if (selection == null) {
 			showSelectOnlyOneError();
@@ -157,7 +155,8 @@ public class QueryOperation implements ViewCallback {
 		}
 	}
 
-	protected void add(Integer position) throws ClassNotFoundException {
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void add(Integer position) throws ClassNotFoundException {
 		BaseFilter<?> selectionInstance;
 		try {
 			selectionInstance = (BaseFilter<?>) Class.forName(filters.get(selection)).newInstance();
@@ -190,29 +189,13 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void addFilter(Integer position, BaseFilter<?> iSelectedFilter) {
-		try {
-			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class,
-					QueryOperation.class);
-			QueryCondition condition = conditionConstructor.newInstance(iSelectedFilter, this);
-			if (position < 0)
-				position = 0;
-			operation.add(position, condition);
-			int operationSize = operation.size();
-			updateOperationAfterAdd(position, operationSize, false);
-			Roma.fieldChanged(this, "operation");
-		} catch (SecurityException se) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + se, se);
-		} catch (NoSuchMethodException nsme) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + nsme, nsme);
-		} catch (IllegalArgumentException iare) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + iare, iare);
-		} catch (InstantiationException ie) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + ie, ie);
-		} catch (IllegalAccessException iae) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + iae, iae);
-		} catch (InvocationTargetException ite) {
-			logger.error("Error instantiating filter " + iSelectedFilter.getClass().getName() + " cause: " + ite, ite);
-		}
+		QueryCondition condition = new QueryCondition(iSelectedFilter, this);
+		if (position < 0)
+			position = 0;
+		operation.add(position, condition);
+		int operationSize = operation.size();
+		updateOperationAfterAdd(position, operationSize, false);
+		Roma.fieldChanged(this, "operation");
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
@@ -250,7 +233,7 @@ public class QueryOperation implements ViewCallback {
 		RomaFrontend.flow().forward(editCondition, "screen:popup");
 		Roma.fieldChanged(this, "operation");
 	}
-
+	
 	protected void loadFilters() {
 		I18NAspect i18nAspect = Roma.i18n();
 		filters.put(i18nAspect.getString("QuerySubOperation.filter.label"), "SubOperation");

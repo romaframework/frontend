@@ -2,11 +2,10 @@ package org.romaframework.frontend.domain.wrapper;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.domain.entity.ComposedEntity;
@@ -75,12 +74,12 @@ public class SelectAddWrapper<T> extends SelectWrapper<T> {
 
 	public void onEnable() {
 		super.onEnable();
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.ENABLED, true);
+		Roma.setFeature(this, "add", ViewActionFeatures.ENABLED, true);
 	}
 
 	public void onDisable() {
 		super.onDisable();
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.ENABLED, false);
+		Roma.setFeature(this, "add", ViewActionFeatures.ENABLED, false);
 	}
 
 }

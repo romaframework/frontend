@@ -19,6 +19,7 @@ package org.romaframework.frontend.domain.searchengine;
 import java.util.Calendar;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
+import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
@@ -140,19 +141,22 @@ public class QueryCondition implements QueryItem {
 	}
 
 	private void hideActions() {
-		Roma.setFeature(this, "addRight", ViewActionFeatures.VISIBLE, false);
-		Roma.setFeature(this, "addLeft", ViewActionFeatures.VISIBLE, false);
-		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, false);
-		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, false);
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "addRight", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "addLeft", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "edit", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 	}
 
 	private void showHideActions() {
-		Roma.setFeature(this, "addRight", ViewActionFeatures.VISIBLE, true);
-		Roma.setFeature(this, "addLeft", ViewActionFeatures.VISIBLE, true);
-		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, true);
-		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, true);
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "addRight", ViewActionFeatures.VISIBLE,
+				!(Boolean) Roma.getActionFeature(this, ViewAspect.ASPECT_NAME, "addRight", ViewActionFeatures.VISIBLE));
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "addLeft", ViewActionFeatures.VISIBLE,
+				!(Boolean) Roma.getActionFeature(this, ViewAspect.ASPECT_NAME, "addLeft", ViewActionFeatures.VISIBLE));
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewActionFeatures.VISIBLE,
+				!(Boolean) Roma.getActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewActionFeatures.VISIBLE));
+		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "edit", ViewActionFeatures.VISIBLE,
+				!(Boolean) Roma.getActionFeature(this, ViewAspect.ASPECT_NAME, "edit", ViewActionFeatures.VISIBLE));
 	}
-
 
 	private Integer getPosition() {
 		return operation.getOperation().indexOf(this);

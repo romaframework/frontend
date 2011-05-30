@@ -24,8 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.romaframework.aspect.data.annotation.DataField;
-import org.romaframework.aspect.data.feature.DataBindingFeatures;
+import org.romaframework.aspect.data.feature.DataFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.aspect.Aspect;
 import org.romaframework.core.exception.ConfigurationNotFoundException;
@@ -43,7 +42,6 @@ import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlEventAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
-import org.romaframework.core.util.DynaBean;
 
 /**
  * @author luca.molino
@@ -74,21 +72,10 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 	public void configClass(SchemaClassDefinition iClass, Annotation iAnnotation, XmlClassAnnotation iNode) {
 	}
 
-	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation,
-			Annotation iGetterAnnotation, XmlFieldAnnotation iNode) {
-		DynaBean features = iField.getFeatures(ASPECT_NAME);
-		if (features == null) {
-			// CREATE EMPTY FEATURES
-			features = new DataBindingFeatures();
-			iField.setFeatures(ASPECT_NAME, features);
-		}
-		readFieldAnnotation(iGenericAnnotation, features, iField);
-		readFieldAnnotation(iFieldAnnotation, features, iField);
-		readFieldAnnotation(iGetterAnnotation, features, iField);
+	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation, XmlFieldAnnotation iNode) {
 	}
 
-	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation,
-			XmlActionAnnotation iNode) {
+	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iNode) {
 	}
 
 	public void configEvent(SchemaEvent iEvent, Annotation iEventAnnotation, Annotation iGenericAnnotation, XmlEventAnnotation iNode) {
@@ -100,15 +87,12 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 	public void onCreate(SchemaObject iObject) {
 		if (iObject.getInstance() != null) {
 			for (SchemaField schemaField : iObject.getFields().values()) {
-				DynaBean features = schemaField.getFeatures(ASPECT_NAME);
-				if (features == null)
-					continue;
-				Class<?> repositoryClass = (Class<?>) features.getAttribute(DataBindingFeatures.REPOSITORY);
+				Class<?> repositoryClass = (Class<?>) schemaField.getFeature(DataFieldFeatures.REPOSITORY);
 				if (repositoryClass == null)
 					continue;
-				String methodName = (String) features.getAttribute(DataBindingFeatures.METHOD);
-				String[] searchFields = (String[]) features.getAttribute(DataBindingFeatures.SEARCH_FIELDS);
-				int limit = ((Integer) features.getAttribute(DataBindingFeatures.LIMIT)).intValue();
+				String methodName = schemaField.getFeature(DataFieldFeatures.METHOD);
+				String[] searchFields = schemaField.getFeature(DataFieldFeatures.SEARCH_FIELDS);
+				int limit = schemaField.getFeature(DataFieldFeatures.LIMIT).intValue();
 				Method methodToCall = getMethod(repositoryClass, methodName, searchFields);
 				try {
 					Object repository = repositoryClass.newInstance();
@@ -128,35 +112,12 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 		return null;
 	}
 
-	protected void readFieldAnnotation(Annotation iAnnotation, DynaBean iFeatures, SchemaField iField) {
-		DataField annotation = (DataField) iAnnotation;
-
-		if (annotation != null) {
-			if (annotation.repository() != Object.class) {
-				iFeatures.setAttribute(DataBindingFeatures.REPOSITORY, annotation.repository());
-			} else {
-				if (iField.getLanguageType() == null) {
-					throw new ConfigurationNotFoundException("Configuration for field " + iField.getName() + " not found");
-				} else {
-					String repositoryClassName = getRepositoryClassName(iField);
-					Class<?> repositoryClass = getRepositoryClass(repositoryClassName);
-					iFeatures.setAttribute(DataBindingFeatures.REPOSITORY, repositoryClass);
-				}
-			}
-			iFeatures.setAttribute(DataBindingFeatures.METHOD, annotation.method());
-			iFeatures.setAttribute(DataBindingFeatures.SEARCH_FIELDS, annotation.searchFields());
-			iFeatures.setAttribute(DataBindingFeatures.LIMIT, annotation.limit());
-		}
-	}
-
 	protected Class<?> getRepositoryClass(String repositoryClassName) {
-		Class<?> repositoryClass = Roma.repository(repositoryClassName) != null ? Roma.repository(repositoryClassName).getClass()
-				: null;
+		Class<?> repositoryClass = Roma.repository(repositoryClassName) != null ? Roma.repository(repositoryClassName).getClass() : null;
 		if (repositoryClass == null) {
 			repositoryClassName = configuration.get(repositoryClassName);
 			if (repositoryClassName == null || repositoryClassName.equals("")) {
-				throw new ConfigurationNotFoundException("Error loading repository class " + repositoryClassName
-						+ ": configuration not found.");
+				throw new ConfigurationNotFoundException("Error loading repository class " + repositoryClassName + ": configuration not found.");
 			} else {
 				try {
 					repositoryClass = Class.forName(repositoryClassName);
@@ -191,25 +152,22 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 		return repositoryClassName;
 	}
 
-	protected List<?> setResult(SchemaObject iObject, SchemaField schemaField, Class<?> repositoryClass, String methodName,
-			int limit, Method methodToCall, Object repository, String[] searchFields) {
+	protected List<?> setResult(SchemaObject iObject, SchemaField schemaField, Class<?> repositoryClass, String methodName, int limit, Method methodToCall,
+			Object repository, String[] searchFields) {
 		Object[] args = new Object[searchFields.length];
 		for (int i = 0; i < searchFields.length; i++) {
 			String searchFieldName = searchFields[i];
 			if (iObject.getField(searchFieldName) == null)
-				throw new ConfigurationNotFoundException("Field '" + searchFieldName + "' in class " + iObject.getSchemaClass().getName()
-						+ " not found");
+				throw new ConfigurationNotFoundException("Field '" + searchFieldName + "' in class " + iObject.getSchemaClass().getName() + " not found");
 			args[i] = iObject.getField(searchFieldName).getValue(iObject.getInstance());
 		}
 		List<?> result = null;
 		try {
 			result = (List<?>) methodToCall.invoke(repository, args);
 		} catch (InvocationTargetException ite) {
-			throw new ConfigurationNotFoundException("Error invoking method " + methodName + " of instance " + repositoryClass.getName(),
-					ite);
+			throw new ConfigurationNotFoundException("Error invoking method " + methodName + " of instance " + repositoryClass.getName(), ite);
 		} catch (IllegalAccessException iae) {
-			throw new ConfigurationNotFoundException("Error invoking method " + methodName + " of instance " + repositoryClass.getName(),
-					iae);
+			throw new ConfigurationNotFoundException("Error invoking method " + methodName + " of instance " + repositoryClass.getName(), iae);
 		}
 		if (limit > 0 && result.size() > limit) {
 			schemaField.setValue(iObject.getInstance(), result.subList(0, limit));
@@ -228,8 +186,8 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 			}
 		}
 		if (methodToCall == null) {
-			throw new ConfigurationNotFoundException("Method '" + methodName + "' with " + searchFields.length
-					+ " parameters in repository '" + repositoryClass.getName() + "' not found.");
+			throw new ConfigurationNotFoundException("Method '" + methodName + "' with " + searchFields.length + " parameters in repository '"
+					+ repositoryClass.getName() + "' not found.");
 		}
 		return methodToCall;
 	}

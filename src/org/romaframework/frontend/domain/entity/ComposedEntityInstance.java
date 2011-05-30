@@ -18,8 +18,8 @@ package org.romaframework.frontend.domain.entity;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.core.annotation.CoreClass.LOADING_MODE;
+import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.security.Secure;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;

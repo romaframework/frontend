@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.view.ViewCallback;
@@ -93,7 +92,7 @@ public class SimpleCRUD<T, E extends ComposedEntity<T>> extends SelectableInstan
 	}
 
 	public void onShow() {
-		Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "objects", CoreFieldFeatures.EMBEDDED_TYPE, entityClass);
+		Roma.setFeature(this, "objects", CoreFieldFeatures.EMBEDDED_TYPE, entityClass);
 		Roma.fieldChanged(this, "objects");
 	}
 

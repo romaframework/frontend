@@ -3,15 +3,14 @@ package org.romaframework.frontend.domain.wrapper;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.flow.FlowAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.Refreshable;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.frontend.domain.crud.CRUDWorkingMode;
@@ -65,8 +64,8 @@ public class InstanceWrapper implements CRUDWorkingMode, ViewCallback {
 
 	public void onShow() {
 		if (this.mode == MODE_READ) {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "save", ViewActionFeatures.VISIBLE, false);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "wrapped", ViewActionFeatures.ENABLED, false);
+			Roma.setFeature(this, "save", ViewActionFeatures.VISIBLE, false);
+			Roma.setFeature(this, "wrapped", ViewFieldFeatures.ENABLED, false);
 		}
 	}
 

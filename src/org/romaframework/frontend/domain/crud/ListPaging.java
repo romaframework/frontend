@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.view.ViewCallback;
@@ -13,8 +12,6 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.domain.crud.CRUDPaging;
-import org.romaframework.frontend.domain.crud.PagingListener;
 
 public class ListPaging<T> implements PagingListener, ViewCallback {
 
@@ -72,8 +69,8 @@ public class ListPaging<T> implements PagingListener, ViewCallback {
 	}
 
 	public void onShow() {
-		Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
-		Roma.setFieldFeature(this, CoreAspect.ASPECT_NAME, "selected", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
+		Roma.setFeature(this,  "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
+		Roma.setFeature(this, "selected", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
 	}
 
 	public void onDispose() {

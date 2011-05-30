@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
@@ -56,11 +55,11 @@ public abstract class FormWizardSplitStep extends FormWizardAbstractStep {
 	public void onShow() {
 		super.onShow();
 		if (stepsSelection == null || stepsSelection.equals("")) {
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "subContent", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "subContent", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		} else {
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		}
 		updateContent();
 	}
@@ -128,8 +127,8 @@ public abstract class FormWizardSplitStep extends FormWizardAbstractStep {
 	public void setStepsSelection(String selectedSteps) {
 		this.stepsSelection = selectedSteps;
 		if (selectedSteps != null && getStepsToSelect().contains(selectedSteps)) {
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
 			getContainer().next();
 		}
 	}
@@ -158,15 +157,15 @@ public abstract class FormWizardSplitStep extends FormWizardAbstractStep {
 		if (subContent != null)
 			subContent.onDispose();
 		if (currentStep > -1) {
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "subContent", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
 			subContent = subSteps.get(stepsSelection)[currentStep];
 			subContent.setContainer(getContainer());
 			Roma.fieldChanged(this, "subContent");
 			subContent.onShow();
 		} else {
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
-			Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "subContent", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "stepsToSelect", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "subContent", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		}
 	}
 

@@ -34,13 +34,14 @@ import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.i18n.I18NAspect;
 import org.romaframework.aspect.persistence.PersistenceAspect;
+import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
+import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClassResolver;
 import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.MessageOk;
@@ -55,22 +56,22 @@ import org.romaframework.frontend.domain.searchengine.filter.BaseFilter;
 public class QueryOperation implements ViewCallback {
 
 	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection", label = "")
-	protected Map<String, String>	filters				= new HashMap<String, String>();
+	protected Map<String, String>	filters			= new HashMap<String, String>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected String							selection;
+	protected String					selection;
 
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
 	@ViewField(render = ViewConstants.RENDER_COLSET, label = "", style = "queryOperation")
-	protected List<QueryItem>			operation			= new ArrayList<QueryItem>();
+	protected List<QueryItem>		operation		= new ArrayList<QueryItem>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected BaseFilter<?>				editCondition;
+	protected BaseFilter<?>			editCondition;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected Integer							positionToAdd	= 0;
+	protected Integer					positionToAdd	= 0;
 
-	private final static Log			logger				= LogFactory.getLog(QueryOperation.class);
+	private final static Log		logger			= LogFactory.getLog(QueryOperation.class);
 
 	public Set<String> executeQuery(PersistenceAspect db) {
 		Set<String> result = null;
@@ -191,8 +192,7 @@ public class QueryOperation implements ViewCallback {
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void addFilter(Integer position, BaseFilter<?> iSelectedFilter) {
 		try {
-			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class,
-					QueryOperation.class);
+			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class, QueryOperation.class);
 			QueryCondition condition = conditionConstructor.newInstance(iSelectedFilter, this);
 			if (position < 0)
 				position = 0;
@@ -235,14 +235,14 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void showFilters() {
-		Roma.setFeature(this, "filters", ViewFieldFeatures.VISIBLE, true);
-		Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, true);
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "filters", ViewFieldFeatures.VISIBLE, true);
+		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.VISIBLE, true);
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void hideFilters() {
-		Roma.setFeature(this, "filters", ViewFieldFeatures.VISIBLE, false);
-		Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, false);
+		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "filters", ViewFieldFeatures.VISIBLE, false);
+		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewFieldFeatures.VISIBLE, false);
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)

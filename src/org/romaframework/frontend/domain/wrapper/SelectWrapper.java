@@ -7,7 +7,6 @@ import java.util.Set;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
@@ -90,7 +89,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	}
 
 	public void onShow() {
-		Roma.setFieldFeature(object, ViewAspect.ASPECT_NAME, selectionFieldName, ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+		Roma.setFeature(object, selectionFieldName, ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 	}
 
 	protected void init(Object iObject, String iSelectionField, boolean iAutoSelection) {
@@ -177,11 +176,11 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	}
 
 	public void onEnable() {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "list", ViewFieldFeatures.ENABLED, true);
+		Roma.setFeature(this, "list", ViewFieldFeatures.ENABLED, true);
 	}
 
 	public void onDisable() {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "list", ViewFieldFeatures.ENABLED, false);
+		Roma.setFeature(this,  "list", ViewFieldFeatures.ENABLED, false);
 	}
 
 	public void setSource(Object source, String fieldName) {

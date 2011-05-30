@@ -37,20 +37,20 @@ import org.romaframework.frontend.domain.page.Page;
  */
 public class CollectionBinder<T> extends Page implements Bindable {
 
-	private Object			sourceObject;
+	private Object				sourceObject;
 
-	private SchemaField	sourceField;
+	private SchemaField		sourceField;
 
 	@ViewField(label = "", render = ViewConstants.RENDER_SELECT, selectionField = "selection")
-	private Collection	collection;
+	private Collection<T>	collection;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	private T[]					selection;
+	private T[]						selection;
 
 	public CollectionBinder() {
 	}
 
-	public CollectionBinder(Collection<? extends Object> iCollection) {
+	public CollectionBinder(Collection<T> iCollection) {
 		collection = iCollection;
 	}
 
@@ -72,15 +72,14 @@ public class CollectionBinder<T> extends Page implements Bindable {
 		sourceField = cls.getField(iSourceFieldName);
 
 		if (sourceField == null)
-			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName
-					+ ". Check class definition");
+			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName + ". Check class definition");
 	}
 
-	public Collection getCollection() {
+	public Collection<T> getCollection() {
 		return collection;
 	}
 
-	public void setCollection(Collection collection) {
+	public void setCollection(Collection<T> collection) {
 		this.collection = collection;
 	}
 

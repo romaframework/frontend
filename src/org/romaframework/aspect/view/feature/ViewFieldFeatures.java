@@ -16,23 +16,34 @@
 
 package org.romaframework.aspect.view.feature;
 
-public class ViewFieldFeatures extends ViewElementFeatures {
-	public ViewFieldFeatures() {
-		defineAttribute(SELECTION_FIELD, null);
-		defineAttribute(SELECTION_MODE, SELECTION_MODE_VALUE);
-		defineAttribute(FORMAT, null);
-		defineAttribute(DEPENDS, null);
-		defineAttribute(DEPENDS_ON, null);
-		defineAttribute(DISPLAY_WITH, null);
-	}
+import org.romaframework.aspect.view.ViewAspect;
+import org.romaframework.core.schema.Feature;
+import org.romaframework.core.schema.FeatureType;
+import org.romaframework.core.schema.SchemaClass;
 
-	public static final String	DEPENDS_ON						= "dependsOn";
-	public static final String	DEPENDS								= "depends";
-	public static final String	SELECTION_FIELD				= "selectionField";
-	public static final String	SELECTION_MODE				= "selectionMode";
-	public static final String	FORMAT								= "format";
-	public static final String	DISPLAY_WITH					= "displayWith";
+public class ViewFieldFeatures {
+	public static final byte									SELECTION_MODE_VALUE	= 0;
+	public static final byte									SELECTION_MODE_INDEX	= 1;
 
-	public static final byte		SELECTION_MODE_VALUE	= 0;
-	public static final byte		SELECTION_MODE_INDEX	= 1;
+	public static final Feature<String>				DESCRIPTION						= new Feature<String>(ViewAspect.ASPECT_NAME, "description", FeatureType.FIELD, String.class);
+	public static final Feature<String>				LAYOUT								= new Feature<String>(ViewAspect.ASPECT_NAME, "layout", FeatureType.FIELD, String.class);
+	public static final Feature<String>				RENDER								= new Feature<String>(ViewAspect.ASPECT_NAME, "render", FeatureType.FIELD, String.class);
+	public static final Feature<String>				STYLE									= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.FIELD, String.class);
+	public static final Feature<String>				LABEL									= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.FIELD, String.class);
+	public static final Feature<Boolean>			ENABLED								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "enabled", FeatureType.FIELD, Boolean.class);
+	public static final Feature<Boolean>			VISIBLE								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.FIELD, Boolean.class,
+																																			Boolean.TRUE);
+
+	public static final Feature<String[]>			DEPENDS_ON						= new Feature<String[]>(ViewAspect.ASPECT_NAME, "dependsOn", FeatureType.FIELD,
+																																			String[].class);
+	public static final Feature<String[]>			DEPENDS								= new Feature<String[]>(ViewAspect.ASPECT_NAME, "depends", FeatureType.FIELD, String[].class);
+	public static final Feature<String>				SELECTION_FIELD				= new Feature<String>(ViewAspect.ASPECT_NAME, "selectionField", FeatureType.FIELD,
+																																			String.class);
+	public static final Feature<Byte>					SELECTION_MODE				= new Feature<Byte>(ViewAspect.ASPECT_NAME, "selectionMode", FeatureType.FIELD, Byte.class,
+																																			new Byte(SELECTION_MODE_VALUE));
+	public static final Feature<String>				FORMAT								= new Feature<String>(ViewAspect.ASPECT_NAME, "format", FeatureType.FIELD, String.class);
+
+	public static final Feature<SchemaClass>	DISPLAY_WITH					= new Feature<SchemaClass>(ViewAspect.ASPECT_NAME, "displayWith", FeatureType.FIELD,
+																																			SchemaClass.class);
+
 }

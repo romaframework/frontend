@@ -18,7 +18,6 @@ package org.romaframework.aspect.reporting;
 import org.romaframework.aspect.i18n.I18NHelper;
 import org.romaframework.aspect.reporting.feature.ReportingBaseFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewBaseFeatures;
 import org.romaframework.aspect.view.feature.ViewElementFeatures;
@@ -30,13 +29,11 @@ import org.romaframework.core.schema.SchemaField;
 public class ReportingFeatureHelper {
 
 	public static Boolean isVisibleField(SchemaField iSchemaField) {
-		Boolean result = (Boolean) iSchemaField.getFeature(
-				ReportingAspect.ASPECT_NAME, ReportingFieldFeatures.VISIBLE);
+		Boolean result = (Boolean) iSchemaField.getFeature(ReportingFieldFeatures.VISIBLE);
 		if (result != null) {
 			return result;
 		} else {
-			result = (Boolean) iSchemaField.getFeature(ViewAspect.ASPECT_NAME,
-					ViewElementFeatures.VISIBLE);
+			result = (Boolean) iSchemaField.getFeature(ViewElementFeatures.VISIBLE);
 			if (result != null) {
 				return result;
 			}
@@ -44,8 +41,6 @@ public class ReportingFeatureHelper {
 		return true;
 	}
 
-	
-	
 	public static Boolean isRenderImage(SchemaField iSchemaField) {
 		String render = getRender(iSchemaField);
 		if (ViewConstants.RENDER_IMAGE.equals(render)) {
@@ -54,7 +49,7 @@ public class ReportingFeatureHelper {
 			return false;
 		}
 	}
-	
+
 	public static Boolean isRenderHtml(SchemaFeatures iSchemaField) {
 		String render = getRender(iSchemaField);
 		if (ViewConstants.RENDER_HTML.equals(render)) {
@@ -63,7 +58,7 @@ public class ReportingFeatureHelper {
 			return false;
 		}
 	}
-	
+
 	public static Boolean isRenderRTF(SchemaFeatures iSchemaField) {
 		String render = getRender(iSchemaField);
 		if (ViewConstants.RENDER_RICHTEXT.equals(render)) {
@@ -72,9 +67,6 @@ public class ReportingFeatureHelper {
 			return false;
 		}
 	}
-	
-	
-	
 
 	public static Boolean isRenderChart(SchemaField iSchemaField) {
 		String render = getRender(iSchemaField);
@@ -86,31 +78,25 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getLayout(SchemaFeatures iFeatures) {
-		String fieldLayout = (String) iFeatures.getFeature(
-				ReportingAspect.ASPECT_NAME, ReportingBaseFeatures.LAYOUT);
+		String fieldLayout = (String) iFeatures.getFeature(ReportingBaseFeatures.LAYOUT);
 		if (fieldLayout == null) {
-			fieldLayout = (String) iFeatures.getFeature(ViewAspect.ASPECT_NAME,
-					ViewBaseFeatures.LAYOUT);
+			fieldLayout = (String) iFeatures.getFeature(ViewBaseFeatures.LAYOUT);
 		}
 		return fieldLayout;
 	}
 
 	public static String getRender(SchemaFeatures iFeatures) {
-		String fieldRender = (String) iFeatures.getFeature(
-				ReportingAspect.ASPECT_NAME, ReportingBaseFeatures.RENDER);
+		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.RENDER);
 		if (fieldRender == null) {
-			fieldRender = (String) iFeatures.getFeature(ViewAspect.ASPECT_NAME,
-					ViewBaseFeatures.RENDER);
+			fieldRender = (String) iFeatures.getFeature(ViewBaseFeatures.RENDER);
 		}
 		return fieldRender;
 	}
 
 	public static String getLabel(SchemaFeatures iFeatures) {
-		String fieldRender = (String) iFeatures.getFeature(
-				ReportingAspect.ASPECT_NAME, ReportingBaseFeatures.LABEL);
+		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.LABEL);
 		if (fieldRender == null) {
-			fieldRender = (String) iFeatures.getFeature(ViewAspect.ASPECT_NAME,
-					ViewBaseFeatures.LABEL);
+			fieldRender = (String) iFeatures.getFeature(ViewBaseFeatures.LABEL);
 		}
 		return fieldRender;
 	}

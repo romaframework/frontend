@@ -16,12 +16,16 @@
 
 package org.romaframework.aspect.view.feature;
 
-public abstract class ViewElementFeatures extends ViewBaseFeatures {
-	public ViewElementFeatures() {
-		defineAttribute(ENABLED, null);
-		defineAttribute(VISIBLE, true);
-	}
+import org.romaframework.core.schema.Feature;
 
-	public static final String	ENABLED	= "enabled";
-	public static final String	VISIBLE	= "visible";
+public abstract class ViewElementFeatures {
+
+	public static final Feature<String>		DESCRIPTION	= ViewFieldFeatures.DESCRIPTION;
+	public static final Feature<String>		LAYOUT			= ViewFieldFeatures.LAYOUT;
+	public static final Feature<String>		RENDER			= ViewFieldFeatures.RENDER;
+	public static final Feature<String>		STYLE				= ViewFieldFeatures.STYLE;
+	public static final Feature<String>		LABEL				= ViewFieldFeatures.LABEL;
+	public static final Feature<Boolean>	ENABLED			= ViewFieldFeatures.ENABLED;
+	public static final Feature<Boolean>	VISIBLE			= ViewFieldFeatures.VISIBLE;
+
 }

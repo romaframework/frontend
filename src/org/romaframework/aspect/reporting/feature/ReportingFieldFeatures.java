@@ -15,20 +15,16 @@
  */
 package org.romaframework.aspect.reporting.feature;
 
-public class ReportingFieldFeatures extends ReportingBaseFeatures {
+import org.romaframework.aspect.reporting.ReportingAspect;
+import org.romaframework.core.schema.Feature;
+import org.romaframework.core.schema.FeatureType;
 
-	public ReportingFieldFeatures() {
+public class ReportingFieldFeatures {
 
-		super();
+	public static final Feature<Boolean>	VISIBLE	= new Feature<Boolean>(ReportingAspect.ASPECT_NAME, "visible", FeatureType.FIELD, Boolean.class);
 
-
-		defineAttribute(VISIBLE, null);
-	}
-
-
-	public static final String	VISIBLE	= "visible";
-
-
-
+	public static final Feature<String>		LABEL		= new Feature<String>(ReportingAspect.ASPECT_NAME, "label", FeatureType.FIELD, String.class);
+	public static final Feature<String>		LAYOUT	= new Feature<String>(ReportingAspect.ASPECT_NAME, "layout", FeatureType.FIELD, String.class);
+	public static final Feature<String>		RENDER	= new Feature<String>(ReportingAspect.ASPECT_NAME, "render", FeatureType.FIELD, String.class);
 
 }

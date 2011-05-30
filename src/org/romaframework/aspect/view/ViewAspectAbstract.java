@@ -19,6 +19,7 @@ package org.romaframework.aspect.view;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
@@ -30,15 +31,10 @@ import java.util.WeakHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.romaframework.aspect.core.CoreAspect;
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.session.SessionAspect;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.session.SessionListener;
-import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewClass;
-import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.command.impl.ChangeScreenViewCommand;
 import org.romaframework.aspect.view.command.impl.RefreshViewCommand;
 import org.romaframework.aspect.view.command.impl.ShowViewCommand;
@@ -62,7 +58,6 @@ import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.Utility;
-import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.exception.ConfigurationNotFoundException;
 import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.Controller;
@@ -77,12 +72,13 @@ import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaReloadListener;
+import org.romaframework.core.schema.config.SchemaConfiguration;
+import org.romaframework.core.schema.reflection.SchemaClassReflection;
 import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlAspectAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
-import org.romaframework.core.util.DynaBean;
 
 /**
  * View Aspect abstract implementation. It configures the ViewAspect from Java5 and XML annotations. This is a good starting point
@@ -91,8 +87,7 @@ import org.romaframework.core.util.DynaBean;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener,
-		SchemaReloadListener {
+public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener {
 	protected Map<SessionInfo, IdentityHashMap<Object, ViewComponent>>	objectsForms;
 
 	private static Log																									log	= LogFactory.getLog(ViewAspectAbstract.class);
@@ -139,53 +134,39 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		updateFieldDependencies(iClass);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void updateFieldDependencies(SchemaClassDefinition iClass) {
 		Iterator<SchemaField> iterator = iClass.getFieldIterator();
 		while (iterator.hasNext()) {
 			SchemaField iField = iterator.next();
-			String[] dependsOnList = (String[]) iField.getFeature(ASPECT_NAME, ViewFieldFeatures.DEPENDS_ON);
+			String[] dependsOnList = iField.getFeature(ViewFieldFeatures.DEPENDS_ON);
 			if (dependsOnList != null) {
 				for (String fieldName : dependsOnList) {
 					SchemaField dependsFieldSchema = iClass.getField(fieldName);
 					if (dependsFieldSchema == null)
 						continue;
-					Set<String> fieldDependsList = (Set<String>) dependsFieldSchema.getFeature(ASPECT_NAME, ViewFieldFeatures.DEPENDS);
-					if (fieldDependsList == null)
-						fieldDependsList = new HashSet<String>();
+					String[] fieldDepends = dependsFieldSchema.getFeature(ViewFieldFeatures.DEPENDS);
+					Set<String> fieldDependsList = new HashSet<String>(Arrays.asList(fieldDepends));
 					fieldDependsList.add(iField.getName());
-					dependsFieldSchema.setFeature(ASPECT_NAME, ViewFieldFeatures.DEPENDS, fieldDependsList);
+					dependsFieldSchema.setFeature(ViewFieldFeatures.DEPENDS, fieldDependsList.toArray(new String[] {}));
 				}
 			}
 		}
 	}
 
 	public void configClass(SchemaClassDefinition iClass, Annotation iAnnotation, XmlClassAnnotation iXmlNode) {
-		DynaBean features = iClass.getFeatures(ASPECT_NAME);
-		if (features == null) {
-			// CREATE EMPTY FEATURES
-			features = new ViewClassFeatures();
-			iClass.setFeatures(ASPECT_NAME, features);
+		XmlClassAnnotation xmlNode = null;
+		if (iClass instanceof SchemaClassReflection) {
+			SchemaConfiguration conf = ((SchemaClassReflection) iClass).getDescriptor();
+			if (conf != null)
+				xmlNode = conf.getType();
 		}
-
-		readClassAnnotation(iAnnotation, features);
-		readClassXml(iClass, iXmlNode);
+		readClassXml(iClass, xmlNode);
 		setClassDefaults(iClass);
 	}
 
-	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation,
-			Annotation iGetterAnnotation, XmlFieldAnnotation iXmlNode) {
-		DynaBean features = iField.getFeatures(ASPECT_NAME);
-		if (features == null) {
-			// CREATE EMPTY FEATURES
-			features = new ViewFieldFeatures();
-			iField.setFeatures(ASPECT_NAME, features);
-		}
+	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation,
+			XmlFieldAnnotation iXmlNode) {
 
-		readFieldAnnotation(iGenericAnnotation, features);
-		readFieldAnnotation(iFieldAnnotation, features);
-		readFieldAnnotation(iGetterAnnotation, features);
-		readFieldXml(iField, iXmlNode);
 		setFieldDefaults(iField);
 		if (SchemaHelper.isMultiValueObject(iField)) {
 			iField.setEvent(new SchemaEventAdd(iField));
@@ -201,371 +182,86 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation,
-			XmlActionAnnotation iXmlNode) {
-		DynaBean features = iAction.getFeatures(ASPECT_NAME);
-		if (features == null) {
-			// CREATE EMPTY FEATURES
-			features = new ViewActionFeatures();
-			iAction.setFeatures(ASPECT_NAME, features);
-		}
+	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iXmlNode) {
 
 		if (((SchemaAction) iAction).getParameterNumber() > 0 || ((SchemaAction) iAction).getReturnType() != null)
-			features.setAttribute(ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			iAction.setFeature(ViewActionFeatures.VISIBLE, Boolean.FALSE);
+		iAction.toString();
 
-		readActionAnnotation(iAction, iActionAnnotation, features);
-		readActionXml(iAction, iXmlNode);
 		setActionDefaults(iAction);
-	}
-
-	private void readClassAnnotation(Annotation iAnnotation, DynaBean features) {
-		ViewClass annotation = (ViewClass) iAnnotation;
-
-		if (annotation != null) {
-			// PROCESS ANNOTATIONS
-			if (!annotation.description().equals(AnnotationConstants.DEF_VALUE))
-				features.setAttribute(ViewBaseFeatures.DESCRIPTION, annotation.description());
-			if (!annotation.label().equals(AnnotationConstants.DEF_VALUE))
-				features.setAttribute(ViewBaseFeatures.LABEL, annotation.label());
-			if (!annotation.style().equals(AnnotationConstants.DEF_VALUE))
-				features.setAttribute(ViewBaseFeatures.STYLE, annotation.style());
-			if (!annotation.render().equals(AnnotationConstants.DEF_VALUE))
-				features.setAttribute(ViewBaseFeatures.RENDER, annotation.render());
-			if (!annotation.layout().equals(AnnotationConstants.DEF_VALUE))
-				features.setAttribute(ViewBaseFeatures.LAYOUT, annotation.layout());
-			if (annotation.explicitElements() != AnnotationConstants.UNSETTED)
-				features.setAttribute(ViewClassFeatures.EXPLICIT_ELEMENTS, annotation.explicitElements());
-		}
 	}
 
 	private void readClassXml(SchemaClassDefinition iClass, XmlClassAnnotation iXmlNode) {
 		if (iXmlNode == null || iXmlNode.aspect(ASPECT_NAME) == null)
 			return;
 
-		DynaBean features = iClass.getFeatures(ASPECT_NAME);
-
 		XmlAspectAnnotation featureDescriptor = iXmlNode.aspect(ASPECT_NAME);
 
 		if (featureDescriptor != null) {
 			XmlFormAnnotation layout = featureDescriptor.getForm();
 			if (layout != null && layout.getRootArea() != null)
-				features.setAttribute(ViewClassFeatures.FORM, layout.getRootArea());
+				iClass.setFeature(ViewClassFeatures.FORM, layout.getRootArea());
 
-			// PROCESS DESCRIPTOR CFG
-			if (featureDescriptor != null) {
-				String description = featureDescriptor.getAttribute(ViewBaseFeatures.DESCRIPTION);
-				if (description != null) {
-					features.setAttribute(ViewBaseFeatures.DESCRIPTION, description);
-				}
-				String label = featureDescriptor.getAttribute(ViewBaseFeatures.LABEL);
-				if (label != null) {
-					features.setAttribute(ViewBaseFeatures.LABEL, label);
-				}
-				String style = featureDescriptor.getAttribute(ViewBaseFeatures.STYLE);
-				if (style != null) {
-					features.setAttribute(ViewBaseFeatures.STYLE, style);
-				}
-				String render = featureDescriptor.getAttribute(ViewBaseFeatures.RENDER);
-				if (render != null) {
-					features.setAttribute(ViewBaseFeatures.RENDER, render);
-				}
-				String layoutFeature = featureDescriptor.getAttribute(ViewBaseFeatures.LAYOUT);
-				if (layoutFeature != null) {
-					features.setAttribute(ViewBaseFeatures.LAYOUT, layoutFeature);
-				}
-				String explicitElements = featureDescriptor.getAttribute(ViewClassFeatures.EXPLICIT_ELEMENTS);
-				if (explicitElements != null) {
-					features.setAttribute(ViewClassFeatures.EXPLICIT_ELEMENTS, new Boolean(explicitElements));// boolean
-				}
-				String columns = featureDescriptor.getAttribute(ViewClassFeatures.COLUMNS);
-				if (columns != null) {
-					features.setAttribute(ViewClassFeatures.COLUMNS, new Integer(columns));
-				}
-			}
 		}
 	}
 
 	public void setClassDefaults(SchemaClassDefinition iClass) {
-		DynaBean features = iClass.getFeatures(ASPECT_NAME);
 
-		if ((Boolean) features.getAttribute(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
+		if (iClass.getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
 			// HIDE ALL INHERITED ELEMENTS
 			for (Iterator<SchemaField> itField = iClass.getFieldIterator(); itField.hasNext();) {
-				itField.next().setFeature(ASPECT_NAME, ViewElementFeatures.VISIBLE, false);
+				itField.next().setFeature(ViewElementFeatures.VISIBLE, false);
 			}
 			for (Iterator<SchemaAction> itAction = iClass.getActionIterator(); itAction.hasNext();) {
-				itAction.next().setFeature(ASPECT_NAME, ViewElementFeatures.VISIBLE, false);
+				itAction.next().setFeature(ViewElementFeatures.VISIBLE, false);
 			}
 
 			// AVOID THE CLASS INHERIT IT TO RECYCLE ALL AGAIN
-			features.setAttribute(ViewClassFeatures.EXPLICIT_ELEMENTS, Boolean.FALSE);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void readFieldAnnotation(Annotation iAnnotation, DynaBean iFeatures) {
-		ViewField annotation = (ViewField) iAnnotation;
-
-		if (annotation != null) {
-			if (!annotation.label().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewBaseFeatures.LABEL, annotation.label());
-			if (!annotation.description().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewBaseFeatures.DESCRIPTION, annotation.description());
-			if (annotation.visible() != AnnotationConstants.UNSETTED)
-				iFeatures.setAttribute(ViewElementFeatures.VISIBLE, annotation.visible() == AnnotationConstants.TRUE);
-			if (annotation.enabled() != AnnotationConstants.UNSETTED)
-				iFeatures.setAttribute(ViewElementFeatures.ENABLED, annotation.enabled() == AnnotationConstants.TRUE);
-			if (!annotation.style().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewBaseFeatures.STYLE, annotation.style());
-			if (!annotation.render().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewBaseFeatures.RENDER, annotation.render());
-			if (!annotation.layout().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewBaseFeatures.LAYOUT, annotation.layout());
-			if (!annotation.selectionField().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewFieldFeatures.SELECTION_FIELD, annotation.selectionField());
-			if (annotation.selectionMode() != AnnotationConstants.UNSETTED)
-				iFeatures.setAttribute(ViewFieldFeatures.SELECTION_MODE, annotation.selectionMode());
-			if (annotation.depends().length > 0) {
-				Set<String> dependsFields = (Set<String>) iFeatures.getAttribute(ViewFieldFeatures.DEPENDS);
-				if (dependsFields == null)
-					dependsFields = new HashSet<String>();
-				for (String dependsField : annotation.depends()) {
-					dependsFields.add(dependsField);
-				}
-				iFeatures.setAttribute(ViewFieldFeatures.DEPENDS, dependsFields);
-			}
-			if (annotation.dependsOn().length > 0) {
-				iFeatures.setAttribute(ViewFieldFeatures.DEPENDS_ON, annotation.dependsOn());
-			}
-			if (!annotation.format().equals(AnnotationConstants.DEF_VALUE))
-				iFeatures.setAttribute(ViewFieldFeatures.FORMAT, annotation.format());
-			if (!Bindable.class.equals(annotation.displayWith())) {
-				iFeatures.setAttribute(ViewFieldFeatures.DISPLAY_WITH, annotation.displayWith());
-				iFeatures.setAttribute(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
-			}
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void readFieldXml(SchemaField iField, XmlFieldAnnotation iXmlNode) {
-		// PROCESS DESCRIPTOR CFG
-		// DESCRIPTOR ATTRIBUTES (IF DEFINED) OVERWRITE DEFAULT AND ANNOTATION
-		// VALUES
-		if (iXmlNode == null)
-			return;
-
-		DynaBean features = iField.getFeatures(ASPECT_NAME);
-
-		// FIELD FOUND IN DESCRIPTOR: ASSUME ITS VISIBILITY
-		features.setAttribute(ViewElementFeatures.VISIBLE, true);
-
-		XmlAspectAnnotation descriptor = iXmlNode.aspect(ASPECT_NAME);
-
-		if (descriptor == null) {
-			return;
-		}
-
-		String embeddedType = descriptor.getAttribute("embeddedType");
-		if (embeddedType != null) {
-			iField.setEmbeddedLanguageType((Roma.component(SchemaClassResolver.class).getLanguageClass(embeddedType)));
-		}
-
-		String label = descriptor.getAttribute(ViewBaseFeatures.LABEL);
-		if (label != null) {
-			features.setAttribute(ViewBaseFeatures.LABEL, label);
-		}
-		String description = descriptor.getAttribute(ViewBaseFeatures.DESCRIPTION);
-		if (description != null) {
-			features.setAttribute(ViewBaseFeatures.DESCRIPTION, description);
-		}
-		String visible = descriptor.getAttribute(ViewElementFeatures.VISIBLE);
-		if (visible != null) {
-			features.setAttribute(ViewElementFeatures.VISIBLE, new Boolean(visible));
-		}
-		String enabled = descriptor.getAttribute(ViewElementFeatures.ENABLED);
-		if (enabled != null) {
-			features.setAttribute(ViewElementFeatures.ENABLED, new Boolean(enabled));
-		}
-		String style = descriptor.getAttribute(ViewBaseFeatures.STYLE);
-		if (style != null) {
-			features.setAttribute(ViewBaseFeatures.STYLE, style);
-		}
-		String render = descriptor.getAttribute(ViewBaseFeatures.RENDER);
-		if (render != null) {
-			features.setAttribute(ViewBaseFeatures.RENDER, render);
-		}
-		String layout = descriptor.getAttribute(ViewBaseFeatures.LAYOUT);
-		if (layout != null) {
-			features.setAttribute(ViewBaseFeatures.LAYOUT, layout);
-		}
-		String selectionField = descriptor.getAttribute(ViewFieldFeatures.SELECTION_FIELD);
-		if (selectionField != null) {
-			features.setAttribute(ViewFieldFeatures.SELECTION_FIELD, selectionField);
-		}
-		String selectionMode = descriptor.getAttribute(ViewFieldFeatures.SELECTION_MODE);
-		if (selectionMode != null) {
-			String mode = selectionMode;
-			features.setAttribute(ViewFieldFeatures.SELECTION_MODE, mode.equals("index") ? ViewFieldFeatures.SELECTION_MODE_INDEX
-					: ViewFieldFeatures.SELECTION_MODE_VALUE);
-		}
-		String format = descriptor.getAttribute(ViewFieldFeatures.FORMAT);
-		if (format != null) {
-			features.setAttribute(ViewFieldFeatures.FORMAT, format);
-		}
-		String dependsOn = descriptor.getAttribute(ViewFieldFeatures.DEPENDS_ON);
-		if (dependsOn != null && dependsOn.length() > 0) {
-			features.setAttribute(ViewFieldFeatures.DEPENDS_ON, dependsOn.split(","));
-		}
-		String depends = descriptor.getAttribute(ViewFieldFeatures.DEPENDS);
-		if (depends != null && depends.length() > 0) {
-			Set<String> fieldDependsList = (Set<String>) features.getAttribute(ViewFieldFeatures.DEPENDS);
-			if (fieldDependsList == null)
-				fieldDependsList = new HashSet<String>();
-			for (String fieldName : depends.split(",")) {
-				fieldDependsList.add(fieldName);
-			}
-		}
-		String displayWith = descriptor.getAttribute(ViewFieldFeatures.DISPLAY_WITH);
-		if (displayWith != null && displayWith.length() > 0) {
-			features
-					.setAttribute(ViewFieldFeatures.DISPLAY_WITH, Roma.component(SchemaClassResolver.class).getLanguageClass(displayWith));
-			features.setAttribute(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+			iClass.setFeature(ViewClassFeatures.EXPLICIT_ELEMENTS, Boolean.FALSE);
 		}
 	}
 
 	public void setFieldDefaults(SchemaField iField) {
-		DynaBean features = iField.getFeatures(ASPECT_NAME);
 
 		// CHECK RENDER AND LAYOUT MODES
-		String classRender = (String) iField.getEntity().getFeature(ASPECT_NAME, ViewBaseFeatures.RENDER);
+		String classRender = iField.getEntity().getFeature(ViewBaseFeatures.RENDER);
 
-		if ((Boolean) iField.getFeature(CoreAspect.ASPECT_NAME, CoreFieldFeatures.EMBEDDED)) {
-			if (iField.getFeature(ViewAspectAbstract.ASPECT_NAME, ViewBaseFeatures.RENDER) == null
-					&& !SchemaHelper.isMultiValueObject(iField))
+		if (iField.getFeature(CoreFieldFeatures.EMBEDDED)) {
+			if (iField.getFeature(ViewBaseFeatures.RENDER) == null && !SchemaHelper.isMultiValueObject(iField))
 				// IF THE FIELD IS EMBEDDED, THEN THE DEFAULT RENDER IS OBJECTEMBEDDED
-				iField.setFeature(ViewAspectAbstract.ASPECT_NAME, ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 		}
 
-		String layoutMode = (String) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.LAYOUT);
+		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.LAYOUT);
 
 		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
 			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
-			iField.setFeature(ViewAspectAbstract.ASPECT_NAME, ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+			iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
-				features.setAttribute(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
-				features.setAttribute(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
+				iField.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
 				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
-				features.setAttribute(ViewBaseFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
-				features.setAttribute(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
+				iField.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
 			}
-	}
-
-	@SuppressWarnings("deprecation")
-	private void readActionAnnotation(SchemaClassElement iAction, Annotation iAnnotation, DynaBean features) {
-		ViewAction annotation = (ViewAction) iAnnotation;
-
-		if (annotation != null) {
-			// PROCESS ANNOTATIONS
-			// ANNOTATION ATTRIBUTES (IF DEFINED) OVERWRITE DEFAULT VALUES
-			if (annotation != null) {
-				if (!annotation.label().equals(AnnotationConstants.DEF_VALUE))
-					features.setAttribute(ViewBaseFeatures.LABEL, annotation.label());
-				if (!annotation.description().equals(AnnotationConstants.DEF_VALUE))
-					features.setAttribute(ViewBaseFeatures.DESCRIPTION, annotation.description());
-				if (!annotation.actionName().equals(AnnotationConstants.DEF_VALUE)) {
-				}
-				if (annotation.visible() != AnnotationConstants.UNSETTED)
-					features.setAttribute(ViewElementFeatures.VISIBLE, annotation.visible() == AnnotationConstants.TRUE);
-				if (!annotation.style().equals(AnnotationConstants.DEF_VALUE))
-					features.setAttribute(ViewBaseFeatures.STYLE, annotation.style());
-				if (!annotation.render().equals(AnnotationConstants.DEF_VALUE))
-					features.setAttribute(ViewBaseFeatures.RENDER, annotation.render());
-				if (!annotation.layout().equals(AnnotationConstants.DEF_VALUE))
-					features.setAttribute(ViewBaseFeatures.LAYOUT, annotation.layout());
-				if (annotation.bind() != AnnotationConstants.UNSETTED)
-					features.setAttribute(ViewActionFeatures.BIND, annotation.bind() == AnnotationConstants.TRUE);
-				if (annotation.enabled() != AnnotationConstants.UNSETTED)
-					features.setAttribute(ViewElementFeatures.ENABLED, annotation.enabled() == AnnotationConstants.TRUE);
-				if (annotation.submit() != AnnotationConstants.UNSETTED)
-					features.setAttribute(ViewActionFeatures.SUBMIT, annotation.submit() == AnnotationConstants.TRUE);
-			}
-		}
-	}
-
-	private void readActionXml(SchemaClassElement iAction, XmlActionAnnotation iXmlNode) {
-		// PROCESS DESCRIPTOR CFG
-		// DESCRIPTOR ATTRIBUTES (IF DEFINED) OVERWRITE DEFAULT AND ANNOTATION
-		// VALUES
-		if (iXmlNode == null)
-			return;
-
-		DynaBean features = iAction.getFeatures(ASPECT_NAME);
-
-		// ACTION FOUND IN DESCRIPTOR: ASSUME ITS VISIBILITY
-		features.setAttribute(ViewElementFeatures.VISIBLE, true);
-
-		if (iXmlNode.aspect(ASPECT_NAME) == null)
-			return;
-
-		XmlAspectAnnotation descriptor = iXmlNode.aspect(ASPECT_NAME);
-
-		if (descriptor != null) {
-			String label = descriptor.getAttribute(ViewBaseFeatures.LABEL);
-			if (label != null) {
-				features.setAttribute(ViewBaseFeatures.LABEL, label);
-			}
-			String description = descriptor.getAttribute(ViewBaseFeatures.DESCRIPTION);
-			if (description != null) {
-				features.setAttribute(ViewBaseFeatures.DESCRIPTION, description);
-			}
-			String visible = descriptor.getAttribute(ViewElementFeatures.VISIBLE);
-			if (visible != null) {
-				features.setAttribute(ViewElementFeatures.VISIBLE, new Boolean(visible));
-			}
-			String style = descriptor.getAttribute(ViewBaseFeatures.STYLE);
-			if (style != null) {
-				features.setAttribute(ViewBaseFeatures.STYLE, style);
-			}
-			String render = descriptor.getAttribute(ViewBaseFeatures.RENDER);
-			if (render != null) {
-				features.setAttribute(ViewBaseFeatures.RENDER, render);
-			}
-			String layout = descriptor.getAttribute(ViewBaseFeatures.LAYOUT);
-			if (layout != null) {
-				features.setAttribute(ViewBaseFeatures.LAYOUT, layout);
-			}
-			String bind = descriptor.getAttribute(ViewActionFeatures.BIND);
-			if (bind != null) {
-				features.setAttribute(ViewActionFeatures.BIND, new Boolean(bind));
-			}
-			String enabled = descriptor.getAttribute(ViewElementFeatures.ENABLED);
-			if (enabled != null) {
-				features.setAttribute(ViewElementFeatures.ENABLED, new Boolean(enabled));
-			}
-			String submit = descriptor.getAttribute(ViewActionFeatures.SUBMIT);
-			if (submit != null) {
-				features.setAttribute(ViewActionFeatures.SUBMIT, new Boolean(submit));
-			}
-		}
 	}
 
 	public void setActionDefaults(SchemaClassElement iAction) {
-		DynaBean features = iAction.getFeatures(ASPECT_NAME);
 
 		// CHECK RENDER AND LAYOUT MODES
-		String classRender = (String) iAction.getEntity().getFeature(ASPECT_NAME, ViewBaseFeatures.RENDER);
+		String classRender = iAction.getEntity().getFeature(ViewBaseFeatures.RENDER);
 
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
-				features.setAttribute(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
-				features.setAttribute(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iAction.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
+				iAction.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION))
-				features.setAttribute(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iAction.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
 	}
 
 	/**
@@ -614,8 +310,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          Desktop instance to use
 	 * @throws Exception
 	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema)
-			throws ViewException {
+	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema) throws ViewException {
 		show(iContent, iPosition, iScreen, iSession, iSchema, false);
 	}
 
@@ -631,8 +326,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          Desktop instance to use
 	 * @throws Exception
 	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode)
-			throws ViewException {
+	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode) throws ViewException {
 
 		if (iScreen == null)
 			// GET THE CURRENT ONE
@@ -672,7 +366,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		if (iPosition == null) {
-			iPosition = (String) form.getSchemaObject().getFeature(ViewAspect.ASPECT_NAME, ViewBaseFeatures.LAYOUT);
+			iPosition = (String) form.getSchemaObject().getFeature(ViewBaseFeatures.LAYOUT);
 		}
 
 		if (iPosition == null && Controller.getInstance().getContext() != null) {

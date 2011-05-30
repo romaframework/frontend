@@ -18,12 +18,10 @@ package org.romaframework.frontend.domain.crud;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.flow.annotation.FlowAction;
 import org.romaframework.aspect.flow.feature.FlowActionFeatures;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.annotation.Persistence;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
@@ -31,7 +29,6 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 
 /**
  * Handles the paging in CRUD Main.
@@ -76,14 +73,11 @@ public class CRUDPaging implements ViewCallback {
 	}
 
 	public void onShow() {
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "first", ViewFieldFeatures.ENABLED, currentPage > 1);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "prev", ViewFieldFeatures.ENABLED, currentPage > 1);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "next", ViewFieldFeatures.ENABLED,
-				currentPage < pages.length);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "last", ViewFieldFeatures.ENABLED,
-				currentPage < pages.length);
-
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "pages", ViewFieldFeatures.ENABLED, pages.length > 1);
+		Roma.setFeature(this, "first", ViewActionFeatures.ENABLED, currentPage > 1);
+		Roma.setFeature(this, "prev", ViewActionFeatures.ENABLED, currentPage > 1);
+		Roma.setFeature(this, "next", ViewActionFeatures.ENABLED, currentPage < pages.length);
+		Roma.setFeature(this, "last", ViewActionFeatures.ENABLED, currentPage < pages.length);
+		Roma.setFeature(this, "pages", ViewFieldFeatures.ENABLED, pages.length > 1);
 	}
 
 	@Persistence(mode = PersistenceConstants.MODE_NOTX)
@@ -125,13 +119,13 @@ public class CRUDPaging implements ViewCallback {
 	}
 
 	private void pagingEnabled(boolean enabled) {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "pageLabel", ViewFieldFeatures.VISIBLE, enabled);
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "pages", ViewFieldFeatures.VISIBLE, enabled);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "next", ViewActionFeatures.VISIBLE, enabled);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "prev", ViewActionFeatures.VISIBLE, enabled);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "first", ViewActionFeatures.VISIBLE, enabled);
-		Roma.setActionFeature(this, ViewAspect.ASPECT_NAME, "last", ViewActionFeatures.VISIBLE, enabled);
-		Roma.setActionFeature(this, FlowAspect.ASPECT_NAME, "queryAll", FlowActionFeatures.CONFIRM_REQUIRED, enabled);
+		Roma.setFeature(this, "pageLabel", ViewFieldFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "pages", ViewFieldFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "next", ViewActionFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "prev", ViewActionFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "first", ViewActionFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "last", ViewActionFeatures.VISIBLE, enabled);
+		Roma.setFeature(this, "queryAll", FlowActionFeatures.CONFIRM_REQUIRED, enabled);
 		pagingEnabled = enabled;
 	}
 

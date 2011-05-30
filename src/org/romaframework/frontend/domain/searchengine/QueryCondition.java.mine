@@ -35,7 +35,7 @@ public class QueryCondition implements QueryItem {
 	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED)
 	protected BaseFilter<?>		filter;
 
-	protected Long					timestamp	= Calendar.getInstance().getTimeInMillis();
+	protected Long						timestamp	= Calendar.getInstance().getTimeInMillis();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected QueryOperation	operation;
@@ -43,6 +43,7 @@ public class QueryCondition implements QueryItem {
 	public QueryCondition(BaseFilter<?> iEntity, QueryOperation iOperation) {
 		filter = iEntity;
 		operation = iOperation;
+		filter.setBackObject(operation);
 	}
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -80,17 +81,17 @@ public class QueryCondition implements QueryItem {
 	}
 
 	public void onText() {
-		showHideActions();
+		showActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddRightFilter")
+	@ViewField(layout = "form://itemActions")
 	public void addRight() {
 		operation.showFilters();
 		operation.setPositionToAdd(getPosition() + 1);
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddLeftFilter")
+	@ViewField(layout = "form://itemActions")
 	public void addLeft() {
 		operation.showFilters();
 		Integer position = getPosition();
@@ -100,13 +101,13 @@ public class QueryCondition implements QueryItem {
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineRemoveFilter")
+	@ViewField(layout = "form://itemActions")
 	public void remove() {
 		operation.removeFilter(getPosition());
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineEditFilter")
+	@ViewField(layout = "form://itemActions")
 	public void edit() {
 		operation.setEditCondition(filter);
 		operation.showEditFilter();
@@ -146,13 +147,12 @@ public class QueryCondition implements QueryItem {
 		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, false);
 	}
 
-	private void showHideActions() {
+	private void showActions() {
 		Roma.setFeature(this, "addRight", ViewActionFeatures.VISIBLE, true);
 		Roma.setFeature(this, "addLeft", ViewActionFeatures.VISIBLE, true);
 		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, true);
 		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, true);
 	}
-
 
 	private Integer getPosition() {
 		return operation.getOperation().indexOf(this);

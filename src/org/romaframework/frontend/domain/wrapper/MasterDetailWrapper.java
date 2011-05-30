@@ -10,7 +10,6 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.validation.CustomValidation;
 import org.romaframework.aspect.validation.ValidationException;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
@@ -106,7 +105,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 	}
 
 	public MasterDetailWrapper<T> setInlineEdit(boolean iValue) {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "elements", ViewFieldFeatures.RENDER,
+		Roma.setFeature(this,"elements", ViewFieldFeatures.RENDER,
 				iValue ? ViewConstants.RENDER_TABLEEDIT : ViewConstants.RENDER_TABLE);
 		return this;
 	}

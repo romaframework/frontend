@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 
 public class ImageGallery implements ViewCallback{
 	
@@ -104,8 +103,8 @@ public class ImageGallery implements ViewCallback{
 	}
 
 	private void refMyButton() {
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "back", ViewElementFeatures.ENABLED, conditionToViewBack());
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "next", ViewElementFeatures.ENABLED, conditionToViewNext());
+		Roma.setFeature(this, "back", ViewActionFeatures.ENABLED, conditionToViewBack());
+		Roma.setFeature(this, "next", ViewActionFeatures.ENABLED, conditionToViewNext());
 	}
 	
 	private void refMyImages() {
@@ -113,7 +112,7 @@ public class ImageGallery implements ViewCallback{
 	}
 	
 	private void refMySelect() {
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "selected", ViewElementFeatures.VISIBLE, conditionToViewSelected());
+		Roma.setFeature(this, "selected", ViewFieldFeatures.VISIBLE, conditionToViewSelected());
 
 		if (conditionToViewSelected())
 			Roma.fieldChanged(this, "selected");

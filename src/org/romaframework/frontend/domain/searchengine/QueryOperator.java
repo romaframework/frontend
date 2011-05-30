@@ -17,12 +17,10 @@
 package org.romaframework.frontend.domain.searchengine;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 
 /**
  * @author molino
@@ -104,10 +102,10 @@ public class QueryOperator implements QueryItem {
 	}
 
 	public void onShow() {
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addRight", ViewActionFeatures.VISIBLE, false);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addLeft", ViewActionFeatures.VISIBLE, false);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewActionFeatures.VISIBLE, false);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "edit", ViewActionFeatures.VISIBLE, false);
+		Roma.setFeature(this, "addRight", ViewActionFeatures.VISIBLE, false);
+		Roma.setFeature(this, "addLeft", ViewActionFeatures.VISIBLE, false);
+		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, false);
+		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, false);
 	}
 
 	@Override

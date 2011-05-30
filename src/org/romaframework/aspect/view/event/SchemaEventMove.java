@@ -3,7 +3,6 @@ package org.romaframework.aspect.view.event;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaEvent;
@@ -51,7 +50,7 @@ public abstract class SchemaEventMove extends SchemaEvent {
 	
 	protected static Object getSelectedValues(Object parent, SchemaField listComponent) {
 		try {
-			final String selectionFieldString = (String) listComponent.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.SELECTION_FIELD);
+			final String selectionFieldString = (String) listComponent.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionFieldString == null) {
 				return null;
 			}

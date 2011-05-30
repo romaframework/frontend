@@ -2,7 +2,6 @@ package org.romaframework.frontend.domain.wrapper;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
@@ -82,7 +81,7 @@ public class TextWrapperForm extends TextWrapper implements Bindable, ViewCallba
   public void setSelectedType(String selectedBuiltinTypes) {
     this.selectedType = selectedBuiltinTypes;
 
-    Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "typeClassName", ViewFieldFeatures.VISIBLE,
+    Roma.setFeature(this, "typeClassName", ViewFieldFeatures.VISIBLE,
         selectedType != null && (selectedType.equals(USER_DEFINED_TYPENAME) || selectedType.equals(NOT_HANDLED_TYPENAME)));
   }
 

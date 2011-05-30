@@ -3,7 +3,6 @@ package org.romaframework.aspect.view.event;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.romaframework.aspect.core.CoreAspect;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.core.Roma;
@@ -26,12 +25,11 @@ public class SchemaEventAdd extends SchemaEvent {
 	private static final long	serialVersionUID	= 3961580751044485125L;
 
 	public SchemaEventAdd(SchemaField field) {
-		super(field, SchemaEvent.COLLECTION_ADD_EVENT,null);
+		super(field, SchemaEvent.COLLECTION_ADD_EVENT, null);
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 
 		SchemaClass formClass = null;
 		Object formInstance = null;
@@ -52,7 +50,7 @@ public class SchemaEventAdd extends SchemaEvent {
 				formInstance = new RuntimePair(null, null);
 		} else {
 			SchemaClass iClass = field.getEmbeddedType();
-			Boolean isEmbedded = (Boolean) field.getFeatures(CoreAspect.ASPECT_NAME).getAttribute(CoreFieldFeatures.EMBEDDED);
+			Boolean isEmbedded = field.getFeature(CoreFieldFeatures.EMBEDDED);
 			if (!isEmbedded) {
 				// TRY TO GET THE CRUD-SELECT CLASS, OTHERWISE THE CRUD-INSTANCE
 				formClass = CRUDHelper.getCRUDSelect(iClass);
@@ -73,7 +71,7 @@ public class SchemaEventAdd extends SchemaEvent {
 
 			if (formInstance instanceof Bindable)
 				((Bindable) formInstance).setSource(iContent, field.getName());
-			
+
 			if (formInstance instanceof CRUDInstance)
 				((CRUDInstance<?>) formInstance).setMode(CRUDWorkingMode.MODE_CREATE);
 		}
