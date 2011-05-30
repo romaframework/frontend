@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="add-module" name="roma-frontend-wizard">
+    <property environment="env"/>
+    <property name="roma.home" value="${env.ROMA_HOME}"/>
+    
+    <import file="${roma.home}/common/wizard/base-wizard.xml"/>
+    
+    <target name="add-module" depends="load-project-info">
+        <property name="module.ioc-file" value="applicationContext-frontend.xml"/>
+        <antcall target="copy-module-ioc-file"/>
+        
+        <!-- COPY IMAGES -->
+        <copy todir="${project.path}/WebContent/static/base/image/">
+            <fileset dir="images">
+                <include name="*"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="update-module-v2.0.0" depends="load-project-info">
+        <property name="module.ioc-file" value="applicationContext-frontend.xml"/>
+        <antcall target="copy-module-ioc-file"/>
+        
+        <echo>
+            Replace import Incoming in ${project.path}/${project.src} ....
+        </echo>
+        <replace dir="${project.path}/${project.src}">
+            <include name="**/*.java"/>
+            
+            <replacefilter token="org.romaframework.core.domain.wrapper." value="org.romaframework.frontend.domain.wrapper."/>
+            <replacefilter token="org.romaframework.aspect.view.command." value="org.romaframework.aspect.view.command.impl."/>
+            <replacefilter token="org.romaframework.core.domain.page." value="org.romaframework.frontend.domain.page."/>
+            <replacefilter token="org.romaframework.core.domain.message." value="org.romaframework.frontend.domain.message."/>
+            <replacefilter token="org.romaframework.module.crud." value="org.romaframework.frontend.domain.crud."/>
+            <replacefilter token="org.romaframework.core.validation." value="org.romaframework.aspect.validation."/>
+            <replacefilter token="org.romaframework.core.entity." value="org.romaframework.frontend.domain.entity."/>
+            <replacefilter token="org.romaframework.core.domain.entity." value="org.romaframework.frontend.domain.entity."/>
+            <replacefilter token="org.romaframework.aspect.view.page." value="org.romaframework.frontend.domain.page."/>
+            <replacefilter token="org.romaframework.core.config.ApplicationConfiguration" value="org.romaframework.core.config.AbstractApplicationConfiguration"/>
+            <replacefilter token="org.romaframework.frontend.domain.entity.EntityHelper" value="org.romaframework.core.entity.EntityHelper"/>
+            <replacefilter token="org.romaframework.frontend.domain.entity.ComposedEntity;" value="org.romaframework.core.domain.entity.ComposedEntity;"/>
+        </replace>
+        <echo>
+            Replace import Ended.
+        </echo>
+        
+        <echo>
+            Replace ViewClass Incoming in ${project.path}/${project.src} ....
+        </echo>
+        
+        <replaceregexp byline="true">
+            <regexp pattern="@ViewClass[ ]*\((.*),?entity[ ]*=[a-zA-Z0-9\. ]*,?(.*)\)"/>
+            <substitution expression="@ViewClass(\1\2)"/>
+            <fileset dir="${project.path}/${project.src}">
+                <include name="**/*.java"/>
+            </fileset>
+        </replaceregexp>
+        <replaceregexp byline="true">
+            <regexp pattern="implements[ ]*ApplicationConfiguration"/>
+            <substitution expression="extends AbstractApplicationConfiguration"/>
+            <fileset dir="${project.path}/${project.src}">
+                <include name="**/CustomApplicationConfiguration.java"/>
+            </fileset>
+        </replaceregexp>
+        
+        <echo>
+            Replace ViewClass Ended.
+        </echo>
+        <antcall target="update-module-libs"/>
+    </target>
+    
+    <target name="update-module-v2.2.0" depends="load-project-info">
+        <property name="module.ioc-file" value="applicationContext-frontend.xml"/>
+        <antcall target="copy-module-ioc-file"/>
+    </target>
+    
+</project>
