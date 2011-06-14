@@ -181,7 +181,7 @@ public class CRUDPaging implements ViewCallback {
 	 * @param iPageTotal
 	 *          Total pages
 	 */
-	public void setPages(int iPageTotal) {
+	public void setPagesCount(int iPageTotal) {
 		pages = new Integer[iPageTotal];
 		for (int i = 0; i < iPageTotal; ++i)
 			pages[i] = i + 1;
@@ -196,7 +196,7 @@ public class CRUDPaging implements ViewCallback {
 	public void setTotalItems(int totalItems) {
 		this.totalItems = totalItems;
 		int pagesOffset = totalItems % pageElements;
-		setPages(totalItems / pageElements + (pagesOffset != 0 ? 1 : 0));
+		setPagesCount(totalItems / pageElements + (pagesOffset != 0 ? 1 : 0));
 	}
 
 	@ViewField(visible = AnnotationConstants.FALSE)

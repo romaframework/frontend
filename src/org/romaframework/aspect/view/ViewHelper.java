@@ -116,7 +116,7 @@ public class ViewHelper {
 		SchemaField field;
 		for (Iterator<SchemaField> itField = iSchema.getFieldIterator(); itField.hasNext();) {
 			field = itField.next();
-			if (!field.getFeature(ViewElementFeatures.VISIBLE))
+			if (!field.getFeature(ViewFieldFeatures.VISIBLE))
 				continue;
 
 			Roma.setFeature(iUserObject, field.getName(), ViewFieldFeatures.ENABLED, iValue);

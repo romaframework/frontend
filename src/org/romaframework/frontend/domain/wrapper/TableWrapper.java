@@ -3,8 +3,6 @@ package org.romaframework.frontend.domain.wrapper;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.validation.ValidationException;
 import org.romaframework.aspect.view.ViewConstants;
@@ -17,7 +15,6 @@ import org.romaframework.frontend.domain.crud.CRUDHelper;
 
 @ViewClass(render = ViewConstants.RENDER_OBJECTEMBEDDED)
 public class TableWrapper<T> extends CollectionWrapper<T> {
-	protected static Log	log	= LogFactory.getLog(TableWrapper.class);
 
 	public TableWrapper(Class<T> iClass, Object iObject, String iSelectionField) {
 		this(iClass, iObject, iSelectionField, false);

@@ -19,8 +19,9 @@ import org.romaframework.aspect.i18n.I18NHelper;
 import org.romaframework.aspect.reporting.feature.ReportingBaseFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewBaseFeatures;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaFeatures;
@@ -33,7 +34,7 @@ public class ReportingFeatureHelper {
 		if (result != null) {
 			return result;
 		} else {
-			result = (Boolean) iSchemaField.getFeature(ViewElementFeatures.VISIBLE);
+			result = (Boolean) iSchemaField.getFeature(ViewFieldFeatures.VISIBLE);
 			if (result != null) {
 				return result;
 			}
@@ -80,7 +81,11 @@ public class ReportingFeatureHelper {
 	public static String getLayout(SchemaFeatures iFeatures) {
 		String fieldLayout = (String) iFeatures.getFeature(ReportingBaseFeatures.LAYOUT);
 		if (fieldLayout == null) {
-			fieldLayout = (String) iFeatures.getFeature(ViewBaseFeatures.LAYOUT);
+			if (iFeatures instanceof SchemaField) {
+				fieldLayout = (String) iFeatures.getFeature(ViewFieldFeatures.LAYOUT);
+			} else {
+				fieldLayout = (String) iFeatures.getFeature(ViewActionFeatures.LAYOUT);
+			}
 		}
 		return fieldLayout;
 	}
@@ -88,7 +93,11 @@ public class ReportingFeatureHelper {
 	public static String getRender(SchemaFeatures iFeatures) {
 		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.RENDER);
 		if (fieldRender == null) {
-			fieldRender = (String) iFeatures.getFeature(ViewBaseFeatures.RENDER);
+			if (iFeatures instanceof SchemaField) {
+				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.RENDER);
+			} else {
+				fieldRender = (String) iFeatures.getFeature(ViewActionFeatures.RENDER);
+			}
 		}
 		return fieldRender;
 	}
@@ -96,7 +105,11 @@ public class ReportingFeatureHelper {
 	public static String getLabel(SchemaFeatures iFeatures) {
 		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.LABEL);
 		if (fieldRender == null) {
-			fieldRender = (String) iFeatures.getFeature(ViewBaseFeatures.LABEL);
+			if (iFeatures instanceof SchemaField) {
+				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.LABEL);
+			} else {
+				fieldRender = (String) iFeatures.getFeature(ViewActionFeatures.LABEL);
+			}
 		}
 		return fieldRender;
 	}

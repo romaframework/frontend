@@ -48,9 +48,7 @@ import org.romaframework.aspect.view.event.SchemaEventSearch;
 import org.romaframework.aspect.view.event.SchemaEventUp;
 import org.romaframework.aspect.view.event.SchemaEventView;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
-import org.romaframework.aspect.view.feature.ViewBaseFeatures;
 import org.romaframework.aspect.view.feature.ViewClassFeatures;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.aspect.view.form.ContentForm;
 import org.romaframework.aspect.view.form.FormViewer;
@@ -188,7 +186,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			iAction.setFeature(ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		iAction.toString();
 
-		setActionDefaults(iAction);
+		setActionDefaults((SchemaAction) iAction);
 	}
 
 	private void readClassXml(SchemaClassDefinition iClass, XmlClassAnnotation iXmlNode) {
@@ -206,62 +204,60 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	}
 
 	public void setClassDefaults(SchemaClassDefinition iClass) {
-
-		if (iClass.getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
-			// HIDE ALL INHERITED ELEMENTS
-			for (Iterator<SchemaField> itField = iClass.getFieldIterator(); itField.hasNext();) {
-				itField.next().setFeature(ViewElementFeatures.VISIBLE, false);
-			}
-			for (Iterator<SchemaAction> itAction = iClass.getActionIterator(); itAction.hasNext();) {
-				itAction.next().setFeature(ViewElementFeatures.VISIBLE, false);
-			}
-
-			// AVOID THE CLASS INHERIT IT TO RECYCLE ALL AGAIN
-			iClass.setFeature(ViewClassFeatures.EXPLICIT_ELEMENTS, Boolean.FALSE);
-		}
 	}
 
 	public void setFieldDefaults(SchemaField iField) {
 
+		if (iField.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
+			if (!iField.isSettedFeature(ViewFieldFeatures.VISIBLE) && iField.getDescriptorInfo() == null) {
+				iField.setFeature(ViewFieldFeatures.VISIBLE, false);
+			}
+		}
+
 		// CHECK RENDER AND LAYOUT MODES
-		String classRender = iField.getEntity().getFeature(ViewBaseFeatures.RENDER);
+		String classRender = iField.getEntity().getFeature(ViewFieldFeatures.RENDER);
 
 		if (iField.getFeature(CoreFieldFeatures.EMBEDDED)) {
-			if (iField.getFeature(ViewBaseFeatures.RENDER) == null && !SchemaHelper.isMultiValueObject(iField))
+			if (iField.getFeature(ViewFieldFeatures.RENDER) == null && !SchemaHelper.isMultiValueObject(iField))
 				// IF THE FIELD IS EMBEDDED, THEN THE DEFAULT RENDER IS OBJECTEMBEDDED
-				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 		}
 
 		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.LAYOUT);
 
 		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
 			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
-			iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+			iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
-				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iField.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_MENU);
+				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
 				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
-				iField.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
-				iField.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
+				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
 			}
 	}
 
-	public void setActionDefaults(SchemaClassElement iAction) {
+	public void setActionDefaults(SchemaAction iAction) {
 
+		if (iAction.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
+			if (!iAction.isSettedFeature(ViewFieldFeatures.VISIBLE) && iAction.getDescriptorInfo() == null) {
+				iAction.setFeature(ViewFieldFeatures.VISIBLE, false);
+			}
+		}
 		// CHECK RENDER AND LAYOUT MODES
-		String classRender = iAction.getEntity().getFeature(ViewBaseFeatures.RENDER);
+		String classRender = iAction.getEntity().getFeature(ViewActionFeatures.RENDER);
 
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
-				iAction.setFeature(ViewBaseFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iAction.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iAction.setFeature(ViewActionFeatures.RENDER, ViewConstants.RENDER_MENU);
+				iAction.setFeature(ViewActionFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION))
-				iAction.setFeature(ViewBaseFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iAction.setFeature(ViewActionFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
 	}
 
 	/**
@@ -366,7 +362,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		if (iPosition == null) {
-			iPosition = (String) form.getSchemaObject().getFeature(ViewBaseFeatures.LAYOUT);
+			iPosition = (String) form.getSchemaObject().getFeature(ViewClassFeatures.LAYOUT);
 		}
 
 		if (iPosition == null && Controller.getInstance().getContext() != null) {
