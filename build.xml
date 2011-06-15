@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project basedir="." default="compile" name="roma-core">
-
+<project basedir="." name="roma-frontend" default="compile" >
+	<get src="https://github.com/Roma-Framework/core/raw/master/roma-build.xml" dest="roma-build.xml" skipexisting="true" />
 	<import file="roma-build.xml" />
-
 </project>
