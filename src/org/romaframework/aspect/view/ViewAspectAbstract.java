@@ -182,7 +182,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iXmlNode) {
 
-		if (((SchemaAction) iAction).getParameterNumber() > 0 || ((SchemaAction) iAction).getReturnType() != null)
+		if (((SchemaAction) iAction).getParameterNumber() > 0 )
 			iAction.setFeature(ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		iAction.toString();
 
