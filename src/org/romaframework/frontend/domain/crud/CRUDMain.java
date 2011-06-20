@@ -613,7 +613,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 
 	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException,
 			SecurityException, NoSuchMethodException {
-		SchemaClass entityClass = (SchemaClass) createClass.getFeature(CoreClassFeatures.ENTITY);
+		SchemaClass entityClass = createClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Object entityObject = SchemaHelper.createObject(entityClass, iArgs);
 
 		Object createInstance = ObjectContext.getInstance().getObject(createClass, entityObject);
@@ -685,7 +685,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected void addDefaultOrder(QueryByFilter addFilter) {
-		SchemaClass entityClass = (SchemaClass) listClass.getFeature(CoreClassFeatures.ENTITY);
+		SchemaClass entityClass = (SchemaClass) listClass.getField(ComposedEntity.NAME).getType().getSchemaClass();;
 		Iterator<SchemaField> it = entityClass.getFieldIterator();
 		while (it.hasNext()) {
 			SchemaField sf = it.next();

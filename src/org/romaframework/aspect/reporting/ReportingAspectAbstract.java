@@ -23,14 +23,12 @@ import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.Utility;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
+import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClassDefinition;
-import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaClassResolver;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 
 /**
  * The abstract class for the reporting aspect
@@ -57,18 +55,17 @@ public abstract class ReportingAspectAbstract extends SelfRegistrantConfigurable
 	public void endConfigClass(SchemaClassDefinition iClass) {
 	}
 
-	public void configClass(SchemaClassDefinition iClass, Annotation iAnnotation, XmlClassAnnotation iXmlNode) {
+	public void configClass(SchemaClassDefinition iClass) {
 
 		refresh(iClass);
 	}
 
-	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation,
-			XmlFieldAnnotation iXmlNode) {
+	public void configField(SchemaField iField) {
 
 		setFieldDefaults(iField);
 	}
 
-	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iNode) {
+	public void configAction(SchemaAction iAction) {
 		// Reporting cannot be used on actions
 	}
 

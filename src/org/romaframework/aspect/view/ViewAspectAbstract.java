@@ -17,7 +17,6 @@
 package org.romaframework.aspect.view;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,7 +63,6 @@ import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
-import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaClassResolver;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
@@ -72,10 +70,8 @@ import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaReloadListener;
 import org.romaframework.core.schema.config.SchemaConfiguration;
 import org.romaframework.core.schema.reflection.SchemaClassReflection;
-import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlAspectAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
 
 /**
@@ -151,7 +147,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	public void configClass(SchemaClassDefinition iClass, Annotation iAnnotation, XmlClassAnnotation iXmlNode) {
+	public void configClass(SchemaClassDefinition iClass) {
 		XmlClassAnnotation xmlNode = null;
 		if (iClass instanceof SchemaClassReflection) {
 			SchemaConfiguration conf = ((SchemaClassReflection) iClass).getDescriptor();
@@ -162,8 +158,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		setClassDefaults(iClass);
 	}
 
-	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation,
-			XmlFieldAnnotation iXmlNode) {
+	public void configField(SchemaField iField) {
 
 		setFieldDefaults(iField);
 		if (SchemaHelper.isMultiValueObject(iField)) {
@@ -180,7 +175,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iXmlNode) {
+	public void configAction(SchemaAction iAction) {
 
 		if (((SchemaAction) iAction).getParameterNumber() > 0 )
 			iAction.setFeature(ViewActionFeatures.VISIBLE, Boolean.FALSE);

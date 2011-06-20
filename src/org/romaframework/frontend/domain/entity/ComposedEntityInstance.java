@@ -22,6 +22,7 @@ import org.romaframework.aspect.core.annotation.CoreClass.LOADING_MODE;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.security.Secure;
 import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.domain.entity.ComposedEntity;
 
@@ -79,12 +80,14 @@ public class ComposedEntityInstance<T> implements ComposedEntity<T> {
 		return entity != null ? entity.toString() : super.toString();
 	}
 
+	@ViewAction(visible =AnnotationConstants.FALSE)
 	public boolean canRead() {
 		if (entity instanceof Secure)
 			return ((Secure) entity).canRead();
 		return true;
 	}
-
+	
+	@ViewAction(visible =AnnotationConstants.FALSE)
 	public boolean canWrite() {
 		if (entity instanceof Secure)
 			return ((Secure) entity).canWrite();

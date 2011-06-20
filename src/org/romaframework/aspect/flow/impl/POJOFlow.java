@@ -16,7 +16,6 @@
 
 package org.romaframework.aspect.flow.impl;
 
-import java.lang.annotation.Annotation;
 import java.util.Stack;
 
 import org.romaframework.aspect.flow.FlowAspectAbstract;
@@ -36,8 +35,6 @@ import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaObject;
-import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.frontend.domain.message.MessageYesNo;
@@ -334,10 +331,10 @@ public class POJOFlow extends FlowAspectAbstract {
 		sessionAspect = null;
 	}
 
-	public void configClass(SchemaClassDefinition class1, Annotation annotation, XmlClassAnnotation node) {
+	public void configClass(SchemaClassDefinition class1) {
 	}
 
-	public void configField(SchemaField field, Annotation fieldAnnotation, Annotation genericAnnotation, Annotation getterAnnotation, XmlFieldAnnotation node) {
+	public void configField(SchemaField field) {
 	}
 
 	public Object getUnderlyingComponent() {

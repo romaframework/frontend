@@ -16,7 +16,6 @@
  */
 package org.romaframework.aspect.data;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -30,18 +29,14 @@ import org.romaframework.core.aspect.Aspect;
 import org.romaframework.core.exception.ConfigurationNotFoundException;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
+import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
-import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaObjectListener;
-import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlEventAnnotation;
-import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 
 /**
  * @author luca.molino
@@ -69,16 +64,16 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 	public void beginConfigClass(SchemaClassDefinition iClass) {
 	}
 
-	public void configClass(SchemaClassDefinition iClass, Annotation iAnnotation, XmlClassAnnotation iNode) {
+	public void configClass(SchemaClassDefinition iClass) {
 	}
 
-	public void configField(SchemaField iField, Annotation iFieldAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation, XmlFieldAnnotation iNode) {
+	public void configField(SchemaField iField) {
 	}
 
-	public void configAction(SchemaClassElement iAction, Annotation iActionAnnotation, Annotation iGenericAnnotation, XmlActionAnnotation iNode) {
+	public void configAction(SchemaAction iAction) {
 	}
 
-	public void configEvent(SchemaEvent iEvent, Annotation iEventAnnotation, Annotation iGenericAnnotation, XmlEventAnnotation iNode) {
+	public void configEvent(SchemaEvent iEvent) {
 	}
 
 	public void endConfigClass(SchemaClassDefinition iClass) {

@@ -15,11 +15,9 @@
  */
 package org.romaframework.aspect.geo;
 
-import java.lang.annotation.Annotation;
 
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.core.schema.xmlannotations.XmlFieldAnnotation;
 
 public abstract class MapAspectAbstract extends SelfRegistrantConfigurableModule<String> implements GeoAspect {
 
@@ -29,7 +27,7 @@ public abstract class MapAspectAbstract extends SelfRegistrantConfigurableModule
 		return ASPECT_NAME;
 	}
 
-	public void configField(SchemaField iField, Annotation iAnnotation, Annotation iGenericAnnotation, Annotation iGetterAnnotation, XmlFieldAnnotation iXmlNode) {
+	public void configField(SchemaField iField) {
 	}
 
 }
