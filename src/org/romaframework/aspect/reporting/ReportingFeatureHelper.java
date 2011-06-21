@@ -20,7 +20,6 @@ import org.romaframework.aspect.reporting.feature.ReportingBaseFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
-import org.romaframework.aspect.view.feature.ViewBaseFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;

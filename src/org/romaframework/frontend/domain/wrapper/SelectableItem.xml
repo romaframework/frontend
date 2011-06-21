@@ -13,11 +13,5 @@
 	</aspects>
 	<fields>
 		<field name="selected" />
-		<field name="entity">
-			<aspects>
-				<core useRuntimeType="true" />
-				<view layout="expand" />
-			</aspects>
-		</field>
 	</fields>
 </class>

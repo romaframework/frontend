@@ -154,13 +154,55 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			if (conf != null)
 				xmlNode = conf.getType();
 		}
-		readClassXml(iClass, xmlNode);
-		setClassDefaults(iClass);
+		if (xmlNode == null || xmlNode.aspect(ASPECT_NAME) == null)
+			return;
+
+		XmlAspectAnnotation featureDescriptor = xmlNode.aspect(ASPECT_NAME);
+
+		if (featureDescriptor != null) {
+			XmlFormAnnotation layout = featureDescriptor.getForm();
+			if (layout != null && layout.getRootArea() != null)
+				iClass.setFeature(ViewClassFeatures.FORM, layout.getRootArea());
+
+		}
 	}
 
 	public void configField(SchemaField iField) {
 
-		setFieldDefaults(iField);
+		if (iField.getFeature(CoreFieldFeatures.EXPAND)) {
+			iField.setFeature(ViewFieldFeatures.VISIBLE, false);
+		}
+
+		if (iField.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
+			if (!iField.isSettedFeature(ViewFieldFeatures.VISIBLE) && iField.getDescriptorInfo() == null) {
+				iField.setFeature(ViewFieldFeatures.VISIBLE, false);
+			}
+		}
+
+		if (iField.getFeature(CoreFieldFeatures.EMBEDDED)) {
+			if (iField.getFeature(ViewFieldFeatures.RENDER) == null && !SchemaHelper.isMultiValueObject(iField))
+				// IF THE FIELD IS EMBEDDED, THEN THE DEFAULT RENDER IS OBJECTEMBEDDED
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+		}
+
+		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.LAYOUT);
+
+		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
+			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
+			iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
+
+		String classRender = iField.getEntity().getFeature(ViewFieldFeatures.RENDER);
+		if (classRender != null)
+			if (classRender.equals(ViewConstants.RENDER_MENU)) {
+				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_MENU);
+				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
+				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
+				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
+				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+			}
+
 		if (SchemaHelper.isMultiValueObject(iField)) {
 			iField.setEvent(new SchemaEventAdd(iField));
 			iField.setEvent(new SchemaEventView(iField));
@@ -177,66 +219,9 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 	public void configAction(SchemaAction iAction) {
 
-		if (((SchemaAction) iAction).getParameterNumber() > 0 )
+		if (((SchemaAction) iAction).getParameterNumber() > 0)
 			iAction.setFeature(ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		iAction.toString();
-
-		setActionDefaults((SchemaAction) iAction);
-	}
-
-	private void readClassXml(SchemaClassDefinition iClass, XmlClassAnnotation iXmlNode) {
-		if (iXmlNode == null || iXmlNode.aspect(ASPECT_NAME) == null)
-			return;
-
-		XmlAspectAnnotation featureDescriptor = iXmlNode.aspect(ASPECT_NAME);
-
-		if (featureDescriptor != null) {
-			XmlFormAnnotation layout = featureDescriptor.getForm();
-			if (layout != null && layout.getRootArea() != null)
-				iClass.setFeature(ViewClassFeatures.FORM, layout.getRootArea());
-
-		}
-	}
-
-	public void setClassDefaults(SchemaClassDefinition iClass) {
-	}
-
-	public void setFieldDefaults(SchemaField iField) {
-
-		if (iField.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
-			if (!iField.isSettedFeature(ViewFieldFeatures.VISIBLE) && iField.getDescriptorInfo() == null) {
-				iField.setFeature(ViewFieldFeatures.VISIBLE, false);
-			}
-		}
-
-		// CHECK RENDER AND LAYOUT MODES
-		String classRender = iField.getEntity().getFeature(ViewFieldFeatures.RENDER);
-
-		if (iField.getFeature(CoreFieldFeatures.EMBEDDED)) {
-			if (iField.getFeature(ViewFieldFeatures.RENDER) == null && !SchemaHelper.isMultiValueObject(iField))
-				// IF THE FIELD IS EMBEDDED, THEN THE DEFAULT RENDER IS OBJECTEMBEDDED
-				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
-		}
-
-		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.LAYOUT);
-
-		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
-			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
-			iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
-
-		if (classRender != null)
-			if (classRender.equals(ViewConstants.RENDER_MENU)) {
-				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
-				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
-			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
-				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
-				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
-				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
-			}
-	}
-
-	public void setActionDefaults(SchemaAction iAction) {
 
 		if (iAction.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
 			if (!iAction.isSettedFeature(ViewFieldFeatures.VISIBLE) && iAction.getDescriptorInfo() == null) {

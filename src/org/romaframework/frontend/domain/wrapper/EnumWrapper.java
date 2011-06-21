@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
@@ -82,6 +83,11 @@ public class EnumWrapper implements Bindable {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public SchemaField getSourceField() {
 		return this.field;
+	}
+	
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void refresh() {
+		Roma.fieldChanged(this, "list");
 	}
 
 }

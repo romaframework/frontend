@@ -27,7 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.core.annotation.CoreField;
-import org.romaframework.aspect.core.feature.CoreClassFeatures;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.logging.LoggingConstants;
 import org.romaframework.aspect.logging.annotation.LoggingAction;
@@ -685,7 +684,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected void addDefaultOrder(QueryByFilter addFilter) {
-		SchemaClass entityClass = (SchemaClass) listClass.getField(ComposedEntity.NAME).getType().getSchemaClass();;
+		SchemaClass entityClass = (SchemaClass) listClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Iterator<SchemaField> it = entityClass.getFieldIterator();
 		while (it.hasNext()) {
 			SchemaField sf = it.next();

@@ -19,11 +19,8 @@ package org.romaframework.frontend.domain.entity;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.core.annotation.CoreClass.LOADING_MODE;
-import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.security.Secure;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.domain.entity.ComposedEntity;
 
 /**
@@ -38,8 +35,6 @@ import org.romaframework.core.domain.entity.ComposedEntity;
 @CoreClass(loading = LOADING_MODE.EARLY)
 public class ComposedEntityInstance<T> implements ComposedEntity<T> {
 
-	@CoreField(embedded = AnnotationConstants.TRUE)
-	@ViewField(layout = ViewConstants.LAYOUT_EXPAND)
 	protected T	entity;
 
 	public ComposedEntityInstance() {

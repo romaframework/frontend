@@ -78,6 +78,7 @@ public class ListPaging<T> implements PagingListener, ViewCallback {
 
 	public void loadList(Collection<T> collection) {
 		realElements = new ArrayList<T>(collection);
+		selected = new ArrayList<T>();
 		paging.setTotalItems(realElements.size());
 		paging.refreshCurrentPage();
 		Roma.fieldChanged(this, "paging");
