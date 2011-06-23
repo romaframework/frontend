@@ -35,7 +35,6 @@ import org.romaframework.core.domain.entity.ComposedEntity;
  * 
  */
 public abstract class EntityPage<T> extends Page implements ComposedEntity<T> {
-	@ViewField(layout = ViewConstants.LAYOUT_EXPAND)
 	@ValidationField
 	protected T	entity;
 

@@ -60,13 +60,14 @@ public class CRUDEntity<T> extends EntityPage<T> implements Bindable {
 		super(iEntity);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	public void cancel() {
 		Object backObj = Roma.aspect(FlowAspect.class).back();
 
 		if (backObj != null && backObj instanceof CRUDMain<?>) {
 			// REPLACE OBJECT IN THE SOURCE COLLECTION
-			List<ComposedEntity> result = ((CRUDMain) backObj).getResult();
+			List<ComposedEntity<T>> result = ((CRUDMain) backObj).getResult();
 			int pos = -1;
 
 			// SEARCH THE OBJECT INSIDE THE CONTAINER INSTANCE
