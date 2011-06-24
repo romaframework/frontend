@@ -52,12 +52,12 @@ public @interface ViewField {
 
 	String format() default AnnotationConstants.DEF_VALUE;
 
-	String[] dependsOn() default {};
+	String[] dependsOn() default AnnotationConstants.DEF_VALUE;
 
-	String[] depends() default {};
+	String[] depends() default AnnotationConstants.DEF_VALUE;
 
 	Class<? extends Bindable> displayWith() default Bindable.class;
-	
+
 	/**
 	 * Validation rule to check against it. Use @ValidationField instead.
 	 */
