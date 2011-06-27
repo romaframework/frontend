@@ -112,7 +112,7 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 	@Override
 	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component, component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
+		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
 	}
 
 	@Override

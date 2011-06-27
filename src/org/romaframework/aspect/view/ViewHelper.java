@@ -30,7 +30,6 @@ import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.exception.ConfigurationException;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
@@ -51,8 +50,7 @@ public class ViewHelper {
 	private static Log					log									= LogFactory.getLog(ViewHelper.class);
 
 	public static ContentForm createForm(Object iUserObject, SessionInfo iSession) {
-		SchemaClass schema = Roma.schema().getSchemaClass(iUserObject.getClass(), null);
-		return createForm(new SchemaObject(schema), null, iUserObject, iSession);
+		return createForm(Roma.session().getSchemaObject(iUserObject), null, iUserObject, iSession);
 	}
 
 	public static ContentForm createForm(SchemaObject iSchema, SchemaField iField, Object iUserObject) {
@@ -72,7 +70,7 @@ public class ViewHelper {
 
 					if (temp != iUserObject) {
 						// WRAPPER OBJECT FOUND: RESET THE SCHEMA OBJECT WITH THE NEW ONE
-						SchemaObject obj = new SchemaObject(Roma.schema().getSchemaClass(temp), temp);
+						SchemaObject obj = Roma.session().getSchemaObject(temp);
 						obj.copyDefinition(form.getSchemaObject());
 						form.setSchemaObject(obj);
 						iUserObject = temp;

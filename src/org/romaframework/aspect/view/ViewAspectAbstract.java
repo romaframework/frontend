@@ -58,6 +58,8 @@ import org.romaframework.core.Utility;
 import org.romaframework.core.exception.ConfigurationNotFoundException;
 import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.Controller;
+import org.romaframework.core.flow.ObjectContext;
+import org.romaframework.core.flow.ObjectRefreshListener;
 import org.romaframework.core.handler.RomaObjectHandler;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;
@@ -81,7 +83,8 @@ import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener {
+public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener,
+		ObjectRefreshListener {
 	protected Map<SessionInfo, IdentityHashMap<Object, ViewComponent>>	objectsForms;
 
 	private static Log																									log	= LogFactory.getLog(ViewAspectAbstract.class);
@@ -324,8 +327,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		boolean currentSession = iPushMode ? false : iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
 
 		if (iSchema == null && iContent != null) {
-			SchemaClass cls = Roma.schema().getSchemaClass(iContent);
-			iSchema = new SchemaObject(cls, iContent);
+			iSchema = Roma.session().getSchemaObject(iContent);
 		}
 
 		// SEARCH THE FORM TO VIEW BY ENTITY
@@ -599,6 +601,24 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			return null;
 
 		return form.getSchemaObject();
+	}
+
+	@Override
+	public void onObjectRefresh(SessionInfo iSession, Object iContent) {
+		ViewComponent handler = getFormByObject(iContent);
+		if (handler == null)
+			return;
+
+		if (handler.getContainerComponent() != null) {
+			// OBJECT INSIDE ANOTHER ONE: REFRESH USING ITS CONTAINER
+			Object parentObject = handler.getContainerComponent().getContent();
+			String parentFieldName = handler.getSchemaField().getName();
+
+			ObjectContext.getInstance().fieldChanged(iSession, parentObject, parentFieldName);
+		} else {
+			// OBJECT INSIDE ANOTHER ONE: REFRESH USING ITS CONTAINER
+			ObjectContext.getInstance().fieldChanged(iSession, iContent);
+		}
 	}
 
 	public String aspectName() {

@@ -39,6 +39,8 @@ public interface ViewComponent extends Destroyable, RomaObjectHandler {
   public void setScreenArea(String area);
 
   public void renderContent();
+  
+  public ViewComponent getContainerComponent();
 
   public void close();
 

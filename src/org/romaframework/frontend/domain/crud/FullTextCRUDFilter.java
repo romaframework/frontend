@@ -82,7 +82,7 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 		}
 		String[] splittato = fullTextSearch.split(" ");
 		QueryByFilter query = new QueryByFilter(getEntity().getClass(), QueryByFilter.PREDICATE_AND);
-		SchemaObject schema = Roma.getSchemaObject(this.getAdvancedFilter());
+		SchemaObject schema = Roma.session().getSchemaObject(this.getAdvancedFilter());
 		for (String token : splittato) {
 			QueryByFilterItemGroup subfilter = new QueryByFilterItemGroup(QueryByFilter.PREDICATE_OR);
 			Iterator<SchemaField> iterator = schema.getField("entity").getType().getFieldIterator();

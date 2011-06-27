@@ -61,12 +61,12 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 
 	public void add() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component.getContainerComponent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_ADD_EVENT);
+		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_ADD_EVENT);
 	}
 
 	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component, component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
+		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
 	}
 
 	public ComposedEntity<T>[] getSelection() {

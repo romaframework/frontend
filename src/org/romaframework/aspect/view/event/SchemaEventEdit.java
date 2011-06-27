@@ -48,9 +48,6 @@ public class SchemaEventEdit extends SchemaEvent {
 			} else
 				domainInstance = selectedValue;
 
-			// GET SCHEMAOBJECT IN CASE OF POLYMORPHISM
-			new SchemaObject(Roma.schema().getSchemaClass(domainInstance.getClass()));
-
 		} else {
 			domainInstance = selectedValue;
 		}

@@ -22,19 +22,18 @@ import org.romaframework.frontend.RomaFrontend;
 
 @ViewClass(layout = ViewConstants.LAYOUT_POPUP)
 public class ReportGenerator implements ViewCallback {
-	private Object content;
+	private Object	content;
 
 	// @ViewField(selectionField = "type", render = ViewConstants.RENDER_RADIO)
 	// @ViewField(visible = AnnotationConstants.FALSE)
 	// private String[] types;
 
-
 	// private List<IconButton> availableTypes;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	private String type;
+	private String	type;
 
-	private String fileName;
+	private String	fileName;
 
 	public ReportGenerator(Object iContent, String fileName) {
 		this(iContent, fileName, null);
@@ -61,11 +60,11 @@ public class ReportGenerator implements ViewCallback {
 		String[] supportedTypes = getSupportedTypes();
 		if (supportedTypes != null && supportedTypes.length > 0) {
 			setType(supportedTypes[0]);
-			
+
 		}
 		Roma.fieldChanged(this, "types");
 		Roma.fieldChanged(this, "availableTypes");
-		
+
 	}
 
 	public void onDispose() {
@@ -79,22 +78,8 @@ public class ReportGenerator implements ViewCallback {
 		ReportingAspect reporting = RomaFrontend.reporting();
 		String fileType = type.toLowerCase();
 
-		ViewComponent formComponent = RomaFrontend.view().getFormByObject(
-				content);
-		if (formComponent == null) {
-			SchemaClass schema = Roma.schema().getSchemaClass(
-					content.getClass());
-			formComponent = RomaFrontend.view().createForm(
-					new SchemaObject(schema, content), null, null);
-		}
-		
-		
-		
-		byte[] report = reporting.render(content, type, formComponent
-				.getSchemaObject());
-		RomaFrontend.view().pushCommand(
-				new DownloadStreamViewCommand(new ByteArrayInputStream(report),
-						fileName + "." + fileType, fileType));
+		byte[] report = reporting.render(content, type, Roma.session().getSchemaObject(content));
+		RomaFrontend.view().pushCommand(new DownloadStreamViewCommand(new ByteArrayInputStream(report), fileName + "." + fileType, fileType));
 	}
 
 	public void close() {
@@ -108,7 +93,7 @@ public class ReportGenerator implements ViewCallback {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public String[] getTypes() {
 		return getSupportedTypes();
@@ -121,6 +106,7 @@ public class ReportGenerator implements ViewCallback {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+
 	@ViewField(label = "Generate", render = ViewConstants.RENDER_COLSET)
 	public List<IconButton> getAvailableTypes() {
 		ArrayList<IconButton> availableTypes = new ArrayList<IconButton>();
