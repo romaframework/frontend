@@ -35,7 +35,7 @@ public class QueryCondition implements QueryItem {
 	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED)
 	protected BaseFilter<?>		filter;
 
-	protected Long					timestamp	= Calendar.getInstance().getTimeInMillis();
+	protected Long						timestamp	= Calendar.getInstance().getTimeInMillis();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected QueryOperation	operation;
@@ -152,7 +152,6 @@ public class QueryCondition implements QueryItem {
 		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, true);
 		Roma.setFeature(this, "edit", ViewActionFeatures.VISIBLE, true);
 	}
-
 
 	private Integer getPosition() {
 		return operation.getOperation().indexOf(this);

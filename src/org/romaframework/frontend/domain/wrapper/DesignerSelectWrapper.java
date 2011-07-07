@@ -26,66 +26,63 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 
 public class DesignerSelectWrapper<T> extends Observable implements ObjectWrapper {
-  @ViewField(label = "", render = "select", selectionField = "selected", selectionMode = ViewFieldFeatures.SELECTION_MODE_VALUE)
-  protected T[] values;
-  @ViewField(visible = AnnotationConstants.FALSE)
-  protected T   selected;
+	@ViewField(label = "", render = "select", selectionField = "selected", selectionMode = ViewFieldFeatures.SELECTION_MODE_VALUE)
+	protected T[]	values;
+	@ViewField(visible = AnnotationConstants.FALSE)
+	protected T		selected;
 
-  public DesignerSelectWrapper(Set<T> selectValues) {
-    values = selectValues.toArray((T[]) new Object[selectValues.size()]);
-  }
+	public DesignerSelectWrapper(Set<T> selectValues) {
+		values = selectValues.toArray((T[]) new Object[selectValues.size()]);
+	}
 
-  public DesignerSelectWrapper(Set<T> selectValues, T iInitialValue) {
-    values = selectValues.toArray((T[]) new Object[selectValues.size()]);
-    selected = iInitialValue;
-  }
+	public DesignerSelectWrapper(Set<T> selectValues, T iInitialValue) {
+		values = selectValues.toArray((T[]) new Object[selectValues.size()]);
+		selected = iInitialValue;
+	}
 
-  public T getSelected() {
-    return selected;
-  }
+	public T getSelected() {
+		return selected;
+	}
 
-  public void setSelected(T command) {
-  	
-    this.selected = command;
-    setChanged();
-  	notifyObservers();
-  }
+	public void setSelected(T command) {
 
-  public T[] getValues() {
-    return values;
-  }
+		this.selected = command;
+		setChanged();
+		notifyObservers();
+	}
 
-  public void setValues(T[] commands) {
-    this.values = commands;
-  }
+	public T[] getValues() {
+		return values;
+	}
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  public Object getFinalValue() {
-    return selected;
-  }
+	public void setValues(T[] commands) {
+		this.values = commands;
+	}
 
-  @ViewAction(visible = AnnotationConstants.FALSE)
-  public void addElements(Set<T> iToAdd) {
-    List<T> aux = Arrays.asList(values);
-    aux.addAll(iToAdd);
-    values = aux.toArray((T[]) new Object[aux.size()]);
-  }
+	@ViewField(visible = AnnotationConstants.FALSE)
+	public Object getFinalValue() {
+		return selected;
+	}
+
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void addElements(Set<T> iToAdd) {
+		List<T> aux = Arrays.asList(values);
+		aux.addAll(iToAdd);
+		values = aux.toArray((T[]) new Object[aux.size()]);
+	}
 
 	@Override
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public synchronized void deleteObservers() {
-		
+
 		super.deleteObservers();
 	}
 
 	@Override
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void notifyObservers() {
-		
+
 		super.notifyObservers();
 	}
-  
-  
-  
-  
+
 }

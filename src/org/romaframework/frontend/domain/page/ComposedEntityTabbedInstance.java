@@ -12,26 +12,26 @@ import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 @ViewClass(label = "")
 public class ComposedEntityTabbedInstance<T> extends ComposedEntityInstance<T> {
 
-  @ViewField(render = ViewConstants.RENDER_TAB, label = "", layout = "form://innerPages", selectionField = "activePage")
-  protected Map<String, Object> innerPages = new LinkedHashMap<String, Object>();
+	@ViewField(render = ViewConstants.RENDER_TAB, label = "", layout = "form://innerPages", selectionField = "activePage")
+	protected Map<String, Object>	innerPages	= new LinkedHashMap<String, Object>();
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  protected Object              activePage;
+	@ViewField(visible = AnnotationConstants.FALSE)
+	protected Object							activePage;
 
-  public ComposedEntityTabbedInstance(T entity) {
-    super(entity);
-  }
+	public ComposedEntityTabbedInstance(T entity) {
+		super(entity);
+	}
 
-  public Map<String, Object> getInnerPages() {
-    return innerPages;
-  }
+	public Map<String, Object> getInnerPages() {
+		return innerPages;
+	}
 
-  public Object getActivePage() {
-    return activePage;
-  }
+	public Object getActivePage() {
+		return activePage;
+	}
 
-  public void setActivePage(Object activePage) {
-    this.activePage = activePage;
-  }
-  
+	public void setActivePage(Object activePage) {
+		this.activePage = activePage;
+	}
+
 }

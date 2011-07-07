@@ -16,18 +16,18 @@
 package org.romaframework.aspect.view.command.impl;
 
 public class RedirectViewCommand extends OpenWindowViewCommand {
-  protected String target;
+	protected String	target;
 
-  public RedirectViewCommand(String location) {
-    super(location);
-  }
+	public RedirectViewCommand(String location) {
+		super(location);
+	}
 
-  public RedirectViewCommand(String location, String target) {
-    super(location);
-    this.target = target;
-  }
+	public RedirectViewCommand(String location, String target) {
+		super(location);
+		this.target = target;
+	}
 
-  public String getTarget() {
-    return target;
-  }
+	public String getTarget() {
+		return target;
+	}
 }

@@ -37,7 +37,7 @@ public class SelectAddWrapper<T> extends SelectWrapper<T> {
 			boolean needRefresh = false;
 
 			if (iSelectedInstance != null && !list.contains(iSelectedInstance)) {
-				iSelectedInstance = repository.create(iSelectedInstance,PersistenceAspect.STRATEGY_DETACHING);
+				iSelectedInstance = repository.create(iSelectedInstance, PersistenceAspect.STRATEGY_DETACHING);
 				needRefresh = true;
 			}
 

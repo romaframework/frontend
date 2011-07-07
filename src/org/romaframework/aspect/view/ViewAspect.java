@@ -92,8 +92,7 @@ public interface ViewAspect extends Aspect {
 	 *          SchemaObject to use
 	 * @throws Exception
 	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema)
-			throws ViewException;
+	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema) throws ViewException;
 
 	/**
 	 * Display the form reading information from POJO received following the layout rules. Display the object on iWhere position in
@@ -113,8 +112,7 @@ public interface ViewAspect extends Aspect {
 	 *          Force push mode (enqueue the request to the session)
 	 * @throws Exception
 	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode)
-			throws ViewException;
+	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode) throws ViewException;
 
 	/**
 	 * Return the desktop for the current user.
@@ -251,10 +249,10 @@ public interface ViewAspect extends Aspect {
 	 * @throws ConfigurationNotFoundException
 	 */
 	public SchemaObject getSchemaObject(Object iUserObject) throws ConfigurationNotFoundException;
-	
+
 	/**
-	 *  Retrieve the context where the application was deployed.
-	 *  
+	 * Retrieve the context where the application was deployed.
+	 * 
 	 * @return the context where the application was deployed.
 	 */
 	public String getContextPath();

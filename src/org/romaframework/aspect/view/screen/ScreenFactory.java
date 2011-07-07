@@ -22,11 +22,12 @@ package org.romaframework.aspect.view.screen;
  */
 public interface ScreenFactory {
 
-  /**
-   * Create a new Screen implementation.
-   * @param iTypeName 
-   * 
-   * @return Desktop object
-   */
-  public Screen create(String iTypeName);
+	/**
+	 * Create a new Screen implementation.
+	 * 
+	 * @param iTypeName
+	 * 
+	 * @return Desktop object
+	 */
+	public Screen create(String iTypeName);
 }

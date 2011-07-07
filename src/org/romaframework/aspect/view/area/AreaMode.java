@@ -28,12 +28,14 @@ public interface AreaMode {
 
 	/**
 	 * Place a component removing all the others prevously added
-	 * @param iComponentContainer the container of the component
-	 * @param iComponentToPlace the component to place
+	 * 
+	 * @param iComponentContainer
+	 *          the container of the component
+	 * @param iComponentToPlace
+	 *          the component to place
 	 * @return
 	 */
 	public Object placeComponent(Object iComponentContainer, Object iComponentToPlace);
 
-	
 	public boolean isChildrenAllowed();
 }

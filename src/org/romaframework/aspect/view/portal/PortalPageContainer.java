@@ -26,12 +26,12 @@ import org.romaframework.aspect.view.ViewCallback;
  * @author l.molino
  * @see PortalPage
  */
-public interface PortalPageContainer extends ViewCallback{
-	
+public interface PortalPageContainer extends ViewCallback {
+
 	/**
 	 * Method that returns the list of portlets configured in this container
 	 * 
-	 * @return a list of <code>PortalPage</code> configured in this container 
+	 * @return a list of <code>PortalPage</code> configured in this container
 	 * @see PortalPage
 	 */
 	public List<PortalPage> getPortlets();

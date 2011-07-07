@@ -14,8 +14,8 @@ public class HtmlEncoder {
 	/**
 	 * The list of characters to convert and convertion
 	 */
-	private static final String[]							ENTITIES					= { ">", "&gt;", "<", "&lt;", "&", "&amp;", "\"", "&quot;", "'",
-			"&#039;", "\\", "&#092;", "\u00a9", "&copy;", "\u00ae", "&reg;" };
+	private static final String[]							ENTITIES					= { ">", "&gt;", "<", "&lt;", "&", "&amp;", "\"", "&quot;", "'", "&#039;", "\\", "&#092;", "\u00a9", "&copy;",
+			"\u00ae", "&reg;"																			};
 
 	private static Hashtable<String, String>	entityTableEncode	= null;
 

@@ -23,7 +23,6 @@ public class GeoFieldFeatures {
 
 	public static final Feature<String>	ZOOM							= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "zoom", FeatureType.FIELD, String.class);
 	public static final Feature<String>	TYPE							= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "type", FeatureType.FIELD, String.class);
-	public static final Feature<String>	OTHER_PARAMETERS	= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "otherParameters", FeatureType.FIELD,
-																														String.class);
+	public static final Feature<String>	OTHER_PARAMETERS	= new Feature<String>(FlowAspectAbstract.ASPECT_NAME, "otherParameters", FeatureType.FIELD, String.class);
 
 }

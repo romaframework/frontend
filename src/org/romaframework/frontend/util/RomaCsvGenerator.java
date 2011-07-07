@@ -93,8 +93,7 @@ public class RomaCsvGenerator {
 		while (iterator.hasNext()) {
 			SchemaField schemaField = iterator.next();
 			if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
-				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null
-						&& ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
+				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null && ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 					generateHeaderCsvObjectEmbedded(csv, schemaField.getType());
 				} else {
 					csv.append(TEXT_DELIMITER);
@@ -112,8 +111,7 @@ public class RomaCsvGenerator {
 		while (iterator.hasNext()) {
 			SchemaField schemaField = iterator.next();
 			if ((Boolean) schemaField.getFeature(ViewFieldFeatures.VISIBLE)) {
-				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null
-						&& ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
+				if (schemaField.getFeature(ViewFieldFeatures.RENDER) != null && ((String) schemaField.getFeature(ViewFieldFeatures.RENDER)).equals(ViewConstants.RENDER_OBJECTEMBEDDED)) {
 					generateHeaderCsvObjectEmbedded(csv, schemaField.getType());
 				} else {
 					csv.append(TEXT_DELIMITER);

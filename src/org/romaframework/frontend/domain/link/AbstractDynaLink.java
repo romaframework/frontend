@@ -26,9 +26,9 @@ import org.romaframework.frontend.domain.page.Page;
  */
 public abstract class AbstractDynaLink extends Page {
 
-  public AbstractDynaLink() {
-  }
+	public AbstractDynaLink() {
+	}
 
-  @ViewField(render = ViewConstants.RENDER_LINK, label = "")
-  public abstract String getTitle();
+	@ViewField(render = ViewConstants.RENDER_LINK, label = "")
+	public abstract String getTitle();
 }

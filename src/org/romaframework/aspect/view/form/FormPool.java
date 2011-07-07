@@ -29,25 +29,25 @@ import org.romaframework.core.schema.SchemaObject;
 @Deprecated
 public class FormPool {
 
-  /**
-   * Set the maximum active forms the pool can manage before to be "exhausted" and wait for a new form instance.
-   * 
-   * @param iMaxActiveFormInstances
-   */
-  public void setMaxActiveFormInstances(int iMaxActiveFormInstances) {
-  }
+	/**
+	 * Set the maximum active forms the pool can manage before to be "exhausted" and wait for a new form instance.
+	 * 
+	 * @param iMaxActiveFormInstances
+	 */
+	public void setMaxActiveFormInstances(int iMaxActiveFormInstances) {
+	}
 
-  public void init() {
-  }
+	public void init() {
+	}
 
-  public ContentForm getForm(SchemaObject iSchema, SchemaField iField, Object iUserObject) {
-    return null;
-  }
+	public ContentForm getForm(SchemaObject iSchema, SchemaField iField, Object iUserObject) {
+		return null;
+	}
 
-  public void releaseForm(ContentForm iFormInstance) {
-  }
+	public void releaseForm(ContentForm iFormInstance) {
+	}
 
-  public KeyedObjectPool getPool() {
-    return null;
-  }
+	public KeyedObjectPool getPool() {
+		return null;
+	}
 }

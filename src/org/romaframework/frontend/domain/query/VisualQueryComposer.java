@@ -46,9 +46,7 @@ public class VisualQueryComposer implements Refreshable {
 	private Class<?>										targetClass;
 
 	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "targetClass", label = "", layout = "form://classCombo")
-	private List<SchemaClass>							classesList			= Roma.schema().getSchemaClassesByPackage(
-																													Roma.component(ApplicationConfiguration.class).getApplicationPackage()
-																															+ ".domain");
+	private List<SchemaClass>						classesList			= Roma.schema().getSchemaClassesByPackage(Roma.component(ApplicationConfiguration.class).getApplicationPackage() + ".domain");
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private VisualQueryFilter[]					filterSelection;

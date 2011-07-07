@@ -79,8 +79,7 @@ public interface FlowAspect extends Aspect {
 	 * @param iPushMode
 	 *          Force push mode (enqueue the request to the session)
 	 */
-	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema,
-			boolean iPushMode);
+	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode);
 
 	/**
 	 * Follow the application flow moving forward by displaying a component and specifying screen and user session to use.

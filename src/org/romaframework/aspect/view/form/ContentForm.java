@@ -25,15 +25,15 @@ import org.romaframework.aspect.session.SessionInfo;
  */
 public interface ContentForm extends ViewComponent {
 
-  public void activate();
+	public void activate();
 
-  public void passivate();
+	public void passivate();
 
-  public void setContent(Object iContent, SessionInfo iSession);
+	public void setContent(Object iContent, SessionInfo iSession);
 
-  public boolean isFirstToOpenPopup(Object iObject);
+	public boolean isFirstToOpenPopup(Object iObject);
 
-  public String getScreenArea();
+	public String getScreenArea();
 
-  public void setScreenArea(String iDesktopArea);
+	public void setScreenArea(String iDesktopArea);
 }

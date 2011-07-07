@@ -50,7 +50,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 		if (visible != null && !visible) {
 			return null;
 		}
-		Object renderMode =  schemaField.getFeature(ViewFieldFeatures.RENDER);
+		Object renderMode = schemaField.getFeature(ViewFieldFeatures.RENDER);
 		if (ViewConstants.RENDER_SELECT.equals(renderMode)) {
 			final String selectionField = (String) schemaField.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionField == null) {
@@ -70,8 +70,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 			} catch (PersistenceException e) {
 				// TODO Log.
 			}
-			SerializationData data = super.inspect(value, selectionSchemaField.getType(), selectionSchemaField.getEmbeddedType(),
-					inspected);
+			SerializationData data = super.inspect(value, selectionSchemaField.getType(), selectionSchemaField.getEmbeddedType(), inspected);
 			serializationElement.setData(data);
 			return serializationElement;
 		}
@@ -91,7 +90,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 
 	@Override
 	protected void fillField(Object toFill, SerializationElement serializationField, SchemaField schemaField, boolean copyFeatures) {
-		Object renderMode =  schemaField.getFeature(ViewFieldFeatures.RENDER);
+		Object renderMode = schemaField.getFeature(ViewFieldFeatures.RENDER);
 		SerializationData fieldData = serializationField.getData();
 		if (ViewConstants.RENDER_SELECT.equals(renderMode)) {
 			if (copyFeatures) {
@@ -106,7 +105,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 				Object curValue = SchemaHelper.getFieldValue(toFill, selectionField);
 				Object value = super.getFieldValue(fieldData, schemaField.getEntity().getField(selectionField), curValue, copyFeatures);
 				try {
-					Object object = Roma.persistence().loadObjectByOID((String)value,null);
+					Object object = Roma.persistence().loadObjectByOID((String) value, null);
 					if (object != null)
 						value = object;
 				} catch (PersistenceException e) {
@@ -124,7 +123,7 @@ public class ViewSerializationInspectionStrategy extends SchemaSerializationInsp
 			Object curValue = schemaField.getValue(toFill);
 			Object value = getFieldValue(fieldData, schemaField, curValue, copyFeatures);
 			try {
-				Object object = Roma.persistence().loadObjectByOID((String)value,null);
+				Object object = Roma.persistence().loadObjectByOID((String) value, null);
 				if (object != null)
 					value = object;
 			} catch (PersistenceException e) {

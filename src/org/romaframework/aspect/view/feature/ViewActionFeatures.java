@@ -28,7 +28,7 @@ public class ViewActionFeatures {
 	public static final Feature<String>		STYLE				= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.ACTION, String.class);
 	public static final Feature<String>		LABEL				= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.ACTION, String.class);
 	public static final Feature<Boolean>	ENABLED			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "enabled", FeatureType.ACTION, Boolean.class);
-	public static final Feature<Boolean>	VISIBLE			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.ACTION, Boolean.class,Boolean.TRUE);
+	public static final Feature<Boolean>	VISIBLE			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.ACTION, Boolean.class, Boolean.TRUE);
 	public static final Feature<Boolean>	BIND				= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "bind", FeatureType.ACTION, Boolean.class);
 	public static final Feature<Boolean>	SUBMIT			= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "submit", FeatureType.ACTION, Boolean.class);
 

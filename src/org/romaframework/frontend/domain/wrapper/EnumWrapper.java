@@ -84,7 +84,7 @@ public class EnumWrapper implements Bindable {
 	public SchemaField getSourceField() {
 		return this.field;
 	}
-	
+
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void refresh() {
 		Roma.fieldChanged(this, "list");

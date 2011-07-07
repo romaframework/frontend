@@ -83,8 +83,7 @@ import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener,
-		ObjectRefreshListener {
+public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener, ObjectRefreshListener {
 	protected Map<SessionInfo, IdentityHashMap<Object, ViewComponent>>	objectsForms;
 
 	private static Log																									log	= LogFactory.getLog(ViewAspectAbstract.class);

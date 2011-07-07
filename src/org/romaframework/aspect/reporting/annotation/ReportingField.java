@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 
-@Target( { ElementType.FIELD, ElementType.METHOD })
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReportingField {
 	String label() default AnnotationConstants.DEF_VALUE;
@@ -31,5 +31,5 @@ public @interface ReportingField {
 
 	String render() default AnnotationConstants.DEF_VALUE;
 
-	String layout() default AnnotationConstants.DEF_VALUE;	
+	String layout() default AnnotationConstants.DEF_VALUE;
 }

@@ -23,8 +23,7 @@ public class SchemaEventOpen extends SchemaEvent {
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		SchemaEvent defaultEvent;
 		if ((defaultEvent = field.getEvent(SchemaEvent.DEFAULT_EVENT_NAME)) != null) {
 			return defaultEvent.invoke(iContent, params);
@@ -47,7 +46,7 @@ public class SchemaEventOpen extends SchemaEvent {
 			return createInstance(owner, field);
 		}
 		// TODO :BIND VALUE TO SELECT.
-		//Object value = field.getValue(owner);
+		// Object value = field.getValue(owner);
 		try {
 
 			Object select = EntityHelper.createObject(null, selectClass);

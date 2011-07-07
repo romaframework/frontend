@@ -14,11 +14,10 @@ public abstract class SchemaEventMove extends SchemaEvent {
 	private static final long	serialVersionUID	= -6853938367107400294L;
 
 	public SchemaEventMove(SchemaField field, String iName) {
-		super(field, iName,null);
+		super(field, iName, null);
 	}
 
-	protected void move(Object parent, final int displacement) throws IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	protected void move(Object parent, final int displacement) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object selectedValues = getSelectedValues(parent, this.field);
 
 		if (selectedValues == null) {
@@ -47,7 +46,7 @@ public abstract class SchemaEventMove extends SchemaEvent {
 		SchemaHelper.moveElement(fieldValue, selectedValue, displacement);
 		Roma.fieldChanged(parent, this.field.getName());
 	}
-	
+
 	protected static Object getSelectedValues(Object parent, SchemaField listComponent) {
 		try {
 			final String selectionFieldString = (String) listComponent.getFeature(ViewFieldFeatures.SELECTION_FIELD);
@@ -64,5 +63,5 @@ public abstract class SchemaEventMove extends SchemaEvent {
 			return null;
 		}
 	}
-	
+
 }

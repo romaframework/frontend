@@ -20,26 +20,26 @@ import java.io.InputStream;
 import org.romaframework.aspect.view.command.ViewCommand;
 
 public class DownloadStreamViewCommand implements ViewCommand {
-  protected InputStream in;
-  protected String      fileName;
-  protected String      contentType;
+	protected InputStream	in;
+	protected String			fileName;
+	protected String			contentType;
 
-  public DownloadStreamViewCommand(InputStream in, String fileName, String contentType) {
-    this.in = in;
-    this.fileName = fileName;
-    this.contentType = contentType;
-  }
+	public DownloadStreamViewCommand(InputStream in, String fileName, String contentType) {
+		this.in = in;
+		this.fileName = fileName;
+		this.contentType = contentType;
+	}
 
-  public InputStream getIn() {
-    return in;
-  }
+	public InputStream getIn() {
+		return in;
+	}
 
-  public String getFileName() {
-    return fileName;
-  }
+	public String getFileName() {
+		return fileName;
+	}
 
-  public String getContentType() {
-    return contentType;
-  }
+	public String getContentType() {
+		return contentType;
+	}
 
 }

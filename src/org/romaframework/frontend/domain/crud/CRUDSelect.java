@@ -52,14 +52,13 @@ public abstract class CRUDSelect<T> extends CRUDMain<T> implements Bindable {
 
 	public static final int	DEF_PAGE_ELEMENTS	= 5;
 
-	public CRUDSelect(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
-			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
+	public CRUDSelect(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
+			Class<? extends ComposedEntity<?>> iEditClass) {
 		this(null, iListClass, iCreateClass, iReadClass, iEditClass);
 	}
 
-	public CRUDSelect(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass,
-			Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
-			Class<? extends ComposedEntity<?>> iEditClass) {
+	public CRUDSelect(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
+			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
 		super(iRepository, iListClass, iCreateClass, iReadClass, iEditClass);
 		setPageElements(DEF_PAGE_ELEMENTS);
 	}
@@ -76,8 +75,7 @@ public abstract class CRUDSelect<T> extends CRUDMain<T> implements Bindable {
 		sourceField = cls.getField(iSourceFieldName);
 
 		if (sourceField == null)
-			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName
-					+ ". Check class definition");
+			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName + ". Check class definition");
 	}
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -110,12 +108,10 @@ public abstract class CRUDSelect<T> extends CRUDMain<T> implements Bindable {
 					o = ((ComposedEntity<?>) fullSelection[i]).getEntity();
 				else
 					o = fullSelection[i];
-				fullSelection[i] = Roma.context().persistence().loadObject(o, PersistenceAspect.FULL_MODE_LOADING,
-						PersistenceAspect.STRATEGY_DETACHING);
+				fullSelection[i] = Roma.context().persistence().loadObject(o, PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING);
 				if (fullSelection[i] == null) {
 					if (o != null)
-						throw new PersistenceException("Error on detaching object " + o + ". Check if Class '" + o.getClass()
-								+ "' is detachable");
+						throw new PersistenceException("Error on detaching object " + o + ". Check if Class '" + o.getClass() + "' is detachable");
 					else
 						throw new PersistenceException("Error on detaching selected object.");
 				}

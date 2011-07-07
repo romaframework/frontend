@@ -17,8 +17,7 @@ public class SchemaEventRemove extends SchemaEvent {
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object selectedValues = getSelectedValues(iContent);
 		if (selectedValues == null) {
 			return null;
@@ -45,8 +44,7 @@ public class SchemaEventRemove extends SchemaEvent {
 	protected Object getSelectedValues(Object parent) {
 		SchemaField listComponent = this.field;
 		try {
-			final String selectionFieldString = (String) listComponent.getFeature(
-					ViewFieldFeatures.SELECTION_FIELD);
+			final String selectionFieldString = (String) listComponent.getFeature(ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionFieldString == null) {
 				return null;
 			}

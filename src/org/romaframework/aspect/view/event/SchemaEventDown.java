@@ -11,10 +11,9 @@ public class SchemaEventDown extends SchemaEventMove {
 	public SchemaEventDown(SchemaField field) {
 		super(field, "down");
 	}
-	
+
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		move(iContent, 1);
 		return true;
 	}

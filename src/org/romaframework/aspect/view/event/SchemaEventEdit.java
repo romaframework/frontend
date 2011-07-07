@@ -12,7 +12,6 @@ import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaParameter;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
@@ -23,7 +22,6 @@ public class SchemaEventEdit extends SchemaEvent {
 
 	private static final long	serialVersionUID	= 863239926207924259L;
 
-	
 	protected SchemaEventEdit(SchemaField iField, String iName, List<SchemaParameter> iOrderedParameters) {
 		super(iField, iName, iOrderedParameters);
 	}
@@ -33,8 +31,7 @@ public class SchemaEventEdit extends SchemaEvent {
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object selectedValue = getSingleSelection(iContent);
 		SchemaClass clazz = Roma.schema().getSchemaClass(EntityHelper.getEntityObject(selectedValue).getClass());
 		SchemaClass selectedValueClass = Roma.schema().getSchemaClass(selectedValue.getClass());
@@ -80,8 +77,8 @@ public class SchemaEventEdit extends SchemaEvent {
 			Roma.aspect(FlowAspect.class).forward(formInstance, "screen:popup");
 		return null;
 	}
-	
-	protected int getOpenMode(){
+
+	protected int getOpenMode() {
 		return CRUDWorkingMode.MODE_UPDATE;
 	}
 
@@ -111,7 +108,7 @@ public class SchemaEventEdit extends SchemaEvent {
 		try {
 			final String selectionFieldString = (String) listComponent.getFeature(
 
-					ViewFieldFeatures.SELECTION_FIELD);
+			ViewFieldFeatures.SELECTION_FIELD);
 			if (selectionFieldString == null) {
 				return null;
 			}

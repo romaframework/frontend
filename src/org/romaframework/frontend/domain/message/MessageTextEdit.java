@@ -25,26 +25,26 @@ import org.romaframework.aspect.view.annotation.ViewField;
 @ViewClass(label = "Information")
 public class MessageTextEdit extends MessageOk {
 
-  @ViewField(label = "", render = ViewConstants.RENDER_RICHTEXT)
-  private String detail;
+	@ViewField(label = "", render = ViewConstants.RENDER_RICHTEXT)
+	private String	detail;
 
-  public MessageTextEdit(String iId, String iTitle) {
-    this(iId, iTitle, null, null);
-  }
+	public MessageTextEdit(String iId, String iTitle) {
+		this(iId, iTitle, null, null);
+	}
 
-  public MessageTextEdit(String iId, String iTitle, MessageResponseListener iListener) {
-    this(iId, iTitle, iListener, null);
-  }
+	public MessageTextEdit(String iId, String iTitle, MessageResponseListener iListener) {
+		this(iId, iTitle, iListener, null);
+	}
 
-  public MessageTextEdit(String iId, String iTitle, MessageResponseListener iListener, String iMessage) {
-    super(iId, iTitle, iListener, iMessage);
-  }
+	public MessageTextEdit(String iId, String iTitle, MessageResponseListener iListener, String iMessage) {
+		super(iId, iTitle, iListener, iMessage);
+	}
 
-  public String getDetail() {
-    return detail;
-  }
+	public String getDetail() {
+		return detail;
+	}
 
-  public void setDetail(String detail) {
-    this.detail = detail;
-  }
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 }

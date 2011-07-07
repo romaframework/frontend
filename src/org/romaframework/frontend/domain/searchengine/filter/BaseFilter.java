@@ -32,7 +32,7 @@ public interface BaseFilter<T> extends ComposedEntity<T> {
 
 	public static final String	FILTER_AND	= "Obbligatorio";
 
-	public static final String	FILTER_OR	= "Facoltativo";
+	public static final String	FILTER_OR		= "Facoltativo";
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public byte getQueryStrategy();

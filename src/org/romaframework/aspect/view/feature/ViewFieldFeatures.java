@@ -30,21 +30,16 @@ public class ViewFieldFeatures {
 	public static final Feature<String>				RENDER								= new Feature<String>(ViewAspect.ASPECT_NAME, "render", FeatureType.FIELD, String.class);
 	public static final Feature<String>				STYLE									= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.FIELD, String.class);
 	public static final Feature<String>				LABEL									= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.FIELD, String.class);
-	public static final Feature<Boolean>			ENABLED								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "enabled", FeatureType.FIELD, Boolean.class,
-																																			Boolean.TRUE);
-	public static final Feature<Boolean>			VISIBLE								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.FIELD, Boolean.class,
-																																			Boolean.TRUE);
+	public static final Feature<Boolean>			ENABLED								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "enabled", FeatureType.FIELD, Boolean.class, Boolean.TRUE);
+	public static final Feature<Boolean>			VISIBLE								= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "visible", FeatureType.FIELD, Boolean.class, Boolean.TRUE);
 
-	public static final Feature<String[]>			DEPENDS_ON						= new Feature<String[]>(ViewAspect.ASPECT_NAME, "dependsOn", FeatureType.FIELD,
-																																			String[].class);
+	public static final Feature<String[]>			DEPENDS_ON						= new Feature<String[]>(ViewAspect.ASPECT_NAME, "dependsOn", FeatureType.FIELD, String[].class);
 	public static final Feature<String[]>			DEPENDS								= new Feature<String[]>(ViewAspect.ASPECT_NAME, "depends", FeatureType.FIELD, String[].class);
-	public static final Feature<String>				SELECTION_FIELD				= new Feature<String>(ViewAspect.ASPECT_NAME, "selectionField", FeatureType.FIELD,
-																																			String.class);
-	public static final Feature<Byte>					SELECTION_MODE				= new Feature<Byte>(ViewAspect.ASPECT_NAME, "selectionMode", FeatureType.FIELD, Byte.class,
-																																			new Byte(SELECTION_MODE_VALUE));
+	public static final Feature<String>				SELECTION_FIELD				= new Feature<String>(ViewAspect.ASPECT_NAME, "selectionField", FeatureType.FIELD, String.class);
+	public static final Feature<Byte>					SELECTION_MODE				= new Feature<Byte>(ViewAspect.ASPECT_NAME, "selectionMode", FeatureType.FIELD, Byte.class, new Byte(
+																																			SELECTION_MODE_VALUE));
 	public static final Feature<String>				FORMAT								= new Feature<String>(ViewAspect.ASPECT_NAME, "format", FeatureType.FIELD, String.class);
 
-	public static final Feature<SchemaClass>	DISPLAY_WITH					= new Feature<SchemaClass>(ViewAspect.ASPECT_NAME, "displayWith", FeatureType.FIELD,
-																																			SchemaClass.class);
+	public static final Feature<SchemaClass>	DISPLAY_WITH					= new Feature<SchemaClass>(ViewAspect.ASPECT_NAME, "displayWith", FeatureType.FIELD, SchemaClass.class);
 
 }

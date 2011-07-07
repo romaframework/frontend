@@ -51,8 +51,7 @@ public abstract class AbstractErrorReporter implements ErrorReporter {
 		}
 		ApplicationConfiguration conf = Roma.component(ApplicationConfiguration.class);
 
-		reportError(conf.getApplicationName(), conf.getApplicationVersion(), Roma.session().getActiveSessionInfo(), flowStack, message,
-				exception);
+		reportError(conf.getApplicationName(), conf.getApplicationVersion(), Roma.session().getActiveSessionInfo(), flowStack, message, exception);
 	}
 
 	/**
@@ -71,6 +70,5 @@ public abstract class AbstractErrorReporter implements ErrorReporter {
 	 * @param exception
 	 *          to report.
 	 */
-	protected abstract void reportError(String aplicationName, String version, SessionInfo sessionInfo,
-			List<Pair<Object, String>> flowStack, String message, Throwable exception);
+	protected abstract void reportError(String aplicationName, String version, SessionInfo sessionInfo, List<Pair<Object, String>> flowStack, String message, Throwable exception);
 }

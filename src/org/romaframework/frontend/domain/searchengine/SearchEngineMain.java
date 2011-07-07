@@ -43,8 +43,8 @@ public abstract class SearchEngineMain<T> extends CRUDMain<T> {
 
 	protected Class<T>					searchClass;
 
-	protected SearchEngineMain(Class<? extends ComposedEntity<?>> listClass, Class<? extends ComposedEntity<?>> createClass,
-			Class<? extends ComposedEntity<?>> readClass, Class<? extends ComposedEntity<?>> editClass, Class<T> iSearchClass) {
+	protected SearchEngineMain(Class<? extends ComposedEntity<?>> listClass, Class<? extends ComposedEntity<?>> createClass, Class<? extends ComposedEntity<?>> readClass,
+			Class<? extends ComposedEntity<?>> editClass, Class<T> iSearchClass) {
 		super(listClass, createClass, readClass, editClass);
 		searchClass = iSearchClass;
 	}
@@ -88,13 +88,13 @@ public abstract class SearchEngineMain<T> extends CRUDMain<T> {
 					paging.setCurrentPage(1);
 					Roma.fieldChanged(this, "paging");
 				}
-				
+
 				if (getResult().size() == 1) {
 					setSelection(new Object[] { getResult().get(0) });
 				} else {
 					setSelection(null);
 				}
-			}else {
+			} else {
 				fillResult(new ArrayList<T>());
 			}
 		} else {

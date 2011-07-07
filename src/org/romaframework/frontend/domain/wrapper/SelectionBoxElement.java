@@ -33,52 +33,47 @@ import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
 
 /**
- * Wrapper view class that implements a List selection between available
- * elements and selected elements
+ * Wrapper view class that implements a List selection between available elements and selected elements
  * 
  * @author luca.molino
  * 
  */
 public class SelectionBoxElement<T> {
 
-	protected Object instance;
+	protected Object				instance;
 
-	protected String fieldName;
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	protected T entity;
+	protected String				fieldName;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected Collection<T> allElements = null;
+	protected T							entity;
+
+	@ViewField(visible = AnnotationConstants.FALSE)
+	protected Collection<T>	allElements				= null;
 
 	@ViewField(render = ViewConstants.RENDER_LIST, selectionField = "availableElementSelected", enabled = AnnotationConstants.FALSE)
-	protected Collection<T> availableElements = new ArrayList<T>();
+	protected Collection<T>	availableElements	= new ArrayList<T>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected T availableElementSelected;
+	protected T							availableElementSelected;
 
 	@ViewField(render = ViewConstants.RENDER_LIST, selectionField = "selectedElementSelected", enabled = AnnotationConstants.FALSE)
-	protected List<T> selectedElements = new ArrayList<T>();
+	protected List<T>				selectedElements	= new ArrayList<T>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected T selectedElementSelected;
+	protected T							selectedElementSelected;
 
-	public SelectionBoxElement(Object iInstance, String iFieldName,
-			List<T> sourceList) throws IllegalArgumentException {
+	public SelectionBoxElement(Object iInstance, String iFieldName, List<T> sourceList) throws IllegalArgumentException {
 		allElements = sourceList;
 		init(iInstance, iFieldName);
 	}
 
-	protected SelectionBoxElement(Object iInstance, String iFieldName)
-			throws IllegalArgumentException {
-		SchemaClass genericClass = SchemaHelper.getSuperclassGenericType(Roma
-				.schema().getSchemaClass(this.getClass()));
+	protected SelectionBoxElement(Object iInstance, String iFieldName) throws IllegalArgumentException {
+		SchemaClass genericClass = SchemaHelper.getSuperclassGenericType(Roma.schema().getSchemaClass(this.getClass()));
 		allElements = loadElements((Class<T>) genericClass.getLanguageType());
 		init(iInstance, iFieldName);
 	}
 
-	protected SelectionBoxElement(Object iInstance, String iFieldName,
-			Class<T> iClass) throws IllegalArgumentException {
+	protected SelectionBoxElement(Object iInstance, String iFieldName, Class<T> iClass) throws IllegalArgumentException {
 		allElements = loadElements(iClass);
 		init(iInstance, iFieldName);
 	}
@@ -104,8 +99,7 @@ public class SelectionBoxElement<T> {
 		return availableElementSelected;
 	}
 
-	public void setAvailableElementSelected(T availableElementSelected)
-			throws ConfigurationException {
+	public void setAvailableElementSelected(T availableElementSelected) throws ConfigurationException {
 		this.availableElementSelected = availableElementSelected;
 		selectElement();
 	}
@@ -122,8 +116,7 @@ public class SelectionBoxElement<T> {
 		return selectedElementSelected;
 	}
 
-	public void setSelectedElementSelected(T selectedElementSelected)
-			throws ConfigurationException {
+	public void setSelectedElementSelected(T selectedElementSelected) throws ConfigurationException {
 		this.selectedElementSelected = selectedElementSelected;
 		unselectElement();
 	}
@@ -164,8 +157,7 @@ public class SelectionBoxElement<T> {
 				((Collection<T>) value).add(availableElementSelected);
 				SchemaHelper.setFieldValue(instance, fieldName, value);
 			} else {
-				throw new IllegalArgumentException("Field " + fieldName
-						+ " isn't a collection.");
+				throw new IllegalArgumentException("Field " + fieldName + " isn't a collection.");
 			}
 		}
 		availableElementSelected = null;
@@ -190,8 +182,7 @@ public class SelectionBoxElement<T> {
 			((Collection<T>) value).remove(selectedElementSelected);
 			SchemaHelper.setFieldValue(instance, fieldName, value);
 		} else {
-			throw new IllegalArgumentException("Field " + fieldName
-					+ " isn't a collection.");
+			throw new IllegalArgumentException("Field " + fieldName + " isn't a collection.");
 		}
 		selectedElementSelected = null;
 		Roma.fieldChanged(this, "selectedElements");
@@ -199,8 +190,7 @@ public class SelectionBoxElement<T> {
 
 	}
 
-	private void init(Object iInstance, String iFieldName)
-			throws IllegalArgumentException {
+	private void init(Object iInstance, String iFieldName) throws IllegalArgumentException {
 		availableElements.addAll(allElements);
 		instance = iInstance;
 		fieldName = iFieldName;
@@ -211,8 +201,7 @@ public class SelectionBoxElement<T> {
 				availableElements.remove(elem);
 			}
 		} else {
-			throw new IllegalArgumentException("Field " + fieldName
-					+ " isn't a collection.");
+			throw new IllegalArgumentException("Field " + fieldName + " isn't a collection.");
 		}
 	}
 

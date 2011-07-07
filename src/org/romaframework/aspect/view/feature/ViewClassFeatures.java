@@ -22,14 +22,16 @@ import org.romaframework.core.schema.FeatureType;
 import org.romaframework.core.schema.xmlannotations.XmlFormAreaAnnotation;
 
 public class ViewClassFeatures {
-	public static final Feature<String>		DESCRIPTION				= new Feature<String>(ViewAspect.ASPECT_NAME, "description", FeatureType.CLASS, String.class);
-	public static final Feature<String>		LAYOUT						= new Feature<String>(ViewAspect.ASPECT_NAME, "layout", FeatureType.CLASS, String.class);
-	public static final Feature<String>		RENDER						= new Feature<String>(ViewAspect.ASPECT_NAME, "render", FeatureType.CLASS, String.class);
-	public static final Feature<String>		STYLE							= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.CLASS, String.class);
-	public static final Feature<String>		LABEL							= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.CLASS, String.class);
+	public static final Feature<String>									DESCRIPTION				= new Feature<String>(ViewAspect.ASPECT_NAME, "description", FeatureType.CLASS, String.class);
+	public static final Feature<String>									LAYOUT						= new Feature<String>(ViewAspect.ASPECT_NAME, "layout", FeatureType.CLASS, String.class);
+	public static final Feature<String>									RENDER						= new Feature<String>(ViewAspect.ASPECT_NAME, "render", FeatureType.CLASS, String.class);
+	public static final Feature<String>									STYLE							= new Feature<String>(ViewAspect.ASPECT_NAME, "style", FeatureType.CLASS, String.class);
+	public static final Feature<String>									LABEL							= new Feature<String>(ViewAspect.ASPECT_NAME, "label", FeatureType.CLASS, String.class);
 
-	public static final Feature<Boolean>	EXPLICIT_ELEMENTS	= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "explicitElements", FeatureType.CLASS, Boolean.class,Boolean.FALSE);
-	public static final Feature<Integer>	COLUMNS						= new Feature<Integer>(ViewAspect.ASPECT_NAME, "columns", FeatureType.CLASS, Integer.class);
-	public static final Feature<String>		ORDER_AREAS				= new Feature<String>(ViewAspect.ASPECT_NAME, "orderAreas", FeatureType.CLASS, String.class);
-	public static final Feature<XmlFormAreaAnnotation>		FORM							= new Feature<XmlFormAreaAnnotation>(ViewAspect.ASPECT_NAME, "form", FeatureType.CLASS, XmlFormAreaAnnotation.class);
+	public static final Feature<Boolean>								EXPLICIT_ELEMENTS	= new Feature<Boolean>(ViewAspect.ASPECT_NAME, "explicitElements", FeatureType.CLASS, Boolean.class,
+																																						Boolean.FALSE);
+	public static final Feature<Integer>								COLUMNS						= new Feature<Integer>(ViewAspect.ASPECT_NAME, "columns", FeatureType.CLASS, Integer.class);
+	public static final Feature<String>									ORDER_AREAS				= new Feature<String>(ViewAspect.ASPECT_NAME, "orderAreas", FeatureType.CLASS, String.class);
+	public static final Feature<XmlFormAreaAnnotation>	FORM							= new Feature<XmlFormAreaAnnotation>(ViewAspect.ASPECT_NAME, "form", FeatureType.CLASS,
+																																						XmlFormAreaAnnotation.class);
 }

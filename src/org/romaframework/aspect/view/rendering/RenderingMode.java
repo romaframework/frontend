@@ -26,77 +26,77 @@ import org.romaframework.core.schema.SchemaField;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
 public interface RenderingMode<T> {
-  /**
-   * Return the class of component managed.
-   * 
-   * @return
-   */
-  public Class<? extends T>[] getComponentClasses();
+	/**
+	 * Return the class of component managed.
+	 * 
+	 * @return
+	 */
+	public Class<? extends T>[] getComponentClasses();
 
-  /**
-   * Create a component to render for a class.
-   * 
-   * @param iForm
-   *          Parent form object
-   * @param iFormToRender
-   *          Form object containing the component where to render it.
-   * @return The component to render
-   * @throws InvalidRenderingMode
-   */
-  public T renderClass(ViewComponent iForm, ViewComponent iFormToRender) throws InvalidRenderingMode;
+	/**
+	 * Create a component to render for a class.
+	 * 
+	 * @param iForm
+	 *          Parent form object
+	 * @param iFormToRender
+	 *          Form object containing the component where to render it.
+	 * @return The component to render
+	 * @throws InvalidRenderingMode
+	 */
+	public T renderClass(ViewComponent iForm, ViewComponent iFormToRender) throws InvalidRenderingMode;
 
-  /**
-   * Create a component to render for a field.
-   * 
-   * @param iForm
-   *          Form object containing the component where to render it.
-   * @param iField
-   *          SchemaField representing the field to render
-   * @return The component to render
-   * @throws InvalidRenderingMode
-   */
-  public T renderField(ViewComponent iForm, SchemaField iField, ViewComponent iFormToRender) throws InvalidRenderingMode;
+	/**
+	 * Create a component to render for a field.
+	 * 
+	 * @param iForm
+	 *          Form object containing the component where to render it.
+	 * @param iField
+	 *          SchemaField representing the field to render
+	 * @return The component to render
+	 * @throws InvalidRenderingMode
+	 */
+	public T renderField(ViewComponent iForm, SchemaField iField, ViewComponent iFormToRender) throws InvalidRenderingMode;
 
-  /**
-   * Create a component to render for an action.
-   * 
-   * @param iForm
-   *          Form object containing the component where to render it.
-   * @param iAction
-   *          SchemaAction representing the action to render
-   * @return The component to render
-   * @throws InvalidRenderingMode
-   */
-  public T renderAction(ViewComponent iForm, SchemaAction iAction) throws InvalidRenderingMode;
+	/**
+	 * Create a component to render for an action.
+	 * 
+	 * @param iForm
+	 *          Form object containing the component where to render it.
+	 * @param iAction
+	 *          SchemaAction representing the action to render
+	 * @return The component to render
+	 * @throws InvalidRenderingMode
+	 */
+	public T renderAction(ViewComponent iForm, SchemaAction iAction) throws InvalidRenderingMode;
 
-  /**
-   * Get the component's content.
-   * 
-   * @param iComponent
-   *          Component object
-   * @param iValue
-   *          TODO
-   * @return The value if any, otherwise null
-   */
-  public Object getContent(T iComponent, Object iValue);
+	/**
+	 * Get the component's content.
+	 * 
+	 * @param iComponent
+	 *          Component object
+	 * @param iValue
+	 *          TODO
+	 * @return The value if any, otherwise null
+	 */
+	public Object getContent(T iComponent, Object iValue);
 
-  /**
-   * Set the component's value.
-   * 
-   * @param iComponent
-   *          Component object
-   * @param iValue
-   *          Value to set
-   */
-  public void setContent(T iComponent, Object iValue);
+	/**
+	 * Set the component's value.
+	 * 
+	 * @param iComponent
+	 *          Component object
+	 * @param iValue
+	 *          Value to set
+	 */
+	public void setContent(T iComponent, Object iValue);
 
-  /**
-   * Refresh the component's value.
-   * 
-   * @param iComponent
-   *          Component object
-   * @param iValue
-   *          Value to set
-   */
-  public void refresh(T iComponent, Object iValue);
+	/**
+	 * Refresh the component's value.
+	 * 
+	 * @param iComponent
+	 *          Component object
+	 * @param iValue
+	 *          Value to set
+	 */
+	public void refresh(T iComponent, Object iValue);
 }

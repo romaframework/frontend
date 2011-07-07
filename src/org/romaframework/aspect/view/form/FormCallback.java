@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.romaframework.aspect.view.form;
 
 /**
@@ -22,7 +22,7 @@ package org.romaframework.aspect.view.form;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
 public interface FormCallback {
-  public void beforeRendering();
+	public void beforeRendering();
 
-  public void afterRendering();
+	public void afterRendering();
 }

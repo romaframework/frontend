@@ -26,16 +26,16 @@ import org.romaframework.core.flow.Controller;
  * 
  */
 public class ComposedEntityDynaLink extends ObjectDynaLink {
-  protected Class<? extends ComposedEntity> composedClass;
+	protected Class<? extends ComposedEntity>	composedClass;
 
-  public ComposedEntityDynaLink(String iTitle, Class<? extends ComposedEntity> iComposedClass, Object iObject, String iPosition) {
-    super(iTitle, iObject, iPosition);
-    this.composedClass = iComposedClass;
-  }
+	public ComposedEntityDynaLink(String iTitle, Class<? extends ComposedEntity> iComposedClass, Object iObject, String iPosition) {
+		super(iTitle, iObject, iPosition);
+		this.composedClass = iComposedClass;
+	}
 
-  @Override
-  public void onTitle() {
-    ComposedEntity c = Controller.getInstance().getObject(composedClass, object);
-    Roma.aspect(FlowAspect.class).forward(c, position);
-  }
+	@Override
+	public void onTitle() {
+		ComposedEntity c = Controller.getInstance().getObject(composedClass, object);
+		Roma.aspect(FlowAspect.class).forward(c, position);
+	}
 }

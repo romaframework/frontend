@@ -35,23 +35,23 @@ import org.romaframework.core.domain.entity.ComposedEntity;
 @ViewClass(label = "")
 public abstract class InnerPageComposed<T, S> extends InnerPage<T> implements ComposedEntity<S> {
 
-  public InnerPageComposed(T iContainerPage, S iEntity) {
-    super(iContainerPage);
-    entity = iEntity;
-  }
+	public InnerPageComposed(T iContainerPage, S iEntity) {
+		super(iContainerPage);
+		entity = iEntity;
+	}
 
-  public S getEntity() {
-    return entity;
-  }
+	public S getEntity() {
+		return entity;
+	}
 
-  public void setEntity(S iEntity) {
-    entity = iEntity;
-  }
+	public void setEntity(S iEntity) {
+		entity = iEntity;
+	}
 
-  @CoreField(embedded = AnnotationConstants.TRUE)
-  @ViewField(label = "")
-  protected S entity;
-  
+	@CoreField(embedded = AnnotationConstants.TRUE)
+	@ViewField(label = "")
+	protected S	entity;
+
 	public boolean canRead() {
 		if (getEntity() instanceof Secure)
 			return ((Secure) getEntity()).canRead();

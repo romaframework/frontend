@@ -147,8 +147,8 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 		return repositoryClassName;
 	}
 
-	protected List<?> setResult(SchemaObject iObject, SchemaField schemaField, Class<?> repositoryClass, String methodName, int limit, Method methodToCall,
-			Object repository, String[] searchFields) {
+	protected List<?> setResult(SchemaObject iObject, SchemaField schemaField, Class<?> repositoryClass, String methodName, int limit, Method methodToCall, Object repository,
+			String[] searchFields) {
 		Object[] args = new Object[searchFields.length];
 		for (int i = 0; i < searchFields.length; i++) {
 			String searchFieldName = searchFields[i];
@@ -181,8 +181,8 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 			}
 		}
 		if (methodToCall == null) {
-			throw new ConfigurationNotFoundException("Method '" + methodName + "' with " + searchFields.length + " parameters in repository '"
-					+ repositoryClass.getName() + "' not found.");
+			throw new ConfigurationNotFoundException("Method '" + methodName + "' with " + searchFields.length + " parameters in repository '" + repositoryClass.getName()
+					+ "' not found.");
 		}
 		return methodToCall;
 	}

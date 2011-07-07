@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.romaframework.aspect.view.form;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
@@ -21,14 +21,14 @@ import org.romaframework.aspect.view.annotation.ViewField;
 
 public class SelectableInstance implements Selectable {
 
-  public void setSelection(Object[] iSelectedObjects) {
-    selection = iSelectedObjects;
-  }
+	public void setSelection(Object[] iSelectedObjects) {
+		selection = iSelectedObjects;
+	}
 
-  public Object[] getSelection() {
-    return selection;
-  }
+	public Object[] getSelection() {
+		return selection;
+	}
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  private Object[] selection;
+	@ViewField(visible = AnnotationConstants.FALSE)
+	private Object[]	selection;
 }

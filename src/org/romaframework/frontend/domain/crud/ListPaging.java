@@ -69,7 +69,7 @@ public class ListPaging<T> implements PagingListener, ViewCallback {
 	}
 
 	public void onShow() {
-		Roma.setFeature(this,  "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
+		Roma.setFeature(this, "elements", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
 		Roma.setFeature(this, "selected", CoreFieldFeatures.EMBEDDED_TYPE, listableClass);
 	}
 

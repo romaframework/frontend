@@ -25,7 +25,7 @@ public class MessageChat extends Message {
 		super(id, title, null);
 		sender = iSender;
 		receiver = iReceiver;
-		String account = sender.getAccount()!=null ? sender.getAccount().toString() : "";
+		String account = sender.getAccount() != null ? sender.getAccount().toString() : "";
 		history = iMessage != null ? "\n---- FROM " + account + " ----\n" + iMessage : "";
 	}
 

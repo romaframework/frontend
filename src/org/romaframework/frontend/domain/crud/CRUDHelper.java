@@ -142,10 +142,10 @@ public class CRUDHelper {
 				entity = entity.getSuperClass();
 			}
 			entityName += iSuffix;
-			if(Roma.schema().existsSchemaClass(entityName)){
+			if (Roma.schema().existsSchemaClass(entityName)) {
 				return Roma.schema().getSchemaClass(entityName);
 			}
-		} while (entity != null && lastChecked!=null && !lastChecked.getName().equals(iClassName));
+		} while (entity != null && lastChecked != null && !lastChecked.getName().equals(iClassName));
 
 		// NOT FOUND
 		return null;

@@ -99,8 +99,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 		sourceField = cls.getField(iSelectionField);
 
 		if (sourceField == null)
-			throw new CRUDException("Cannot find field name " + iObject.getClass().getSimpleName() + "." + iSelectionField
-					+ ". Check class definition");
+			throw new CRUDException("Cannot find field name " + iObject.getClass().getSimpleName() + "." + iSelectionField + ". Check class definition");
 
 		if (iAutoSelection && list.size() == 1)
 			setSelection(list.get(0));
@@ -180,7 +179,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	}
 
 	public void onDisable() {
-		Roma.setFeature(this,  "list", ViewFieldFeatures.ENABLED, false);
+		Roma.setFeature(this, "list", ViewFieldFeatures.ENABLED, false);
 	}
 
 	public void setSource(Object source, String fieldName) {
@@ -190,8 +189,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 		sourceField = cls.getField(this.selectionFieldName);
 
 		if (sourceField == null)
-			throw new CRUDException("Cannot find field name " + this.object.getClass().getSimpleName() + "." + this.selectionFieldName
-					+ ". Check class definition");
+			throw new CRUDException("Cannot find field name " + this.object.getClass().getSimpleName() + "." + this.selectionFieldName + ". Check class definition");
 
 		clazz = Roma.schema().getSchemaClass(source);
 		repository = (PersistenceAspectRepository<T>) Roma.repository((Class) sourceField.getLanguageType());

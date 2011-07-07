@@ -27,13 +27,13 @@ import org.romaframework.core.module.SelfRegistrantModule;
 @Deprecated
 public class CRUDModule extends SelfRegistrantModule {
 
-  public String moduleName() {
-    return "crud";
-  }
+	public String moduleName() {
+		return "crud";
+	}
 
-  public void startup() {
-  }
+	public void startup() {
+	}
 
-  public void shutdown() {
-  }
+	public void shutdown() {
+	}
 }
