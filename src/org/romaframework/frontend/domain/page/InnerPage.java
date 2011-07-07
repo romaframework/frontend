@@ -20,8 +20,7 @@ import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 
 /**
- * Internal page instance of a ComposedPage. It works weel with composed pages
- * as tabbed pane.
+ * Internal page instance of a ComposedPage. It works weel with composed pages as tabbed pane.
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 

@@ -20,19 +20,19 @@ import org.romaframework.aspect.view.command.ViewCommand;
 import org.romaframework.aspect.view.form.ViewComponent;
 
 public class RefreshViewCommand implements ViewCommand {
-  protected SessionInfo   session;
-  protected ViewComponent form;
+	protected SessionInfo		session;
+	protected ViewComponent	form;
 
-  public RefreshViewCommand(SessionInfo session, ViewComponent form) {
-    this.session = session;
-    this.form = form;
-  }
+	public RefreshViewCommand(SessionInfo session, ViewComponent form) {
+		this.session = session;
+		this.form = form;
+	}
 
-  public SessionInfo getSession() {
-    return session;
-  }
+	public SessionInfo getSession() {
+		return session;
+	}
 
-  public ViewComponent getForm() {
-    return form;
-  }
+	public ViewComponent getForm() {
+		return form;
+	}
 }

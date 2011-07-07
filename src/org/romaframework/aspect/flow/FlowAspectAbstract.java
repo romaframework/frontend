@@ -16,7 +16,6 @@
 
 package org.romaframework.aspect.flow;
 
-
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.flow.SchemaActionListener;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;

@@ -26,46 +26,46 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface FlowAction {
-  /**
-   * Next class where to instance an object to show after the method is executed without exceptions.
-   * 
-   * @return
-   */
-  Class next() default Object.class;
+	/**
+	 * Next class where to instance an object to show after the method is executed without exceptions.
+	 * 
+	 * @return
+	 */
+	Class next() default Object.class;
 
-  /**
-   * Position where to render the next object. If not specified default desktop position is taken.
-   * 
-   * @return
-   */
-  String position() default AnnotationConstants.DEF_VALUE;
+	/**
+	 * Position where to render the next object. If not specified default desktop position is taken.
+	 * 
+	 * @return
+	 */
+	String position() default AnnotationConstants.DEF_VALUE;
 
-  /**
-   * Error class where to instance an object if the method throws uncaught exception.
-   * 
-   * @return
-   */
-  String error() default AnnotationConstants.DEF_VALUE;
+	/**
+	 * Error class where to instance an object if the method throws uncaught exception.
+	 * 
+	 * @return
+	 */
+	String error() default AnnotationConstants.DEF_VALUE;
 
-  /**
-   * If defined return back after the execution of action.
-   * 
-   * @return
-   */
-  byte back() default AnnotationConstants.UNSETTED;
-  
-  /**
-   * If set to true the aspect will display a message popup requiring a confirm from user
-   * 
-   * @return
-   */
-  byte confirmRequired() default AnnotationConstants.UNSETTED;
-  
-  /**
-   * confirm message or i18n key to be used for confirm message, 
-   * if not set the message will be retrieved from i18n with the following key: $<class-name>.<action-name>.confirmMessage
-   * 
-   * @return
-   */
-  String confirmMessage() default AnnotationConstants.DEF_VALUE;
+	/**
+	 * If defined return back after the execution of action.
+	 * 
+	 * @return
+	 */
+	byte back() default AnnotationConstants.UNSETTED;
+
+	/**
+	 * If set to true the aspect will display a message popup requiring a confirm from user
+	 * 
+	 * @return
+	 */
+	byte confirmRequired() default AnnotationConstants.UNSETTED;
+
+	/**
+	 * confirm message or i18n key to be used for confirm message, if not set the message will be retrieved from i18n with the
+	 * following key: $<class-name>.<action-name>.confirmMessage
+	 * 
+	 * @return
+	 */
+	String confirmMessage() default AnnotationConstants.DEF_VALUE;
 }

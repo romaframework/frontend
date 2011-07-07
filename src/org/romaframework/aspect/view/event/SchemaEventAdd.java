@@ -40,8 +40,7 @@ public class SchemaEventAdd extends SchemaEvent {
 				SchemaClass[] genericClasses = fieldRef.getEmbeddedTypeGenerics();
 				if (genericClasses != null && genericClasses.length == 2) {
 					try {
-						formInstance = new RuntimePair(genericClasses[0] != null ? genericClasses[0].newInstance() : null,
-								genericClasses[1] != null ? genericClasses[1].newInstance() : null);
+						formInstance = new RuntimePair(genericClasses[0] != null ? genericClasses[0].newInstance() : null, genericClasses[1] != null ? genericClasses[1].newInstance() : null);
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}

@@ -30,6 +30,7 @@ public class ComposedErrorReporter implements ErrorReporter {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.romaframework.frontend.domain.message.ErrorReporter#reportError(java.lang.String, java.lang.Throwable)
 	 */
 	public void reportError(String message, Throwable exception) {

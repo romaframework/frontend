@@ -26,9 +26,11 @@ public interface ErrorReporter {
 	/**
 	 * Report an application error.
 	 * 
-	 * @param message to report
-	 * @param exception to report.
+	 * @param message
+	 *          to report
+	 * @param exception
+	 *          to report.
 	 */
-	public void reportError(String message,Throwable exception);
+	public void reportError(String message, Throwable exception);
 
 }

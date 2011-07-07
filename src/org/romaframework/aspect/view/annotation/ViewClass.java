@@ -27,29 +27,29 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewClass {
 
-  String label() default AnnotationConstants.DEF_VALUE;
+	String label() default AnnotationConstants.DEF_VALUE;
 
-  String description() default AnnotationConstants.DEF_VALUE;
+	String description() default AnnotationConstants.DEF_VALUE;
 
-  String render() default AnnotationConstants.DEF_VALUE;
+	String render() default AnnotationConstants.DEF_VALUE;
 
-  String layout() default AnnotationConstants.DEF_VALUE;
+	String layout() default AnnotationConstants.DEF_VALUE;
 
-  String style() default AnnotationConstants.DEF_VALUE;
+	String style() default AnnotationConstants.DEF_VALUE;
 
-  byte explicitElements() default AnnotationConstants.UNSETTED;
+	byte explicitElements() default AnnotationConstants.UNSETTED;
 
-  @Deprecated
-  int columns() default AnnotationConstants.UNSETTED;
+	@Deprecated
+	int columns() default AnnotationConstants.UNSETTED;
 
-  byte hideRequiredColumn() default AnnotationConstants.UNSETTED;
+	byte hideRequiredColumn() default AnnotationConstants.UNSETTED;
 
-  /*
-   * Order of display areas. Names must be separated by spaces.
-   */
-  @Deprecated
-  String orderAreas() default AnnotationConstants.DEF_VALUE;
-  
-  String form() default AnnotationConstants.DEF_VALUE;
-  
+	/*
+	 * Order of display areas. Names must be separated by spaces.
+	 */
+	@Deprecated
+	String orderAreas() default AnnotationConstants.DEF_VALUE;
+
+	String form() default AnnotationConstants.DEF_VALUE;
+
 }

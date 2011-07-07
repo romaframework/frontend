@@ -15,7 +15,6 @@
  */
 package org.romaframework.aspect.geo;
 
-
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaField;
 

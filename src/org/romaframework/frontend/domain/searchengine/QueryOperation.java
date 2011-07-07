@@ -191,8 +191,7 @@ public class QueryOperation implements ViewCallback {
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void addFilter(Integer position, BaseFilter<?> iSelectedFilter) {
 		try {
-			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class,
-					QueryOperation.class);
+			Constructor<? extends QueryCondition> conditionConstructor = iSelectedFilter.getQueryConditionClass().getConstructor(BaseFilter.class, QueryOperation.class);
 			QueryCondition condition = conditionConstructor.newInstance(iSelectedFilter, this);
 			if (position < 0)
 				position = 0;

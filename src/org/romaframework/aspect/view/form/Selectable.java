@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.romaframework.aspect.view.form;
 
 public interface Selectable {
-  public void setSelection(Object[] iObject);
+	public void setSelection(Object[] iObject);
 
-  public Object[] getSelection();
+	public Object[] getSelection();
 }

@@ -29,19 +29,19 @@ import org.romaframework.core.Roma;
  */
 public class QuerySubOperationDelimiter implements QueryItem {
 
-	public static final String					BEGIN_DELIMITER	= "(";
+	public static final String						BEGIN_DELIMITER	= "(";
 
-	public static final String					END_DELIMITER		= ")";
+	public static final String						END_DELIMITER		= ")";
 
-	protected QueryOperation					operation;
+	protected QueryOperation							operation;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected String								delimiter			= BEGIN_DELIMITER;
+	protected String											delimiter				= BEGIN_DELIMITER;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected QuerySubOperationDelimiter	connectedDelimiter;
 
-	protected Long									timestamp			= Calendar.getInstance().getTimeInMillis();
+	protected Long												timestamp				= Calendar.getInstance().getTimeInMillis();
 
 	public QuerySubOperationDelimiter(QueryOperation iOperation) {
 		operation = iOperation;
@@ -121,7 +121,7 @@ public class QuerySubOperationDelimiter implements QueryItem {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj!=null && getClass().equals(obj.getClass())) {
+		if (obj != null && getClass().equals(obj.getClass())) {
 			return delimiter.equals(((QuerySubOperationDelimiter) obj).delimiter) && timestamp.equals(((QuerySubOperationDelimiter) obj).timestamp);
 		}
 		return false;

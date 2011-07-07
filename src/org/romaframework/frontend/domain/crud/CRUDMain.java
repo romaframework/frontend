@@ -105,8 +105,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	protected boolean																			handleDoubleClick			= true;
 	private static final int															DOUBLE_CLICK_TIMEOUT	= 1000;
 
-	protected CRUDMain(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
-			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
+	protected CRUDMain(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
+			Class<? extends ComposedEntity<?>> iEditClass) {
 		this(null, iListClass, iCreateClass, iReadClass, iEditClass);
 	}
 
@@ -333,8 +333,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 */
 	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	@ViewAction(visible = AnnotationConstants.TRUE)
-	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException,
-			InvocationTargetException {
+	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		return createInstance();
 	}
 
@@ -610,8 +609,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		return Roma.context().persistence();
 	}
 
-	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException,
-			SecurityException, NoSuchMethodException {
+	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException, SecurityException,
+			NoSuchMethodException {
 		SchemaClass entityClass = createClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Object entityObject = SchemaHelper.createObject(entityClass, iArgs);
 

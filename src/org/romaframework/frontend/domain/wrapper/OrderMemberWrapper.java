@@ -30,67 +30,67 @@ import org.romaframework.core.config.Refreshable;
 
 @CoreClass(orderActions = "up down")
 public class OrderMemberWrapper<T> implements ObjectWrapper, Refreshable {
-  @ViewField(visible = AnnotationConstants.FALSE)
-  private OrderMemberWrapperElement         selected;
-  @ViewField(render = ViewConstants.RENDER_TABLE, selectionField = "selected", enabled = AnnotationConstants.FALSE, layout = "form://fields")
-  protected List<OrderMemberWrapperElement> toOrder = new ArrayList<OrderMemberWrapperElement>();
+	@ViewField(visible = AnnotationConstants.FALSE)
+	private OrderMemberWrapperElement					selected;
+	@ViewField(render = ViewConstants.RENDER_TABLE, selectionField = "selected", enabled = AnnotationConstants.FALSE, layout = "form://fields")
+	protected List<OrderMemberWrapperElement>	toOrder	= new ArrayList<OrderMemberWrapperElement>();
 
-  public OrderMemberWrapper(Collection<T> iToOrder) {
-    if (iToOrder != null) {
-      for (T element : iToOrder) {
-        this.toOrder.add(new OrderMemberWrapperElement(element));
-      }
-    }
-  }
+	public OrderMemberWrapper(Collection<T> iToOrder) {
+		if (iToOrder != null) {
+			for (T element : iToOrder) {
+				this.toOrder.add(new OrderMemberWrapperElement(element));
+			}
+		}
+	}
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  public Object getFinalValue() throws Exception {
-    List<T> result = new LinkedList<T>();
-    for (OrderMemberWrapperElement element : toOrder) {
-      result.add((T) element.getInitialObject());
-    }
-    return result;
-  }
+	@ViewField(visible = AnnotationConstants.FALSE)
+	public Object getFinalValue() throws Exception {
+		List<T> result = new LinkedList<T>();
+		for (OrderMemberWrapperElement element : toOrder) {
+			result.add((T) element.getInitialObject());
+		}
+		return result;
+	}
 
-  @ViewField(layout = "form://actions")
-  public void up() {
-    if (selected != null) {
-      int index = toOrder.indexOf(selected);
-      if (index != 0) {
-        toOrder.add(index - 1, selected);
-        toOrder.remove(index + 1);
-        this.refresh();
-      }
-    }
-  }
+	@ViewField(layout = "form://actions")
+	public void up() {
+		if (selected != null) {
+			int index = toOrder.indexOf(selected);
+			if (index != 0) {
+				toOrder.add(index - 1, selected);
+				toOrder.remove(index + 1);
+				this.refresh();
+			}
+		}
+	}
 
-  @ViewField(layout = "form://actions")
-  public void down() {
-    if (selected != null) {
-      int index = toOrder.indexOf(selected);
-      if (index != toOrder.size() - 1) {
-        OrderMemberWrapperElement toMove = toOrder.get(index + 1);
-        toOrder.set(index + 1, selected);
-        toOrder.set(index, toMove);
-        this.refresh();
-      }
-    }
-  }
+	@ViewField(layout = "form://actions")
+	public void down() {
+		if (selected != null) {
+			int index = toOrder.indexOf(selected);
+			if (index != toOrder.size() - 1) {
+				OrderMemberWrapperElement toMove = toOrder.get(index + 1);
+				toOrder.set(index + 1, selected);
+				toOrder.set(index, toMove);
+				this.refresh();
+			}
+		}
+	}
 
-  public Object getSelected() {
-    return selected;
-  }
+	public Object getSelected() {
+		return selected;
+	}
 
-  public void setSelected(OrderMemberWrapperElement selected) {
-    this.selected = selected;
-  }
+	public void setSelected(OrderMemberWrapperElement selected) {
+		this.selected = selected;
+	}
 
-  @ViewAction(visible = AnnotationConstants.FALSE)
-  public void refresh() {
-    Roma.fieldChanged(this, "toOrder");
-  }
+	@ViewAction(visible = AnnotationConstants.FALSE)
+	public void refresh() {
+		Roma.fieldChanged(this, "toOrder");
+	}
 
-  public List<OrderMemberWrapperElement> getToOrder() {
-    return toOrder;
-  }
+	public List<OrderMemberWrapperElement> getToOrder() {
+		return toOrder;
+	}
 }

@@ -15,8 +15,7 @@ public class SchemaEventAddInline extends SchemaEvent {
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object obj;
 		try {
 			obj = SchemaHelper.createObject(field.getEmbeddedType());

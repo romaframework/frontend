@@ -7,16 +7,21 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.validation.annotation.ValidationAction;
 import org.romaframework.aspect.view.ViewCallback;
+import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.RomaFrontend;
 
 public class FormWizard<T> implements ViewCallback {
 	protected FormWizardStep[]		steps;
+
 	protected int									currentStep		= 0;
 
+	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED)
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
 	protected FormWizardStep			content;
+
 	protected Map<String, Object>	configuration	= new HashMap<String, Object>();
 
 	public FormWizard(FormWizardStep[] steps) {

@@ -22,19 +22,19 @@ import org.romaframework.core.schema.SchemaClassResolver;
 
 public class FrontendModule extends SelfRegistrantModule {
 
-  public static final String MODULE_NAME = "Frontend";
+	public static final String	MODULE_NAME	= "Frontend";
 
-  public void startup() {
-    SchemaClassResolver classResolver = Roma.component(SchemaClassResolver.class);
+	public void startup() {
+		SchemaClassResolver classResolver = Roma.component(SchemaClassResolver.class);
 
-    // REGISTER THE APPLICATION DOMAIN AS FIRST ONE PATH
-    classResolver.addDomainPackage(FrontendModule.class.getPackage().getName());
-  }
+		// REGISTER THE APPLICATION DOMAIN AS FIRST ONE PATH
+		classResolver.addDomainPackage(FrontendModule.class.getPackage().getName());
+	}
 
-  public void shutdown() {
-  }
+	public void shutdown() {
+	}
 
-  public String moduleName() {
-    return MODULE_NAME;
-  }
+	public String moduleName() {
+		return MODULE_NAME;
+	}
 }

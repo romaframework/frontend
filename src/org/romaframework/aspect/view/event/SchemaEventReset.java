@@ -11,12 +11,11 @@ public class SchemaEventReset extends SchemaEvent {
 	private static final long	serialVersionUID	= -9052552383144883723L;
 
 	public SchemaEventReset(SchemaField field) {
-		super(field, "reset",null);
+		super(field, "reset", null);
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		if (this.field == null) {
 			return false;
 		}

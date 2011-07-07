@@ -47,8 +47,7 @@ public class TableWrapper<T> extends CollectionWrapper<T> {
 			throw new IllegalArgumentException("Missed iClass parameter");
 
 		if (iListClass == null)
-			throw new IllegalArgumentException(
-					"Missed class to represent items. Assure you've generated the CRUD classes for the class '" + clazz + "'");
+			throw new IllegalArgumentException("Missed class to represent items. Assure you've generated the CRUD classes for the class '" + clazz + "'");
 
 		clazz = iClass;
 		listClass = iListClass;

@@ -24,24 +24,24 @@ import org.romaframework.aspect.view.annotation.ViewField;
 @CoreClass(orderFields = "message icon")
 @ViewClass(label = "Editor")
 public class TextEditor extends Message {
-  @ViewField(label = "", render = ViewConstants.RENDER_TEXTAREA)
-  protected String message;
+	@ViewField(label = "", render = ViewConstants.RENDER_TEXTAREA)
+	protected String	message;
 
-  public TextEditor(String iId, String iTitle, MessageResponseListener iListener) {
-    super(iId, iTitle, iListener);
-  }
+	public TextEditor(String iId, String iTitle, MessageResponseListener iListener) {
+		super(iId, iTitle, iListener);
+	}
 
-  public TextEditor(String iId, String iTitle, MessageResponseListener iListener, String iMessage) {
-    super(iId, iTitle, iListener);
-    message = iMessage;
-  }
+	public TextEditor(String iId, String iTitle, MessageResponseListener iListener, String iMessage) {
+		super(iId, iTitle, iListener);
+		message = iMessage;
+	}
 
-  public void ok() {
-    close();
-    setResponse(message);
-  }
+	public void ok() {
+		close();
+		setResponse(message);
+	}
 
-  public String getMessage() {
-    return message;
-  }
+	public String getMessage() {
+		return message;
+	}
 }

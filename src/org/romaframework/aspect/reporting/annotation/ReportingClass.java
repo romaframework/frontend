@@ -26,7 +26,7 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReportingClass {
 	String documentType() default AnnotationConstants.DEF_VALUE;
-	
+
 	String label() default AnnotationConstants.DEF_VALUE;
 
 	Class<?> entity() default Object.class;
@@ -36,7 +36,7 @@ public @interface ReportingClass {
 	String layout() default AnnotationConstants.DEF_VALUE;
 
 	byte explicitElements() default AnnotationConstants.UNSETTED;
-	
+
 	byte inheritViewConfiguration() default AnnotationConstants.UNSETTED;
 
 }

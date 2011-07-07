@@ -14,10 +14,7 @@ import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
-import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.frontend.RomaFrontend;
 
 @ViewClass(layout = ViewConstants.LAYOUT_POPUP)

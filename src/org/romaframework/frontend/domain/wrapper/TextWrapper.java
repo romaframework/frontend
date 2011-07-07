@@ -30,17 +30,17 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	/**
 	 * The wrapper object
 	 */
-	@ViewField(label = "")	
+	@ViewField(label = "")
 	protected String	value;
 	/**
 	 * The class of the wrapped object
 	 */
 	protected Class		typeClass;
-	
+
 	/**
 	 * The formatter to be used for the parsing
 	 */
-	protected Format formatter;
+	protected Format	formatter;
 
 	public TextWrapper(Object iValue) {
 		this(iValue, iValue != null ? iValue.getClass() : String.class);
@@ -63,6 +63,7 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 
 	/**
 	 * Return The Wrapped Object
+	 * 
 	 * @return The Wrapped Object
 	 */
 	public String getValue() {
@@ -71,7 +72,9 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 
 	/**
 	 * Set the wrapped Object
-	 * @param value The wrapped Object
+	 * 
+	 * @param value
+	 *          The wrapped Object
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -80,14 +83,16 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	/**
 	 * 
 	 * Return the final value of the wrapper
-	 * @throws Exception, IllegalAccessException, InvocationTargetException
-	 */	
-	@ViewField(visible = AnnotationConstants.FALSE)	
+	 * 
+	 * @throws Exception
+	 *           , IllegalAccessException, InvocationTargetException
+	 */
+	@ViewField(visible = AnnotationConstants.FALSE)
 	public Object getFinalValue() throws Exception, IllegalAccessException, InvocationTargetException {
 		if (value != null && value.trim() != "") {
-			// TODO change the exception throwed			
+			// TODO change the exception throwed
 			if (formatter == null) {
-				return typeClass.getConstructor(new Class[]{String.class}).newInstance(new Object[] {value});
+				return typeClass.getConstructor(new Class[] { String.class }).newInstance(new Object[] { value });
 			} else {
 				return formatter.parseObject(value);
 			}

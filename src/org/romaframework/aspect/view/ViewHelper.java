@@ -141,8 +141,7 @@ public class ViewHelper {
 				String fieldLayout = (String) field.getFeature(ViewFieldFeatures.LAYOUT);
 				String fieldRender = (String) field.getFeature(ViewFieldFeatures.RENDER);
 				if (subObj != null
-						&& ((fieldLayout != null && !fieldLayout.equals(ViewConstants.LAYOUT_DEFAULT)) || fieldRender != null
-								&& fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))
+						&& ((fieldLayout != null && !fieldLayout.equals(ViewConstants.LAYOUT_DEFAULT)) || fieldRender != null && fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))
 					enableFields(subObj, field.getType(), iValue);
 			}
 		}
@@ -225,8 +224,7 @@ public class ViewHelper {
 			}
 
 			if (embeddedType == null) {
-				throw new ConfigurationException("Cannot find embedded type definition for the field " + iField.getEntity().getSchemaClass().getName() + "."
-						+ iField.getName());
+				throw new ConfigurationException("Cannot find embedded type definition for the field " + iField.getEntity().getSchemaClass().getName() + "." + iField.getName());
 			}
 		}
 

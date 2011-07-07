@@ -18,33 +18,33 @@ package org.romaframework.aspect.view.command.impl;
 import org.romaframework.aspect.view.command.ViewCommand;
 
 public class OpenWindowViewCommand implements ViewCommand {
-  protected String location;
-  protected String name;
-  protected String options;
+	protected String	location;
+	protected String	name;
+	protected String	options;
 
-  public OpenWindowViewCommand(String location) {
-    this(location, null, null);
-  }
+	public OpenWindowViewCommand(String location) {
+		this(location, null, null);
+	}
 
-  public OpenWindowViewCommand(String location, String name) {
-    this(location, name, null);
-  }
+	public OpenWindowViewCommand(String location, String name) {
+		this(location, name, null);
+	}
 
-  public OpenWindowViewCommand(String location, String name, String options) {
-    this.location = location;
-    this.name = name;
-    this.options = options;
-  }
+	public OpenWindowViewCommand(String location, String name, String options) {
+		this.location = location;
+		this.name = name;
+		this.options = options;
+	}
 
-  public String getLocation() {
-    return location;
-  }
+	public String getLocation() {
+		return location;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public String getOptions() {
-    return options;
-  }
+	public String getOptions() {
+		return options;
+	}
 }

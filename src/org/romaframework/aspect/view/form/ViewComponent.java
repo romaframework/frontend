@@ -28,21 +28,21 @@ import org.romaframework.core.schema.SchemaField;
  */
 public interface ViewComponent extends Destroyable, RomaObjectHandler {
 
-  public void bind(SchemaField iSchemaField, Object iValue);
+	public void bind(SchemaField iSchemaField, Object iValue);
 
-  public void bind(SchemaField iSchemaField, Object iValue, Object component);
+	public void bind(SchemaField iSchemaField, Object iValue, Object component);
 
-  public void render(ViewComponent iFormToRender);
+	public void render(ViewComponent iFormToRender);
 
-  public String getScreenArea();
+	public String getScreenArea();
 
-  public void setScreenArea(String area);
+	public void setScreenArea(String area);
 
-  public void renderContent();
-  
-  public ViewComponent getContainerComponent();
+	public void renderContent();
 
-  public void close();
+	public ViewComponent getContainerComponent();
 
-  public void handleException(Throwable t);
+	public void close();
+
+	public void handleException(Throwable t);
 }

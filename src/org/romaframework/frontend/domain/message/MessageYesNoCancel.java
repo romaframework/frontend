@@ -20,12 +20,11 @@ package org.romaframework.frontend.domain.message;
 /**
  * @author Luca Molino
  * 
- * That class extends MessageYesNo class with the Cancel option, as the same of MessageYesNo returns
- * a Boolean:
+ *         That class extends MessageYesNo class with the Cancel option, as the same of MessageYesNo returns a Boolean:
  * @return true if Yes selected
  * @return false if No selected
  * @return null if Cancel selected
- *
+ * 
  */
 public class MessageYesNoCancel extends MessageYesNo {
 	public MessageYesNoCancel(String iId, String iTitle, MessageResponseListener iListener) {
@@ -39,10 +38,10 @@ public class MessageYesNoCancel extends MessageYesNo {
 	public MessageYesNoCancel(String iId, String iTitle) {
 		super(iId, iTitle);
 	}
-	
-	public void cancel(){
+
+	public void cancel() {
 		close();
 		setResponse(null);
 	}
-	
+
 }

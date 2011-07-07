@@ -42,9 +42,8 @@ public class VisualQueryFilter implements Refreshable {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private String							operator;
 	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "operator")
-	private String[]						operators							= { QueryByFilter.FIELD_EQUALS, QueryByFilter.FIELD_MAJOR,
-			QueryByFilter.FIELD_MAJOR_EQUALS, QueryByFilter.FIELD_MINOR, QueryByFilter.FIELD_MINOR_EQUALS,
-			QueryByFilter.FIELD_NOT_EQUALS, QueryByFilter.FIELD_LIKE };
+	private String[]						operators							= { QueryByFilter.FIELD_EQUALS, QueryByFilter.FIELD_MAJOR, QueryByFilter.FIELD_MAJOR_EQUALS, QueryByFilter.FIELD_MINOR,
+			QueryByFilter.FIELD_MINOR_EQUALS, QueryByFilter.FIELD_NOT_EQUALS, QueryByFilter.FIELD_LIKE };
 
 	private Object							fieldValue;
 

@@ -18,23 +18,23 @@ package org.romaframework.aspect.reporting;
 import org.romaframework.aspect.view.ViewConstants;
 
 public class ReportingConstants {
-  public static final String RENDER_DEFAULT        = ViewConstants.RENDER_DEFAULT;
-  public static final String RENDER_IMAGE          = ViewConstants.RENDER_IMAGE;
-  public static final String RENDER_LIST           = ViewConstants.RENDER_LIST;
-  public static final String RENDER_OBJECTEMBEDDED = ViewConstants.RENDER_OBJECTEMBEDDED;
-  public static final String RENDER_ROWSET         = ViewConstants.RENDER_ROWSET;
-  public static final String RENDER_TABLE          = ViewConstants.RENDER_TABLE;
-  public static final String RENDER_TABLEEDIT      = ViewConstants.RENDER_TABLEEDIT;
+	public static final String	RENDER_DEFAULT				= ViewConstants.RENDER_DEFAULT;
+	public static final String	RENDER_IMAGE					= ViewConstants.RENDER_IMAGE;
+	public static final String	RENDER_LIST						= ViewConstants.RENDER_LIST;
+	public static final String	RENDER_OBJECTEMBEDDED	= ViewConstants.RENDER_OBJECTEMBEDDED;
+	public static final String	RENDER_ROWSET					= ViewConstants.RENDER_ROWSET;
+	public static final String	RENDER_TABLE					= ViewConstants.RENDER_TABLE;
+	public static final String	RENDER_TABLEEDIT			= ViewConstants.RENDER_TABLEEDIT;
 
-  public static final String RENDER_TEXT           = ViewConstants.RENDER_TEXT;
-  public static final String LAYOUT_DEFAULT        = ViewConstants.LAYOUT_DEFAULT;
-  public static final String LAYOUT_EXPAND         = ViewConstants.LAYOUT_EXPAND;
-  public static final String DOCUMENT_TYPE_HTML    = "html";
-  public static final String DOCUMENT_TYPE_PDF     = "pdf";
-  public static final String DOCUMENT_TYPE_ODF     = "odf";
-  public static final String DOCUMENT_TYPE_EXCEL   = "xls";
-  public static final String DOCUMENT_TYPE_CSV     = "csv";
-  public static final String DOCUMENT_TYPE_XML     = "xml";
-  public static final String DOCUMENT_TYPE_RTF     = "rtf";
-public static final String DOCUMENT_TYPE_TXT = "txt";
+	public static final String	RENDER_TEXT						= ViewConstants.RENDER_TEXT;
+	public static final String	LAYOUT_DEFAULT				= ViewConstants.LAYOUT_DEFAULT;
+	public static final String	LAYOUT_EXPAND					= ViewConstants.LAYOUT_EXPAND;
+	public static final String	DOCUMENT_TYPE_HTML		= "html";
+	public static final String	DOCUMENT_TYPE_PDF			= "pdf";
+	public static final String	DOCUMENT_TYPE_ODF			= "odf";
+	public static final String	DOCUMENT_TYPE_EXCEL		= "xls";
+	public static final String	DOCUMENT_TYPE_CSV			= "csv";
+	public static final String	DOCUMENT_TYPE_XML			= "xml";
+	public static final String	DOCUMENT_TYPE_RTF			= "rtf";
+	public static final String	DOCUMENT_TYPE_TXT			= "txt";
 }

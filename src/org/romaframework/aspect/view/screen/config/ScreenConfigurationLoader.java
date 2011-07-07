@@ -107,8 +107,7 @@ public class ScreenConfigurationLoader extends Configurable<ScreenConfiguration>
 					try {
 						d.load();
 					} catch (Exception e) {
-						log.error("[DesktopConfigurationLoader.signalUpdatedFile] Error on loading updated descriptor: "
-								+ iFile.getAbsolutePath());
+						log.error("[DesktopConfigurationLoader.signalUpdatedFile] Error on loading updated descriptor: " + iFile.getAbsolutePath());
 					}
 					break;
 				}

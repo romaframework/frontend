@@ -30,7 +30,4 @@ public @interface MapField {
 
 	String zoom() default AnnotationConstants.DEF_VALUE;
 
-
-
-
 }

@@ -90,7 +90,7 @@ public class QueryOperator implements QueryItem {
 
 	@Override
 	public boolean equals(Object arg0) {
-		if (arg0!=null && getClass().equals(arg0.getClass())) {
+		if (arg0 != null && getClass().equals(arg0.getClass())) {
 			return operator.equals(((QueryOperator) arg0).operator);
 		}
 		return false;

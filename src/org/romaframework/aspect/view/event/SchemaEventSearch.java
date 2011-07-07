@@ -17,13 +17,11 @@ public class SchemaEventSearch extends SchemaEvent {
 	private static final long	serialVersionUID	= -5781697247853066424L;
 
 	public SchemaEventSearch(SchemaField iField) {
-		super(iField, "search", Arrays.asList(new SchemaParameter[] { new SchemaParameter("param1", Roma.schema().getSchemaClass(
-				String.class)) }));
+		super(iField, "search", Arrays.asList(new SchemaParameter[] { new SchemaParameter("param1", Roma.schema().getSchemaClass(String.class)) }));
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		SchemaClass sc = field.getType().getSchemaClass();
 		GenericRepository<?> repo = Roma.repository(sc);
 		if (repo != null) {

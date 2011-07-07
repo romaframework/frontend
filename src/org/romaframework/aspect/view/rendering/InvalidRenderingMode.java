@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.romaframework.aspect.view.rendering;
 
 public class InvalidRenderingMode extends RuntimeException {
 
-  public InvalidRenderingMode(String arg0, Throwable arg1) {
-    super(arg0, arg1);
-  }
+	public InvalidRenderingMode(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
 
-  public InvalidRenderingMode(String arg0) {
-    super(arg0);
-  }
+	public InvalidRenderingMode(String arg0) {
+		super(arg0);
+	}
 }

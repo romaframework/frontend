@@ -19,31 +19,31 @@ import java.io.Reader;
 import org.romaframework.aspect.view.command.ViewCommand;
 
 public class DownloadReaderViewCommand implements ViewCommand {
-  protected Reader reader;
-  protected String fileName;
-  protected String contentType;
-  protected String encodingType;
+	protected Reader	reader;
+	protected String	fileName;
+	protected String	contentType;
+	protected String	encodingType;
 
-  public DownloadReaderViewCommand(Reader reader, String fileName, String contentType, String encodingType) {
-    this.reader = reader;
-    this.fileName = fileName;
-    this.contentType = contentType;
-    this.encodingType = encodingType;
-  }
+	public DownloadReaderViewCommand(Reader reader, String fileName, String contentType, String encodingType) {
+		this.reader = reader;
+		this.fileName = fileName;
+		this.contentType = contentType;
+		this.encodingType = encodingType;
+	}
 
-  public Reader getReader() {
-    return reader;
-  }
+	public Reader getReader() {
+		return reader;
+	}
 
-  public String getFileName() {
-    return fileName;
-  }
+	public String getFileName() {
+		return fileName;
+	}
 
-  public String getContentType() {
-    return contentType;
-  }
+	public String getContentType() {
+		return contentType;
+	}
 
-  public String getEncodingType() {
-    return encodingType;
-  }
+	public String getEncodingType() {
+		return encodingType;
+	}
 }

@@ -19,9 +19,9 @@ package org.romaframework.aspect.view.feature;
 import org.romaframework.core.schema.Feature;
 
 public abstract class ViewBaseFeatures {
-	public static final Feature<String>		DESCRIPTION	= ViewElementFeatures.DESCRIPTION;
-	public static final Feature<String>		LAYOUT			= ViewElementFeatures.LAYOUT;
-	public static final Feature<String>		RENDER			= ViewElementFeatures.RENDER;
-	public static final Feature<String>		STYLE				= ViewElementFeatures.STYLE;
-	public static final Feature<String>		LABEL				= ViewElementFeatures.LABEL;
+	public static final Feature<String>	DESCRIPTION	= ViewElementFeatures.DESCRIPTION;
+	public static final Feature<String>	LAYOUT			= ViewElementFeatures.LAYOUT;
+	public static final Feature<String>	RENDER			= ViewElementFeatures.RENDER;
+	public static final Feature<String>	STYLE				= ViewElementFeatures.STYLE;
+	public static final Feature<String>	LABEL				= ViewElementFeatures.LABEL;
 }

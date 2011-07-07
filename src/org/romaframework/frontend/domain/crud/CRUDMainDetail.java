@@ -47,15 +47,14 @@ public abstract class CRUDMainDetail<T> extends CRUDMain<T> implements CRUDWorki
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected int							mode	= CRUDWorkingMode.MODE_UPDATE;
 
-	public CRUDMainDetail(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
-			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
+	public CRUDMainDetail(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
+			Class<? extends ComposedEntity<?>> iEditClass) {
 		super(iListClass, iCreateClass, iReadClass, iEditClass);
 		// TODO Auto-generated constructor stub
 	}
 
-	protected CRUDMainDetail(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass,
-			Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
-			Class<? extends ComposedEntity<?>> iEditClass) {
+	protected CRUDMainDetail(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
+			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
 		super(iRepository, iListClass, iCreateClass, iReadClass, iEditClass);
 		// TODO Auto-generated constructor stub
 	}

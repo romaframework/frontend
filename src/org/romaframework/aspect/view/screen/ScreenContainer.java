@@ -22,20 +22,21 @@ import org.romaframework.core.config.Destroyable;
  * Contains the current screen instance
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
- *
+ * 
  */
 public interface ScreenContainer extends Destroyable {
 
 	/**
 	 * Get the current screen instance
+	 * 
 	 * @return
 	 */
-  public Screen getScreen();
+	public Screen getScreen();
 
-  
-  /**
-   * Set the current screen instance
-   * @param iDesktop
-   */
-  public void setScreen(Screen iDesktop);
+	/**
+	 * Set the current screen instance
+	 * 
+	 * @param iDesktop
+	 */
+	public void setScreen(Screen iDesktop);
 }

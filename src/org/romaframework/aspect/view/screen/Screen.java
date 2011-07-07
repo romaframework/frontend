@@ -19,16 +19,16 @@ package org.romaframework.aspect.view.screen;
 import org.romaframework.aspect.view.area.AreaComponent;
 
 /**
- * Represents the screen where to render forms and components. Each desktop is
- * divided in areas. Area names and behavior are screen dependent.
+ * Represents the screen where to render forms and components. Each desktop is divided in areas. Area names and behavior are screen
+ * dependent.
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
 public interface Screen {
 
-	public static final String BODY = "//body";
-	public static final String POPUP = "popup";
-	public static final String NULL = "null";
+	public static final String	BODY	= "//body";
+	public static final String	POPUP	= "popup";
+	public static final String	NULL	= "null";
 
 	/**
 	 * Display a component in the specified area
@@ -37,9 +37,9 @@ public interface Screen {
 	 */
 	public String view(String iArea, Object iComponent);
 
-	
 	/**
 	 * Return a representation of the object contained in the area
+	 * 
 	 * @param iArea
 	 * @return
 	 */
@@ -47,19 +47,23 @@ public interface Screen {
 
 	/**
 	 * Close a popup opened
+	 * 
 	 * @param iWindow
 	 */
 	public void close(Object iWindow);
 
 	/**
 	 * Return the area component
-	 * @param iAreaName The name of the sceeen area
+	 * 
+	 * @param iAreaName
+	 *          The name of the sceeen area
 	 * @return
 	 */
 	public AreaComponent getArea(String iAreaName);
 
 	/**
 	 * Set the visibility of the area
+	 * 
 	 * @param iArea
 	 * @param iValue
 	 */

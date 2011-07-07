@@ -50,8 +50,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 		this(iClass, CRUDHelper.getCRUDInstance(iClass), CRUDHelper.getCRUDListable(iClass), iElements);
 	}
 
-	public MasterDetailWrapper(Class<T> iClass, Class<? extends ComposedEntity<?>> iDetailClass,
-			Class<? extends ComposedEntity<?>> iListClass, Collection<T> iElements) {
+	public MasterDetailWrapper(Class<T> iClass, Class<? extends ComposedEntity<?>> iDetailClass, Class<? extends ComposedEntity<?>> iListClass, Collection<T> iElements) {
 		this(iClass, Roma.schema().getSchemaClass(iDetailClass), Roma.schema().getSchemaClass(iListClass), iElements);
 	}
 
@@ -60,8 +59,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 			throw new IllegalArgumentException("Missed iClass parameter");
 
 		if (iListClass == null)
-			throw new IllegalArgumentException(
-					"Missed class to represent items. Assure you've generated the CRUD classes for the class '" + clazz + "'");
+			throw new IllegalArgumentException("Missed class to represent items. Assure you've generated the CRUD classes for the class '" + clazz + "'");
 
 		clazz = iClass;
 		listClass = iListClass;
@@ -105,8 +103,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 	}
 
 	public MasterDetailWrapper<T> setInlineEdit(boolean iValue) {
-		Roma.setFeature(this,"elements", ViewFieldFeatures.RENDER,
-				iValue ? ViewConstants.RENDER_TABLEEDIT : ViewConstants.RENDER_TABLE);
+		Roma.setFeature(this, "elements", ViewFieldFeatures.RENDER, iValue ? ViewConstants.RENDER_TABLEEDIT : ViewConstants.RENDER_TABLE);
 		return this;
 	}
 
@@ -119,8 +116,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 		return detail;
 	}
 
-	public void add(T iNewObject) throws IllegalArgumentException, InstantiationException, IllegalAccessException,
-			InvocationTargetException {
+	public void add(T iNewObject) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		ComposedEntity<T> wrappedObject = (ComposedEntity<T>) EntityHelper.createObject(iNewObject, listClass);
 		((List<ComposedEntity>) elements).add(wrappedObject);
 		domainElements.add(iNewObject);

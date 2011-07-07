@@ -15,6 +15,7 @@
  */
 
 package org.romaframework.frontend.domain.wrapper;
+
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 
