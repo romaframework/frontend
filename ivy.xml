@@ -1,6 +1,6 @@
 <ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
-	<info organisation="org.romaframework" module="roma-frontend" />
+	<info organisation="org.romaframework" module="roma-frontend" revision="2.9"/>
 	<configurations defaultconfmapping="*->*,!sources,!javadoc,!optional"></configurations>
 	<dependencies>
 		<dependency org="org.romaframework" name="roma-core" rev="latest.integration" />
