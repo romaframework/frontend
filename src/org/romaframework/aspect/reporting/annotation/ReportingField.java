@@ -27,7 +27,7 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 public @interface ReportingField {
 	String label() default AnnotationConstants.DEF_VALUE;
 
-	byte visible() default AnnotationConstants.UNSETTED;
+	AnnotationConstants visible() default AnnotationConstants.UNSETTED;
 
 	String render() default AnnotationConstants.DEF_VALUE;
 

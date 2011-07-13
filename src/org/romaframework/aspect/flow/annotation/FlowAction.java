@@ -31,7 +31,7 @@ public @interface FlowAction {
 	 * 
 	 * @return
 	 */
-	Class next() default Object.class;
+	Class<?> next() default Object.class;
 
 	/**
 	 * Position where to render the next object. If not specified default desktop position is taken.
@@ -52,14 +52,14 @@ public @interface FlowAction {
 	 * 
 	 * @return
 	 */
-	byte back() default AnnotationConstants.UNSETTED;
+	AnnotationConstants back() default AnnotationConstants.UNSETTED;
 
 	/**
 	 * If set to true the aspect will display a message popup requiring a confirm from user
 	 * 
 	 * @return
 	 */
-	byte confirmRequired() default AnnotationConstants.UNSETTED;
+	AnnotationConstants confirmRequired() default AnnotationConstants.UNSETTED;
 
 	/**
 	 * confirm message or i18n key to be used for confirm message, if not set the message will be retrieved from i18n with the

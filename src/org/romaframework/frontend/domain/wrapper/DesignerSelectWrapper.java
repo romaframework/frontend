@@ -21,12 +21,12 @@ import java.util.Observable;
 import java.util.Set;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
+import org.romaframework.aspect.view.SelectionMode;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 
 public class DesignerSelectWrapper<T> extends Observable implements ObjectWrapper {
-	@ViewField(label = "", render = "select", selectionField = "selected", selectionMode = ViewFieldFeatures.SELECTION_MODE_VALUE)
+	@ViewField(label = "", render = "select", selectionField = "selected", selectionMode = SelectionMode.SELECTION_MODE_VALUE)
 	protected T[]	values;
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected T		selected;

@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
+import org.romaframework.aspect.view.SelectionMode;
 import org.romaframework.core.binding.Bindable;
 
 /**
@@ -36,9 +37,9 @@ public @interface ViewField {
 
 	String description() default AnnotationConstants.DEF_VALUE;
 
-	byte visible() default AnnotationConstants.UNSETTED;
+	AnnotationConstants visible() default AnnotationConstants.UNSETTED;
 
-	byte enabled() default AnnotationConstants.UNSETTED;
+	AnnotationConstants enabled() default AnnotationConstants.UNSETTED;
 
 	String render() default AnnotationConstants.DEF_VALUE;
 
@@ -48,7 +49,7 @@ public @interface ViewField {
 
 	String selectionField() default AnnotationConstants.DEF_VALUE;
 
-	byte selectionMode() default AnnotationConstants.UNSETTED;
+	SelectionMode selectionMode() default SelectionMode.SELECTION_MODE_DEFAULT;
 
 	String format() default AnnotationConstants.DEF_VALUE;
 
@@ -80,7 +81,7 @@ public @interface ViewField {
 	 * Use @ValidationField instead
 	 */
 	@Deprecated
-	byte required() default AnnotationConstants.UNSETTED;
+	AnnotationConstants required() default AnnotationConstants.UNSETTED;
 
 	@Deprecated
 	public static final int	DEF_MIN	= Integer.MIN_VALUE;

@@ -37,12 +37,12 @@ public @interface ViewClass {
 
 	String style() default AnnotationConstants.DEF_VALUE;
 
-	byte explicitElements() default AnnotationConstants.UNSETTED;
+	AnnotationConstants explicitElements() default AnnotationConstants.UNSETTED;
 
 	@Deprecated
-	int columns() default AnnotationConstants.UNSETTED;
+	int columns() default 0;
 
-	byte hideRequiredColumn() default AnnotationConstants.UNSETTED;
+	AnnotationConstants hideRequiredColumn() default AnnotationConstants.UNSETTED;
 
 	/*
 	 * Order of display areas. Names must be separated by spaces.

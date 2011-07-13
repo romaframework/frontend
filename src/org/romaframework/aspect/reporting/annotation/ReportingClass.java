@@ -35,8 +35,8 @@ public @interface ReportingClass {
 
 	String layout() default AnnotationConstants.DEF_VALUE;
 
-	byte explicitElements() default AnnotationConstants.UNSETTED;
+	AnnotationConstants explicitElements() default AnnotationConstants.UNSETTED;
 
-	byte inheritViewConfiguration() default AnnotationConstants.UNSETTED;
+	AnnotationConstants inheritViewConfiguration() default AnnotationConstants.UNSETTED;
 
 }

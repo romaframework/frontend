@@ -38,7 +38,7 @@ public @interface ViewAction {
 	@Deprecated
 	String actionName() default AnnotationConstants.DEF_VALUE;
 
-	byte visible() default AnnotationConstants.UNSETTED;
+	AnnotationConstants visible() default AnnotationConstants.UNSETTED;
 
 	String type() default AnnotationConstants.DEF_VALUE;
 
@@ -48,9 +48,9 @@ public @interface ViewAction {
 
 	String style() default AnnotationConstants.DEF_VALUE;
 
-	byte bind() default AnnotationConstants.UNSETTED;
+	AnnotationConstants bind() default AnnotationConstants.UNSETTED;
 
-	byte enabled() default AnnotationConstants.UNSETTED;
+	AnnotationConstants enabled() default AnnotationConstants.UNSETTED;
 
 	/**
 	 * Use @ValidationAction instead
@@ -58,12 +58,12 @@ public @interface ViewAction {
 	 * @return
 	 */
 	@Deprecated
-	byte validation() default AnnotationConstants.UNSETTED;
+	AnnotationConstants validation() default AnnotationConstants.UNSETTED;
 
 	/**
 	 * Use the action as default submit of the form where is rendered.
 	 * 
 	 * @return
 	 */
-	byte submit() default AnnotationConstants.UNSETTED;
+	AnnotationConstants submit() default AnnotationConstants.UNSETTED;
 }
