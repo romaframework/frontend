@@ -29,7 +29,6 @@ import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.aspect.view.screen.ScreenContainer;
 import org.romaframework.core.Roma;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.frontend.RomaFrontend;
 
 /**
  * Manage the current user screen and invoke the custom aspect renderer
@@ -132,7 +131,7 @@ public class FormViewer implements SessionListener {
 	}
 
 	public void sync() {
-		sync(RomaFrontend.view().getScreen());
+		sync(Roma.view().getScreen());
 	}
 
 	public void sync(Screen iScreen) {

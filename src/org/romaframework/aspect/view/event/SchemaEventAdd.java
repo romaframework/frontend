@@ -49,6 +49,7 @@ public class SchemaEventAdd extends SchemaEvent {
 				formInstance = new RuntimePair(null, null);
 		} else {
 			SchemaClass iClass = field.getEmbeddedType();
+			 
 			Boolean isEmbedded = field.getFeature(CoreFieldFeatures.EMBEDDED);
 			if (!isEmbedded) {
 				// TRY TO GET THE CRUD-SELECT CLASS, OTHERWISE THE CRUD-INSTANCE

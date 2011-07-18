@@ -23,21 +23,17 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.annotation.Persistence;
 import org.romaframework.aspect.validation.annotation.ValidationAction;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewHelper;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
-import org.romaframework.aspect.view.form.ContentForm;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.Refreshable;
 import org.romaframework.core.repository.GenericRepository;
 import org.romaframework.core.repository.PersistenceAspectRepositorySingleton;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.reporting.ReportGenerator;
 
 /**
@@ -67,7 +63,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 
 	@SuppressWarnings("unchecked")
 	public void onShow() {
-		if (RomaFrontend.reporting() == null || mode == MODE_CREATE || mode == MODE_EMBEDDED)
+		if (Roma.reporting() == null || mode == MODE_CREATE || mode == MODE_EMBEDDED)
 			Roma.setFeature(this, "report", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 
 		if (mode == MODE_READ)
@@ -93,8 +89,6 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 	}
 
 	public void onDispose() {
-		ViewComponent form = Roma.component(ViewAspect.class).getFormByObject(this);
-		Roma.component(ViewAspect.class).releaseForm((ContentForm) form);
 	}
 
 	/**

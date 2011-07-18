@@ -15,54 +15,11 @@
  */
 package org.romaframework.frontend;
 
-import org.romaframework.aspect.flow.FlowAspect;
-import org.romaframework.aspect.reporting.ReportingAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.core.Roma;
 
 /**
  * Utility class to access directly to the most common used component in applications that use any kind of front-end.
  */
+@Deprecated
 public class RomaFrontend extends Roma {
-
-	protected static FlowAspect				flowAspect			= null;
-	protected static ViewAspect				viewAspect			= null;
-	protected static ReportingAspect	reportingAspect	= null;
-
-	static {
-		singleton = new RomaFrontend();
-	}
-
-	public static FlowAspect flow() {
-		if (flowAspect == null) {
-			synchronized (RomaFrontend.class) {
-				if (flowAspect == null) {
-					flowAspect = Roma.aspect(FlowAspect.class);
-				}
-			}
-		}
-		return flowAspect;
-	}
-
-	public static ViewAspect view() {
-		if (viewAspect == null) {
-			synchronized (RomaFrontend.class) {
-				if (viewAspect == null) {
-					viewAspect = Roma.aspect(ViewAspect.class);
-				}
-			}
-		}
-		return viewAspect;
-	}
-
-	public static ReportingAspect reporting() {
-		if (reportingAspect == null) {
-			synchronized (RomaFrontend.class) {
-				if (reportingAspect == null) {
-					reportingAspect = Roma.aspect(ReportingAspect.class);
-				}
-			}
-		}
-		return reportingAspect;
-	}
 }

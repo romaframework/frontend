@@ -25,7 +25,7 @@ public interface PagePanel {
 	public abstract String getIcon();
 
 	@ViewField(label = "")
-	public abstract void onIcon();
+	public abstract void onIconClick();
 
 	@ViewField(render = ViewConstants.RENDER_ROWSET, label = "")
 	public abstract AbstractDynaLink[] getLinks();

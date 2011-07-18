@@ -12,7 +12,6 @@ import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.frontend.domain.crud.CRUDWorkingMode;
@@ -69,7 +68,7 @@ public class SelectAddWrapper<T> extends SelectWrapper<T> {
 
 		if (newInstance instanceof CRUDInstance)
 			((CRUDInstance) newInstance).setMode(CRUDWorkingMode.MODE_CREATE);
-		RomaFrontend.flow().forward(newInstance, "screen:popup");
+		Roma.flow().forward(newInstance, "screen:popup");
 	}
 
 	public void onEnable() {

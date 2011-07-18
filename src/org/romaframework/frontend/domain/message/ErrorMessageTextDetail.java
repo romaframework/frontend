@@ -22,7 +22,6 @@ import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.ApplicationConfiguration;
-import org.romaframework.frontend.RomaFrontend;
 
 /**
  * 
@@ -70,12 +69,12 @@ public class ErrorMessageTextDetail extends MessageTextDetail {
 			Roma.component(ErrorReporter.class).reportError(getCustomMessage(), exception);
 			String msg = Roma.i18n().resolveString("$ErrorMessageTextDetail.errorReported");
 			MessageOk message = new MessageOk("Error reported", msg, null, msg);
-			RomaFrontend.flow().forward(message, "screen:popup:sendOk");
+			Roma.flow().forward(message, "screen:popup:sendOk");
 		} catch (Exception e) {
 			if (Roma.component(ApplicationConfiguration.class).isApplicationDevelopment()) {
 				MessageOk message = new MessageOk("Impossible to report error", e.getMessage());
 				message.setMessage(e.getMessage());
-				RomaFrontend.flow().forward(message, "screen:popup:sendError");
+				Roma.flow().forward(message, "screen:popup:sendError");
 			}
 			e.printStackTrace();
 		}

@@ -17,7 +17,6 @@ import org.romaframework.core.factory.GenericFactory;
 import org.romaframework.core.repository.GenericRepository;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.RomaFrontend;
 
 public class SimpleCRUD<T, E extends ComposedEntity<T>> extends SelectableInstance implements ViewCallback {
 
@@ -72,7 +71,7 @@ public class SimpleCRUD<T, E extends ComposedEntity<T>> extends SelectableInstan
 	}
 
 	public void back() {
-		RomaFrontend.flow().back();
+		Roma.flow().back();
 	}
 
 	public void save() {

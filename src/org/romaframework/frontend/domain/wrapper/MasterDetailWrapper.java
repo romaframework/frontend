@@ -80,14 +80,6 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 		// Roma.fieldChanged(this, "elements");
 	}
 
-	@Override
-	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		super.remove();
-
-		if (elements.size() > 0)
-			detail.setEntity(null);
-	}
-
 	public ComposedEntity<T>[] getSelection() {
 		return super.getSelection();
 	}

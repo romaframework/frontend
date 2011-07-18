@@ -1,6 +1,5 @@
 package org.romaframework.frontend.domain.wrapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,18 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.validation.ValidationException;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.GenericEventListener;
 import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaEvent;
-import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 
 @ViewClass(render = ViewConstants.RENDER_OBJECTEMBEDDED)
@@ -106,12 +101,6 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 
 		selection = new ComposedEntity[sel.size()];
 		sel.toArray(selection);
-	}
-
-	@Override
-	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
 	}
 
 	@Override

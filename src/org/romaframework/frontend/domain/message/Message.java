@@ -23,7 +23,6 @@ import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 
 @ViewClass(render = "popup", layout = "screen:popup:message")
 public class Message implements ViewCallback {
@@ -62,7 +61,7 @@ public class Message implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void close() {
-		RomaFrontend.flow().back();
+		Roma.flow().back();
 	}
 
 	public String getId() {

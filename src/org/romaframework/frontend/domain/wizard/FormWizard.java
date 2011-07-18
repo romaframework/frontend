@@ -11,7 +11,6 @@ import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 
 public class FormWizard<T> implements ViewCallback {
 	protected FormWizardStep[]		steps;
@@ -114,7 +113,7 @@ public class FormWizard<T> implements ViewCallback {
 	}
 
 	protected void cancelAction() {
-		RomaFrontend.flow().back();
+		Roma.flow().back();
 	}
 
 	protected void showContent() {

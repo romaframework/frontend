@@ -15,7 +15,7 @@
  */
 package org.romaframework.frontend.domain.link;
 
-import org.romaframework.frontend.RomaFrontend;
+import org.romaframework.core.Roma;
 
 /**
  * Link to a cached class instance.
@@ -36,7 +36,7 @@ public class ClassDynaLink extends AbstractTitleDynaLink {
 		this.clazz = iClass;
 	}
 
-	public void onTitle() {
-		RomaFrontend.flow().forward(clazz, position);
+	public void onTitleClick() {
+		Roma.flow().forward(clazz, position);
 	}
 }

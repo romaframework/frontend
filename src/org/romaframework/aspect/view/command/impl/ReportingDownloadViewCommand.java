@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.romaframework.aspect.view.command.ViewCommand;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 
 public class ReportingDownloadViewCommand implements ViewCommand {
 
@@ -41,10 +40,10 @@ public class ReportingDownloadViewCommand implements ViewCommand {
 			if (!collection.isEmpty()) {
 				Iterator<?> it = collection.iterator();
 				Object o = it.next();
-				RomaFrontend.reporting().renderCollection((Collection<?>) getToRender(), getContentType(), Roma.session().getSchemaObject(o), outputStream);
+				Roma.reporting().renderCollection((Collection<?>) getToRender(), getContentType(), Roma.session().getSchemaObject(o), outputStream);
 			}
 		} else {
-			RomaFrontend.reporting().render(getToRender(), getContentType(), Roma.session().getSchemaObject(getToRender()), outputStream);
+			Roma.reporting().render(getToRender(), getContentType(), Roma.session().getSchemaObject(getToRender()), outputStream);
 		}
 	}
 

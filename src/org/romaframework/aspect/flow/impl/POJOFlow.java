@@ -23,8 +23,6 @@ import org.romaframework.aspect.flow.feature.FlowActionFeatures;
 import org.romaframework.aspect.session.SessionAspect;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.view.ViewAspect;
-import org.romaframework.aspect.view.form.ContentForm;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.type.Pair;
@@ -34,7 +32,6 @@ import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.frontend.domain.message.MessageYesNo;
@@ -91,18 +88,11 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	public void forward(Object iNextObject, String iPosition) {
-		forward(iNextObject, iPosition, null, null, null);
+		forward(iNextObject, iPosition, null, null);
 	}
 
 	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession) {
-		forward(iNextObject, iPosition, iScreen, iSession, null);
-	}
 
-	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema) {
-		forward(iNextObject, iPosition, iScreen, iSession, iSchema, false);
-	}
-
-	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode) {
 		if (iNextObject instanceof String) {
 			SchemaClass cls = Roma.schema().getSchemaClass((String) iNextObject);
 			if (cls == null)
@@ -122,14 +112,7 @@ public class POJOFlow extends FlowAspectAbstract {
 		moveForward(iSession, iNextObject, iPosition);
 
 		// SHOW THE FORM
-		viewAspect.show(iNextObject, iPosition, iScreen, iSession, iSchema, iPushMode);
-	}
-
-	public void forward(ViewComponent iComponent, String iPosition, Screen iScreen) {
-		moveForward(iComponent.getContent(), iPosition);
-
-		// SHOW THE FORM
-		viewAspect.showForm((ContentForm) iComponent, iPosition, iScreen);
+		viewAspect.show(iNextObject, iPosition, iScreen, iSession);
 	}
 
 	public Object back(Object iGoBackUntil) {
@@ -169,14 +152,7 @@ public class POJOFlow extends FlowAspectAbstract {
 
 	public void clearHistory(SessionInfo iSession) {
 		while (!getHistory().isEmpty()) {
-			Pair<Object, String> backObject = getHistory(iSession).pop();
-
-			Object currentForm = backObject.getKey();
-
-			ContentForm currentComponent = (ContentForm) viewAspect.getFormByObject(currentForm);
-			if (currentComponent != null && currentComponent.isFirstToOpenPopup(currentForm))
-				// CLOSE CURRENT OBJECT AS POPUP
-				viewAspect.close(currentForm);
+			getHistory(iSession).pop();
 		}
 	}
 
@@ -196,11 +172,7 @@ public class POJOFlow extends FlowAspectAbstract {
 
 		Object currentForm = currentObject.getKey();
 
-		ContentForm currentComponent = (ContentForm) viewAspect.getFormByObject(currentForm);
-		if (currentComponent != null && currentComponent.isFirstToOpenPopup(currentForm))
-			// CLOSE CURRENT OBJECT AS POPUP
-			viewAspect.close(currentForm);
-		else if (backObject != null)
+		if (!viewAspect.close(currentForm))
 			// SHOW THE PREVIOUS FORM
 			viewAspect.show(backObject.getKey(), backObject.getValue(), null, iSession);
 

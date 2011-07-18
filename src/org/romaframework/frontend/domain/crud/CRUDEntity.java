@@ -25,9 +25,7 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.PersistenceException;
 import org.romaframework.aspect.persistence.annotation.Persistence;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.domain.entity.ComposedEntity;
@@ -92,29 +90,6 @@ public class CRUDEntity<T> extends EntityPage<T> implements Bindable {
 		}
 	}
 
-	/**
-	 * Close the window or go back.
-	 */
-	protected void close() {
-		close(false);
-	}
-
-	/**
-	 * Force window closing.
-	 * 
-	 * @param iForceWindowClose
-	 */
-	protected void close(boolean iForceWindowClose) {
-		entity = null;
-
-		if (iForceWindowClose) {
-			Roma.aspect(ViewAspect.class).close(this);
-			return;
-		}
-
-		Roma.aspect(FlowAspect.class).back();
-	}
-
 	public void setSource(Object iSourceObject, String iSourceFieldName) {
 		if (iSourceFieldName != null && iSourceFieldName.contains(".")) {
 			// GET NESTED SOURCE OBJECT
@@ -139,22 +114,4 @@ public class CRUDEntity<T> extends EntityPage<T> implements Bindable {
 		return sourceField;
 	}
 
-	protected void bindValue() {
-		if (getSourceObject() != null) {
-			// GET THE CALLER FORM: TRY TO SEE IF A SPECIFIC FIELD FORM THERE IS,
-			// OTHERWISE GET THE OBJECT FORM
-			Object fieldValue = SchemaHelper.getFieldValue(getSourceField(), getSourceObject());
-
-			ViewComponent callerForm = null;
-			if (fieldValue != null)
-				callerForm = Roma.aspect(ViewAspect.class).getFormByObject(fieldValue);
-
-			if (callerForm == null)
-				callerForm = Roma.aspect(ViewAspect.class).getFormByObject(getSourceObject());
-
-			// BIND NEW OBJECT CREATED
-			if (callerForm != null)
-				callerForm.bind(getSourceField(), getEntity());
-		}
-	}
 }

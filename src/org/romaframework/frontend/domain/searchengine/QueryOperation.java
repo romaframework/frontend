@@ -42,7 +42,6 @@ import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClassResolver;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageText;
 import org.romaframework.frontend.domain.searchengine.filter.AbstractBaseFilter;
@@ -246,7 +245,7 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void showEditFilter() {
-		RomaFrontend.flow().forward(editCondition, "screen:popup");
+		Roma.flow().forward(editCondition, "screen:popup");
 		Roma.fieldChanged(this, "operation");
 	}
 

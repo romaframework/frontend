@@ -1,6 +1,5 @@
 package org.romaframework.frontend.domain.wrapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,17 +10,14 @@ import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.validation.CustomValidation;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaHelper;
 
 @CoreClass(orderActions = "add remove")
@@ -57,16 +53,6 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 
 		if (elements != null && elements.size() > 0)
 			setSelection(elements.get(0));
-	}
-
-	public void add() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_ADD_EVENT);
-	}
-
-	public void remove() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		ViewComponent component = Roma.aspect(ViewAspect.class).getFormByObject(this);
-		SchemaHelper.invokeEvent(component.getContainerComponent().getContent(), component.getSchemaField().getName(), SchemaEvent.COLLECTION_REMOVE_EVENT);
 	}
 
 	public ComposedEntity<T>[] getSelection() {

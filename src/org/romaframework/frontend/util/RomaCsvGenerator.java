@@ -24,10 +24,10 @@ import org.romaframework.aspect.reporting.ReportingConstants;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.frontend.RomaFrontend;
 
 /**
  * CSV Generator from List or Object[] using SchemaClass to render columns and data
@@ -42,7 +42,7 @@ public class RomaCsvGenerator {
 
 	public static void generateCsv(List<? extends Object> list, String fileName) {
 		if (list.size() > 0) {
-			SchemaClass schema = RomaFrontend.schema().getSchemaClass(list.get(0));
+			SchemaClass schema = Roma.schema().getSchemaClass(list.get(0));
 			generateCsv(list, schema, fileName);
 		} else {
 			generateCsv(list, null, fileName);
@@ -51,7 +51,7 @@ public class RomaCsvGenerator {
 
 	public static void generateCsv(Object[] list, String fileName) {
 		if (list.length > 0) {
-			SchemaClass schema = RomaFrontend.schema().getSchemaClass(list[0]);
+			SchemaClass schema = Roma.schema().getSchemaClass(list[0]);
 			generateCsv(list, schema, fileName);
 		} else {
 			generateCsv(list, null, fileName);
@@ -68,7 +68,7 @@ public class RomaCsvGenerator {
 			}
 		}
 
-		RomaFrontend.view().pushCommand(
+		Roma.view().pushCommand(
 				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "." + ReportingConstants.DOCUMENT_TYPE_CSV,
 						ReportingConstants.DOCUMENT_TYPE_CSV));
 	}
@@ -83,7 +83,7 @@ public class RomaCsvGenerator {
 			}
 		}
 
-		RomaFrontend.view().pushCommand(
+		Roma.view().pushCommand(
 				new DownloadStreamViewCommand(new ByteArrayInputStream(csv.toString().getBytes()), fileName + "." + ReportingConstants.DOCUMENT_TYPE_CSV,
 						ReportingConstants.DOCUMENT_TYPE_CSV));
 	}

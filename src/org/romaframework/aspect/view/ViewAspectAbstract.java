@@ -55,7 +55,6 @@ import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.Utility;
-import org.romaframework.core.exception.ConfigurationNotFoundException;
 import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.flow.ObjectContext;
@@ -110,6 +109,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * Return the ObjectHandler as ViewComponent.
 	 */
 	@Override
+	@Deprecated
 	public RomaObjectHandler getObjectHandler(Object iUserObject) {
 		return getFormByObject(iUserObject);
 	}
@@ -119,6 +119,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
+	@Deprecated
 	public List<RomaObjectHandler> getObjectHandlers(SchemaClass iUserClass) {
 		return (List) getFormsByClass(null, iUserClass);
 	}
@@ -289,22 +290,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * @throws Exception
 	 */
 	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema) throws ViewException {
-		show(iContent, iPosition, iScreen, iSession, iSchema, false);
-	}
-
-	/**
-	 * Display the form reading information from POJO received following the layout rules. Display the object on iWhere position in
-	 * the desktop received as the argument iDesktop.
-	 * 
-	 * @param iContent
-	 *          Object instance to display
-	 * @param iPosition
-	 *          Desktop position where render the object
-	 * @param iScreen
-	 *          Desktop instance to use
-	 * @throws Exception
-	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema, boolean iPushMode) throws ViewException {
 
 		if (iScreen == null)
 			// GET THE CURRENT ONE
@@ -323,7 +308,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			return;
 		}
 
-		boolean currentSession = iPushMode ? false : iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
+		boolean currentSession =  iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
 
 		if (iSchema == null && iContent != null) {
 			iSchema = Roma.session().getSchemaObject(iContent);
@@ -355,14 +340,41 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 		if (currentSession)
 			// DISPLAY NOW
-			Roma.component(ViewAspect.class).showForm(form, iPosition, iScreen);
+			showForm(form, iPosition, iScreen);
 		else
 			// PUSH CHANGES
-			Roma.aspect(ViewAspect.class).pushCommand(new ShowViewCommand(iSession, iScreen, form, iPosition));
+			pushCommand(new ShowViewCommand(iSession, iScreen, form, iPosition));
 
 		if (hasToRenderTheForm)
 			form.renderContent();
 	}
+
+	/**
+	 * Shows a form component
+	 * 
+	 * @param iForm
+	 *          The form to be showed
+	 * @param iWhere
+	 *          The area where the form must be showed
+	 * @param iDesktop
+	 *          The Screen where to show the form
+	 * @return
+	 */
+	public abstract String showForm(ContentForm iForm, String iWhere, Screen iDesktop);
+	
+	/**
+	 * Create a form instance
+	 * 
+	 * @param iSchemaClass
+	 *          the schema class for the form creation
+	 * @param iSchemaField
+	 *          the schema field of the object, null if the form is not part of another form
+	 * @param iParent
+	 *          the parent form
+	 * @return
+	 */
+	public abstract ContentForm createForm(SchemaObject iSchemaClass, SchemaField iSchemaField, ViewComponent iParent);
+
 
 	/**
 	 * Return the desktop for the current user.
@@ -412,14 +424,11 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * @param iUserObject
 	 *          User Object to close
 	 */
-	public void close(Object iUserObject) {
+	public boolean close(Object iUserObject) {
 		ViewComponent form = getFormByObject(iUserObject);
 		if (form != null)
 			form.close();
-	}
-
-	public void showComponent(Object iComponent, String iArea) {
-		FormViewer.getInstance().display(iArea, iComponent);
+		return true;
 	}
 
 	public void onSessionCreating(SessionInfo iSession) {
@@ -584,22 +593,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 			Roma.aspect(ViewAspect.class).pushCommand(new RefreshViewCommand(entry.getKey(), (ViewComponent) entry.getValue()));
 		}
-	}
-
-	/**
-	 * Get the schema object associated to the current POJO.
-	 * 
-	 * @param iUserObject
-	 *          User POJO
-	 * @return SchemaObject instance
-	 * @throws ConfigurationNotFoundException
-	 */
-	public SchemaObject getSchemaObject(Object iUserObject) throws ConfigurationNotFoundException {
-		ViewComponent form = getFormByObject(iUserObject);
-		if (form == null)
-			return null;
-
-		return form.getSchemaObject();
 	}
 
 	@Override

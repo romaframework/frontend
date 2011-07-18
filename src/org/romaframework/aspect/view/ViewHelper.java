@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.aspect.view.form.ContentForm;
-import org.romaframework.aspect.view.form.ViewComponent;
 import org.romaframework.core.Roma;
 import org.romaframework.core.exception.ConfigurationException;
 import org.romaframework.core.flow.Controller;
@@ -59,7 +58,7 @@ public class ViewHelper {
 
 	public static ContentForm createForm(SchemaObject iSchema, SchemaField iField, Object iUserObject, SessionInfo iSession) {
 		try {
-			ContentForm form = ((ViewAspect) Roma.aspect(ViewAspect.ASPECT_NAME)).createForm(iSchema, iField, null);
+			ContentForm form = ((ViewAspectAbstract) Roma.aspect(ViewAspect.ASPECT_NAME)).createForm(iSchema, iField, null);
 
 			// CHECK IF USE WRAPPER OBJECTS
 			List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
@@ -96,9 +95,9 @@ public class ViewHelper {
 		if (iUserObject == null)
 			return;
 
-		ViewComponent form = Roma.aspect(ViewAspect.class).getFormByObject(iUserObject);
-		if (form != null)
-			enableFields(iUserObject, form.getSchemaObject(), iValue);
+		SchemaObject schemaObject = Roma.session().getSchemaObject(iUserObject);
+		if (schemaObject != null)
+			enableFields(iUserObject, schemaObject, iValue);
 	}
 
 	/**

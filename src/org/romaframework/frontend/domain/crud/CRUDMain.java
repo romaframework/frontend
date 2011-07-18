@@ -59,7 +59,6 @@ import org.romaframework.core.repository.PersistenceAspectRepositorySingleton;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
@@ -132,7 +131,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 
 	@LoggingAction(enabled = AnnotationConstants.FALSE)
 	public void onShow() {
-		if (RomaFrontend.reporting() == null) {
+		if (Roma.reporting() == null) {
 			Roma.setFeature(this, "report", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		}
 	}
@@ -404,7 +403,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 * @param updateInstance
 	 */
 	protected void displayInstanceForm(Object updateInstance) {
-		RomaFrontend.flow().forward(updateInstance);
+		Roma.flow().forward(updateInstance);
 	}
 
 	protected Object loadObjectDetails(Object iObj) {

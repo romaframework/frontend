@@ -22,7 +22,6 @@ import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.ApplicationConfiguration;
 import org.romaframework.core.domain.type.Pair;
-import org.romaframework.frontend.RomaFrontend;
 
 /**
  * 
@@ -44,7 +43,7 @@ public abstract class AbstractErrorReporter implements ErrorReporter {
 	 */
 	public void reportError(String message, Throwable exception) {
 
-		List<Pair<Object, String>> flowStack = new ArrayList<Pair<Object, String>>(RomaFrontend.flow().getHistory());
+		List<Pair<Object, String>> flowStack = new ArrayList<Pair<Object, String>>(Roma.flow().getHistory());
 		Pair<Object, String> last = flowStack.get(flowStack.size() - 1);
 		if (ErrorMessageTextDetail.class.equals(last.getKey().getClass())) {
 			flowStack.remove(last);

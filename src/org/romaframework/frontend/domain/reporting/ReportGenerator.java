@@ -15,7 +15,6 @@ import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 
 @ViewClass(layout = ViewConstants.LAYOUT_POPUP)
 public class ReportGenerator implements ViewCallback {
@@ -40,10 +39,10 @@ public class ReportGenerator implements ViewCallback {
 	}
 
 	private static String[] getSupportedTypes() {
-		if (RomaFrontend.reporting() == null) {
+		if (Roma.reporting() == null) {
 			return new String[] {};
 		}
-		return RomaFrontend.reporting().getSupportedTypes();
+		return Roma.reporting().getSupportedTypes();
 	}
 
 	public ReportGenerator(Object iContent, String fileName, String type) {
@@ -72,15 +71,15 @@ public class ReportGenerator implements ViewCallback {
 		if (type == null)
 			return;
 
-		ReportingAspect reporting = RomaFrontend.reporting();
+		ReportingAspect reporting = Roma.reporting();
 		String fileType = type.toLowerCase();
 
 		byte[] report = reporting.render(content, type, Roma.session().getSchemaObject(content));
-		RomaFrontend.view().pushCommand(new DownloadStreamViewCommand(new ByteArrayInputStream(report), fileName + "." + fileType, fileType));
+		Roma.view().pushCommand(new DownloadStreamViewCommand(new ByteArrayInputStream(report), fileName + "." + fileType, fileType));
 	}
 
 	public void close() {
-		RomaFrontend.flow().back();
+		Roma.flow().back();
 	}
 
 	public String getType() {
