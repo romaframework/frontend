@@ -16,7 +16,7 @@ public class TextWrapperForm extends TextWrapper implements Bindable, ViewCallba
 	private static final String		USER_DEFINED_TYPENAME	= "User defined";
 	private static final String		NOT_HANDLED_TYPENAME	= "Not handled";
 
-	public static final Class[]		JAVA_BASE_CLASSES			= new Class[] { Boolean.class, Byte.class, Character.class, Double.class, Float.class, Integer.class, Long.class,
+	public static final Class<?>[]		JAVA_BASE_CLASSES			= new Class[] { Boolean.class, Byte.class, Character.class, Double.class, Float.class, Integer.class, Long.class,
 			Short.class, String.class											};
 
 	public static final String[]	TYPE_NAMES						= new String[] { Boolean.class.getName(), Byte.class.getName(), Character.class.getName(), Double.class.getName(),
@@ -29,7 +29,7 @@ public class TextWrapperForm extends TextWrapper implements Bindable, ViewCallba
 		super("");
 	}
 
-	public TextWrapperForm(Object iValue, Class iTypeClass) {
+	public TextWrapperForm(Object iValue, Class<?> iTypeClass) {
 		super(iValue, iTypeClass);
 	}
 
@@ -43,10 +43,10 @@ public class TextWrapperForm extends TextWrapper implements Bindable, ViewCallba
 		if (value == null)
 			selectedType = Utility.getClassName(String.class);
 		else {
-			Class cls = value.getClass();
+			Class<?> cls = value.getClass();
 
 			// SEARCH AMONG JAVA CLASSES
-			for (Class c : JAVA_BASE_CLASSES) {
+			for (Class<?> c : JAVA_BASE_CLASSES) {
 				if (c.equals(cls)) {
 					selectedType = Utility.getClassName(c);
 					break;

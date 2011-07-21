@@ -20,6 +20,7 @@ import java.util.Set;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.FlowAspect;
+import org.romaframework.aspect.persistence.ConditionType;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
@@ -40,9 +41,9 @@ public class VisualQueryFilter implements Refreshable {
 	private CommandContext			context								= new CommandContext();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	private String							operator;
+	private ConditionType				operator;
 	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "operator")
-	private String[]						operators							= { QueryByFilter.FIELD_EQUALS, QueryByFilter.FIELD_MAJOR, QueryByFilter.FIELD_MAJOR_EQUALS, QueryByFilter.FIELD_MINOR,
+	private ConditionType[]			operators							= { QueryByFilter.FIELD_EQUALS, QueryByFilter.FIELD_MAJOR, QueryByFilter.FIELD_MAJOR_EQUALS, QueryByFilter.FIELD_MINOR,
 			QueryByFilter.FIELD_MINOR_EQUALS, QueryByFilter.FIELD_NOT_EQUALS, QueryByFilter.FIELD_LIKE };
 
 	private Object							fieldValue;
@@ -74,11 +75,11 @@ public class VisualQueryFilter implements Refreshable {
 		}
 	}
 
-	public String getOperator() {
+	public ConditionType getOperator() {
 		return operator;
 	}
 
-	public void setOperator(String operator) {
+	public void setOperator(ConditionType operator) {
 		this.operator = operator;
 	}
 
@@ -90,11 +91,11 @@ public class VisualQueryFilter implements Refreshable {
 		this.fieldValue = fieldValue;
 	}
 
-	public String[] getOperators() {
+	public ConditionType[] getOperators() {
 		return operators;
 	}
 
-	public void setOperators(String[] operators) {
+	public void setOperators(ConditionType[] operators) {
 		this.operators = operators;
 	}
 

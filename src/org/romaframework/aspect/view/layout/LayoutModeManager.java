@@ -24,5 +24,5 @@ import org.romaframework.core.config.ComponentManager;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public class LayoutModeManager extends ComponentManager<LayoutMode> {
+public class LayoutModeManager extends ComponentManager<LayoutMode<?>> {
 }

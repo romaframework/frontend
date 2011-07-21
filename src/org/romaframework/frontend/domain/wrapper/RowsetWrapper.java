@@ -61,15 +61,15 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 		setDomainElements(iElements);
 	}
 
-	@SuppressWarnings("unchecked")
 	@ViewField(render = ViewConstants.RENDER_ROWSET, selectionField = "selection", label = "", enabled = AnnotationConstants.FALSE)
-	public List<? extends ComposedEntity> getElements() {
+	public List<? extends ComposedEntity<T>> getElements() {
 		return elements;
 	}
 
 	public void validate() throws ValidationException {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setDomainElements(Collection<T> iElements) {
 		domainElements = iElements;
@@ -79,7 +79,7 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 		else
 			try {
 				List<? extends ComposedEntity<?>> tempElements = EntityHelper.createComposedEntityList(iElements, listClass);
-				elements = new ArrayList<ComposedEntity<?>>();
+				elements = new ArrayList<ComposedEntity<T>>();
 				for (ComposedEntity<?> item : tempElements) {
 					((List<ComposedEntity<?>>) elements).add(new SelectableItem<ComposedEntity<?>>(this, item));
 				}
@@ -89,6 +89,7 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 		Roma.fieldChanged(this, "elements");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void callback(Object iObject) {
 		if (iObject == null)
 			return;

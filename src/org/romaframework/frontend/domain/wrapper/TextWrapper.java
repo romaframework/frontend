@@ -35,7 +35,7 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	/**
 	 * The class of the wrapped object
 	 */
-	protected Class		typeClass;
+	protected Class<?>		typeClass;
 
 	/**
 	 * The formatter to be used for the parsing
@@ -52,7 +52,7 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	 * @param iValue
 	 * @param iNewInstanceClass
 	 */
-	public TextWrapper(Object iValue, Class iNewInstanceClass) {
+	public TextWrapper(Object iValue, Class<?> iNewInstanceClass) {
 		typeClass = iNewInstanceClass;
 		if (iValue == null) {
 			value = "";

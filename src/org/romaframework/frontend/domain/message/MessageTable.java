@@ -35,20 +35,20 @@ public class MessageTable extends MessageOk {
 
 	public MessageTable(String iId, String iTitle) {
 		super(iId, iTitle);
-		messages = new ArrayList<List>();
+		messages = new ArrayList<List<?>>();
 	}
 
 	@I18nField
 	@ViewField(label = "")
-	public List<List> getMessages() {
+	public List<List<?>> getMessages() {
 		return messages;
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
-	public void addMessage(List iMessage) {
+	public void addMessage(List<?> iMessage) {
 		messages.add(iMessage);
 	}
 
 	@ViewField(render = "table", enabled = AnnotationConstants.FALSE, layout = ViewConstants.LAYOUT_BLOCK)
-	private List<List>	messages;
+	private List<List<?>>	messages;
 }

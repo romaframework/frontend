@@ -27,19 +27,19 @@ import org.romaframework.core.config.ComponentManager;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public class RenderingModeManager extends ComponentManager<RenderingMode> {
-	protected Map<Class<? extends Object>, RenderingMode>	modes	= new HashMap<Class<? extends Object>, RenderingMode>();
+public class RenderingModeManager extends ComponentManager<RenderingMode<?>> {
+	protected Map<Class<? extends Object>, RenderingMode<?>>	modes	= new HashMap<Class<? extends Object>, RenderingMode<?>>();
 
 	@Override
-	public RenderingMode addComponent(Class componentClass) throws InstantiationException, IllegalAccessException {
-		RenderingMode component = super.addComponent(componentClass);
-		Class[] classes = component.getComponentClasses();
-		for (Class clazz : classes)
+	public RenderingMode<?> addComponent(Class<? extends RenderingMode<?>> componentClass) throws InstantiationException, IllegalAccessException {
+		RenderingMode<?> component = super.addComponent(componentClass);
+		Class<?>[] classes = component.getComponentClasses();
+		for (Class<?> clazz : classes)
 			modes.put(clazz, component);
 		return component;
 	}
 
-	public RenderingMode getRenderingByComponent(Object iComponent) {
+	public RenderingMode<?> getRenderingByComponent(Object iComponent) {
 		return modes.get(iComponent.getClass());
 	}
 }

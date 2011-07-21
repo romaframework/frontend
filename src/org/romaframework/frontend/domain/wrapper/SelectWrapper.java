@@ -182,6 +182,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 		Roma.setFeature(this, "list", ViewFieldFeatures.ENABLED, false);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setSource(Object source, String fieldName) {
 		this.object = source;
 		this.selectionFieldName = fieldName;
@@ -192,7 +193,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 			throw new CRUDException("Cannot find field name " + this.object.getClass().getSimpleName() + "." + this.selectionFieldName + ". Check class definition");
 
 		clazz = Roma.schema().getSchemaClass(source);
-		repository = (PersistenceAspectRepository<T>) Roma.repository((Class) sourceField.getLanguageType());
+		repository = (PersistenceAspectRepository<T>) Roma.repository((Class<?>) sourceField.getLanguageType());
 		load();
 		if (list != null && list.size() == 1) {
 			setSelection(list.get(0));

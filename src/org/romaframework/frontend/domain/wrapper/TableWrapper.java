@@ -56,7 +56,7 @@ public class TableWrapper<T> extends CollectionWrapper<T> {
 	}
 
 	@ViewField(render = ViewConstants.RENDER_TABLEEDIT, selectionField = "selection", label = "", enabled = AnnotationConstants.FALSE)
-	public List<? extends ComposedEntity> getElements() {
+	public List<? extends ComposedEntity<?>> getElements() {
 		return elements;
 	}
 

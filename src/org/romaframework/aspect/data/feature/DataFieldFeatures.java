@@ -22,6 +22,7 @@ import org.romaframework.core.schema.FeatureType;
 
 public class DataFieldFeatures {
 
+	@SuppressWarnings("rawtypes")
 	public static final Feature<Class>		REPOSITORY		= new Feature<Class>(DataBindingAspect.ASPECT_NAME, "repository", FeatureType.FIELD, Class.class);
 	public static final Feature<String>		METHOD				= new Feature<String>(DataBindingAspect.ASPECT_NAME, "method", FeatureType.FIELD, String.class);
 	public static final Feature<String[]>	SEARCH_FIELDS	= new Feature<String[]>(DataBindingAspect.ASPECT_NAME, "searchFields", FeatureType.FIELD, String[].class);

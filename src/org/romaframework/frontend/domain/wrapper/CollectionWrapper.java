@@ -22,19 +22,19 @@ import org.romaframework.core.schema.SchemaHelper;
 
 @CoreClass(orderActions = "add remove")
 public abstract class CollectionWrapper<T> implements ViewCallback, CustomValidation {
-	protected Object													object;
-	protected String													selectionFieldName;
-	protected boolean													lazy	= false;
+	protected Object														object;
+	protected String														selectionFieldName;
+	protected boolean														lazy	= false;
 
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
-	protected List<? extends ComposedEntity>	elements;
-	protected Collection<T>										domainElements;
+	protected List<? extends ComposedEntity<T>>	elements;
+	protected Collection<T>											domainElements;
 	@ViewField(visible = AnnotationConstants.FALSE)
-	protected ComposedEntity<T>[]							selection;
-	protected SchemaClass											listClass;
-	protected Class<T>												clazz;
+	protected ComposedEntity<T>[]								selection;
+	protected SchemaClass												listClass;
+	protected Class<T>													clazz;
 
-	protected static Log											log		= LogFactory.getLog(CollectionWrapper.class);
+	protected static Log												log		= LogFactory.getLog(CollectionWrapper.class);
 
 	public void onShow() {
 		SchemaClass embType = (SchemaClass) Roma.getFeature(this, "elements", CoreFieldFeatures.EMBEDDED_TYPE);
@@ -59,6 +59,7 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 		return selection;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setSelection(ComposedEntity<T> iSelection) {
 		setSelection(new ComposedEntity[] { iSelection });
 	}
@@ -83,6 +84,7 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setDomainElements(Collection<T> iElements) {
 		domainElements = iElements;
 
@@ -90,7 +92,7 @@ public abstract class CollectionWrapper<T> implements ViewCallback, CustomValida
 			elements = null;
 		else
 			try {
-				elements = EntityHelper.createComposedEntityList(iElements, listClass);
+				elements = (List<ComposedEntity<T>>) EntityHelper.createComposedEntityList(iElements, listClass);
 			} catch (Exception e) {
 				log.error("[CollectionWrapper.setDomainElements] Error on creating wrapper class for result. Class: " + listClass, e);
 			}

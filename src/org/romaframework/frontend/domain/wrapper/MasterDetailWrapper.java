@@ -100,7 +100,7 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 	}
 
 	@ViewField(render = ViewConstants.RENDER_TABLE, selectionField = "selection", label = "", enabled = AnnotationConstants.FALSE)
-	public List<? extends ComposedEntity> getElements() {
+	public List<? extends ComposedEntity<T>> getElements() {
 		return elements;
 	}
 
@@ -108,9 +108,10 @@ public class MasterDetailWrapper<T> extends CollectionWrapper<T> {
 		return detail;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(T iNewObject) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		ComposedEntity<T> wrappedObject = (ComposedEntity<T>) EntityHelper.createObject(iNewObject, listClass);
-		((List<ComposedEntity>) elements).add(wrappedObject);
+		((List<ComposedEntity<T>>) elements).add(wrappedObject);
 		domainElements.add(iNewObject);
 		setSelection(wrappedObject);
 		Roma.fieldChanged(this, "elements");
