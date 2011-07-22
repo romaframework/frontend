@@ -17,7 +17,7 @@
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.entity.ComposedEntity;
-import org.romaframework.core.flow.Controller;
+import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 
 /**
@@ -33,7 +33,7 @@ public class CRUDUpdateDynaLink extends ComposedEntityDynaLink {
 
 	@Override
 	public void onTitle() {
-		ComposedEntity<?> c = Controller.getInstance().getObject(composedClass, object);
+		ComposedEntity<?> c = CRUDHelper.getCRUDObject(composedClass, composedClass);
 
 		if (c instanceof CRUDInstance<?>)
 			((CRUDInstance<?>) c).setMode(CRUDInstance.MODE_UPDATE);

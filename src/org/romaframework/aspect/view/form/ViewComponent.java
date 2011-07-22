@@ -17,8 +17,8 @@
 package org.romaframework.aspect.view.form;
 
 import org.romaframework.core.config.Destroyable;
-import org.romaframework.core.handler.RomaObjectHandler;
 import org.romaframework.core.schema.SchemaField;
+import org.romaframework.core.schema.SchemaObject;
 
 /**
  * Base component interface.
@@ -26,7 +26,7 @@ import org.romaframework.core.schema.SchemaField;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  * 
  */
-public interface ViewComponent extends Destroyable, RomaObjectHandler {
+public interface ViewComponent extends Destroyable{
 
 	public void bind(SchemaField iSchemaField, Object iValue);
 
@@ -45,4 +45,18 @@ public interface ViewComponent extends Destroyable, RomaObjectHandler {
 	public void close();
 
 	public void handleException(Throwable t);
+	
+	public void setContent(Object iContent);
+
+	public Object getContent();
+
+	public void setSchemaObject(SchemaObject iSchemaObject);
+
+	public SchemaObject getSchemaObject();
+
+	public void setSchemaField(SchemaField iSchemaField);
+
+	public SchemaField getSchemaField();
+
+	public Object getFieldComponent(String iName);
 }

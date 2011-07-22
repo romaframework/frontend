@@ -26,7 +26,6 @@ import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.type.Pair;
-import org.romaframework.core.flow.Controller;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
@@ -64,7 +63,7 @@ public class POJOFlow extends FlowAspectAbstract {
 			return;
 
 		// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-		Object nextObj = Controller.getInstance().getObject(iNextClass, null);
+		Object nextObj = Roma.session().getObject(iNextClass);
 
 		forward(iCurrentObject, nextObj, iPosition);
 	}
@@ -74,7 +73,7 @@ public class POJOFlow extends FlowAspectAbstract {
 			return;
 
 		// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-		Object nextObj = Controller.getInstance().getObject(iNextClass, null);
+		Object nextObj = Roma.session().getObject(iNextClass);
 
 		forward(iCurrentObject, nextObj, iPosition);
 	}
@@ -99,14 +98,14 @@ public class POJOFlow extends FlowAspectAbstract {
 				return;
 
 			// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-			iNextObject = Controller.getInstance().getObject(cls, null);
+			iNextObject = Roma.session().getObject(cls);
 		} else if (iNextObject instanceof Class<?>) {
 			SchemaClass cls = Roma.schema().getSchemaClass((Class<?>) iNextObject);
 			if (cls == null)
 				return;
 
 			// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-			iNextObject = Controller.getInstance().getObject(cls, null);
+			iNextObject = Roma.session().getObject(cls);
 		}
 
 		moveForward(iSession, iNextObject, iPosition);
@@ -187,7 +186,7 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	protected void moveForward(SessionInfo iSession, Object iNextObject, String iPosition) {
-		if (Controller.getInstance().getContext().getActiveArea() != null && Controller.getInstance().getContext().getActiveArea().startsWith(Screen.POPUP)) {
+		if (Roma.view().getScreen().getActiveArea() != null && Roma.view().getScreen().getActiveArea().startsWith(Screen.POPUP)) {
 			if (iPosition != null && (!iPosition.startsWith("screen:" + Screen.POPUP) && !iPosition.startsWith(Screen.POPUP)))
 				return;
 		}

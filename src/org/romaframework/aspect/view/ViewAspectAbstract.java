@@ -59,7 +59,6 @@ import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.flow.ObjectRefreshListener;
-import org.romaframework.core.handler.RomaObjectHandler;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
@@ -103,25 +102,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	@Override
 	public void shutdown() {
 		objectsForms.clear();
-	}
-
-	/**
-	 * Return the ObjectHandler as ViewComponent.
-	 */
-	@Override
-	@Deprecated
-	public RomaObjectHandler getObjectHandler(Object iUserObject) {
-		return getFormByObject(iUserObject);
-	}
-
-	/**
-	 * Return the ObjectHandler as ViewComponent.
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	@Deprecated
-	public List<RomaObjectHandler> getObjectHandlers(SchemaClass iUserClass) {
-		return (List) getFormsByClass(null, iUserClass);
 	}
 
 	public void beginConfigClass(SchemaClassDefinition iClass) {
@@ -303,7 +283,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iContent == null) {
 			if (iPosition == null)
 				// GET CURRENT AREA FOR OBJECT
-				iPosition = Controller.getInstance().getContext().getActiveArea();
+				iPosition = Roma.view().getScreen().getActiveArea();
 			FormViewer.getInstance().display(iPosition, iContent, iScreen);
 			return;
 		}
@@ -331,8 +311,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			iPosition = (String) form.getSchemaObject().getFeature(ViewClassFeatures.LAYOUT);
 		}
 
-		if (iPosition == null && Controller.getInstance().getContext() != null) {
-			iPosition = Controller.getInstance().getContext().getActiveArea();
+		if (iPosition == null) {
+			iPosition = Roma.view().getScreen().getActiveArea();
 		}
 
 		if (iPosition == null)

@@ -21,7 +21,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.factory.GenericFactory;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.reflection.SchemaClassReflection;
 
@@ -43,26 +42,6 @@ public class CRUDHelper {
 	 */
 
 	private static long	popupIndex	= 0;
-
-	/**
-	 * Show the form of the class specified.
-	 * 
-	 * @param <T>
-	 *          Selection form
-	 * @param iClass
-	 * @param iEntityInstance
-	 * @return
-	 */
-	public static <T extends ComposedEntity<?>> T show(Class<T> iClass, Object iEntityInstance) {
-		// GET THE FORM
-		T formObject = ObjectContext.getInstance().getObject(iClass, iEntityInstance);
-
-		// SHOW THE FORM
-		Roma.aspect(FlowAspect.class).forward(formObject);
-
-		// RETURN IT TO THE CALLER TO SET ADDITIONAL INFO
-		return formObject;
-	}
 
 	/**
 	 * Show the form of the class specified.
@@ -93,7 +72,7 @@ public class CRUDHelper {
 	@SuppressWarnings("unchecked")
 	public static <T extends Bindable> T show(Class<T> iClass, Object iSourceObject, String iSourceFieldName, Object iCaller) {
 		// GET THE FORM
-		T formObject = ObjectContext.getInstance().getObject(iClass);
+		T formObject = Roma.session().getObject(iClass);
 		return (T) show(formObject, iSourceObject, iSourceFieldName);
 	}
 
@@ -151,6 +130,24 @@ public class CRUDHelper {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T getCRUDObject(Class<T> clazz, Object entity) {
+		T o = Roma.session().getObject(clazz);
+		if (o instanceof ComposedEntity<?>) {
+			((ComposedEntity<Object>) o).setEntity(entity);
+		}
+		return o;
+	}
+	@SuppressWarnings("unchecked")
+	public static <T> T getCRUDObject(SchemaClass clazz, Object entity) {
+		T o = Roma.session().getObject(clazz);
+		if (o instanceof ComposedEntity<?>) {
+			((ComposedEntity<Object>) o).setEntity(entity);
+		}
+		return o;
+	}
+	
+	
 	public static SchemaClass getCRUDSelect(SchemaClass iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.SELECT_EXTENSION);
 	}

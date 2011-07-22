@@ -49,11 +49,9 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.classloader.ClassLoaderListener;
 import org.romaframework.core.config.Refreshable;
 import org.romaframework.core.domain.entity.ComposedEntity;
-import org.romaframework.core.domain.type.RealmAware;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.exception.ConfigurationException;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.repository.GenericRepository;
 import org.romaframework.core.repository.PersistenceAspectRepositorySingleton;
 import org.romaframework.core.schema.SchemaClass;
@@ -355,7 +353,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 
 		Object loadedObject = loadObjectDetails(selectedObj);
 
-		Object readInstance = ObjectContext.getInstance().getObject(readClass, loadedObject);
+		Object readInstance = CRUDHelper.getCRUDObject(readClass, loadedObject);
 
 		if (readInstance instanceof CRUDInstance<?>) {
 			((CRUDInstance<T>) readInstance).setRepository(repository);
@@ -385,7 +383,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 
 		Object loadedObject = loadObjectDetails(selectedObj);
 
-		Object updateInstance = ObjectContext.getInstance().getObject(updateClass, loadedObject);
+		Object updateInstance = CRUDHelper.getCRUDObject(updateClass, loadedObject);
 
 		if (updateInstance instanceof CRUDInstance<?>) {
 			((CRUDInstance<T>) updateInstance).setRepository(repository);
@@ -613,7 +611,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		SchemaClass entityClass = createClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Object entityObject = SchemaHelper.createObject(entityClass, iArgs);
 
-		Object createInstance = ObjectContext.getInstance().getObject(createClass, entityObject);
+		Object createInstance = CRUDHelper.getCRUDObject(createClass, entityObject);
 
 		if (createInstance instanceof CRUDInstance<?>) {
 			((CRUDInstance<T>) createInstance).setRepository(repository);
@@ -669,14 +667,12 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 
 	protected void addRealmCondition(Class<?> entityClass, QueryByFilter addFilter) {
 		SchemaClass cls = Roma.schema().getSchemaClass(entityClass);
-		if (cls.isAssignableAs(RealmAware.class)) {
-			SchemaField realmField = cls.getField("realm");
-			if (realmField != null) {
-				if (realmField.getValue(getFilter().getEntity()) != null) {
-					addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, realmField.getValue(getFilter().getEntity()));
-				} else if (Roma.session().getActiveSessionInfo().getAccount() != null && Roma.session().getActiveSessionInfo().getAccount().getRealm() != null) {
-					addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, Roma.session().getActiveSessionInfo().getAccount().getRealm());
-				}
+		SchemaField realmField = cls.getField("realm");
+		if (realmField != null) {
+			if (realmField.getValue(getFilter().getEntity()) != null) {
+				addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, realmField.getValue(getFilter().getEntity()));
+			} else if (Roma.session().getActiveSessionInfo().getAccount() != null && Roma.session().getActiveSessionInfo().getAccount().getRealm() != null) {
+				addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, Roma.session().getActiveSessionInfo().getAccount().getRealm());
 			}
 		}
 	}

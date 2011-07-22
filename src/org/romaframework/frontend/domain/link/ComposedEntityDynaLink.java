@@ -17,7 +17,7 @@
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.core.Roma;
 import org.romaframework.core.domain.entity.ComposedEntity;
-import org.romaframework.core.flow.Controller;
+import org.romaframework.frontend.domain.crud.CRUDHelper;
 
 /**
  * Direct link to a wrapper of an instance.
@@ -35,7 +35,8 @@ public class ComposedEntityDynaLink extends ObjectDynaLink {
 
 	@Override
 	public void onTitle() {
-		ComposedEntity<?> c = Controller.getInstance().getObject(composedClass, object);
+		
+		ComposedEntity<?> c = CRUDHelper.getCRUDObject(composedClass, composedClass);
 		Roma.aspect(FlowAspect.class).forward(c, position);
 	}
 }
