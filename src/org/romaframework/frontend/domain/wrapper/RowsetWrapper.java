@@ -69,7 +69,7 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 	public void validate() throws ValidationException {
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setDomainElements(Collection<T> iElements) {
 		domainElements = iElements;
@@ -81,7 +81,7 @@ public class RowsetWrapper<T> extends CollectionWrapper<T> implements GenericEve
 				List<? extends ComposedEntity<?>> tempElements = EntityHelper.createComposedEntityList(iElements, listClass);
 				elements = new ArrayList<ComposedEntity<T>>();
 				for (ComposedEntity<?> item : tempElements) {
-					((List<ComposedEntity<?>>) elements).add(new SelectableItem<ComposedEntity<?>>(this, item));
+					((List) elements).add(new SelectableItem<ComposedEntity>(this, item));
 				}
 			} catch (Exception e) {
 				log.error("[CollectionWrapper.setDomainElements] Error on creating wrapper class for result. Class: " + listClass, e);

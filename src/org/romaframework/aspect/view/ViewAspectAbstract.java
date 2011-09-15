@@ -70,6 +70,7 @@ import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaReloadListener;
 import org.romaframework.core.schema.config.SchemaConfiguration;
 import org.romaframework.core.schema.reflection.SchemaClassReflection;
+import org.romaframework.core.schema.reflection.SchemaFieldDelegate;
 import org.romaframework.core.schema.xmlannotations.XmlAspectAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
@@ -153,6 +154,16 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	public void configField(SchemaField iField) {
 
 		if (iField.getFeature(CoreFieldFeatures.EXPAND)) {
+			if (iField.isSettedFeature(ViewFieldFeatures.VISIBLE) && !iField.getFeature(ViewFieldFeatures.VISIBLE)) {
+				Map<String, SchemaField> fields = iField.getEntity().getFields();
+				for (SchemaField schemaField : fields.values()) {
+					if (schemaField instanceof SchemaFieldDelegate) {
+						if (((SchemaFieldDelegate) schemaField).getDelegate().getEntity() == iField.getType()) {
+							schemaField.setFeature(ViewFieldFeatures.VISIBLE, false);
+						}
+					}
+				}
+			}
 			iField.setFeature(ViewFieldFeatures.VISIBLE, false);
 		}
 
@@ -288,7 +299,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			return;
 		}
 
-		boolean currentSession =  iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
+		boolean currentSession = iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
 
 		if (iSchema == null && iContent != null) {
 			iSchema = Roma.session().getSchemaObject(iContent);
@@ -341,7 +352,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * @return
 	 */
 	public abstract String showForm(ContentForm iForm, String iWhere, Screen iDesktop);
-	
+
 	/**
 	 * Create a form instance
 	 * 
@@ -354,7 +365,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * @return
 	 */
 	public abstract ContentForm createForm(SchemaObject iSchemaClass, SchemaField iSchemaField, ViewComponent iParent);
-
 
 	/**
 	 * Return the desktop for the current user.
