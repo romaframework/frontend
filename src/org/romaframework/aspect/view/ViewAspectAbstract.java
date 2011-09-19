@@ -154,16 +154,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	public void configField(SchemaField iField) {
 
 		if (iField.getFeature(CoreFieldFeatures.EXPAND)) {
-			if (iField.isSettedFeature(ViewFieldFeatures.VISIBLE) && !iField.getFeature(ViewFieldFeatures.VISIBLE)) {
-				Map<String, SchemaField> fields = iField.getEntity().getFields();
-				for (SchemaField schemaField : fields.values()) {
-					if (schemaField instanceof SchemaFieldDelegate) {
-						if (((SchemaFieldDelegate) schemaField).getDelegate().getEntity() == iField.getType()) {
-							schemaField.setFeature(ViewFieldFeatures.VISIBLE, false);
-						}
-					}
-				}
-			}
 			iField.setFeature(ViewFieldFeatures.VISIBLE, false);
 		}
 
