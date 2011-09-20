@@ -16,6 +16,7 @@
 
 package org.romaframework.aspect.view.form;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class FormViewer implements SessionListener {
 
 	protected FormViewer() {
 		sessionManager = Roma.session();
-		userView = new HashMap<Object, ScreenContainer>();
+		userView = Collections.synchronizedMap(new HashMap<Object, ScreenContainer>());
 
 		Controller.getInstance().registerListener(SessionListener.class, this);
 	}
