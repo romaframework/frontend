@@ -91,7 +91,7 @@ public class SelectionBoxElement<T> {
 
 	}
 
-	public void setAvailableElements(List<T> elemntiDisponibili) {
+	public void setAvailableElements(Collection<T> elemntiDisponibili) {
 		this.availableElements = elemntiDisponibili;
 	}
 
