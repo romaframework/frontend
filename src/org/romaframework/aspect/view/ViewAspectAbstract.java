@@ -19,6 +19,7 @@ package org.romaframework.aspect.view;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
@@ -26,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,7 +70,6 @@ import org.romaframework.core.schema.SchemaObject;
 import org.romaframework.core.schema.SchemaReloadListener;
 import org.romaframework.core.schema.config.SchemaConfiguration;
 import org.romaframework.core.schema.reflection.SchemaClassReflection;
-import org.romaframework.core.schema.reflection.SchemaFieldDelegate;
 import org.romaframework.core.schema.xmlannotations.XmlAspectAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlClassAnnotation;
 import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
@@ -83,15 +82,15 @@ import org.romaframework.core.schema.xmlannotations.XmlFormAnnotation;
  * 
  */
 public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModule<String> implements ViewAspect, SessionListener, SchemaReloadListener, ObjectRefreshListener {
-	protected Map<SessionInfo, IdentityHashMap<Object, ViewComponent>>	objectsForms;
+	protected Map<SessionInfo, Map<Object, ViewComponent>>	objectsForms;
 
-	private static Log																									log	= LogFactory.getLog(ViewAspectAbstract.class);
+	private static Log																			log	= LogFactory.getLog(ViewAspectAbstract.class);
 
 	public ViewAspectAbstract() {
 		Controller.getInstance().registerListener(SessionListener.class, this);
 		Controller.getInstance().registerListener(SchemaReloadListener.class, this);
 
-		objectsForms = new WeakHashMap<SessionInfo, IdentityHashMap<Object, ViewComponent>>();
+		objectsForms = Collections.synchronizedMap(new HashMap<SessionInfo, Map<Object, ViewComponent>>());
 	}
 
 	@Override
@@ -417,7 +416,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 	public void onSessionDestroying(SessionInfo iSession) {
 		// REMOVE OBJECTS-AREA/COMPONENTS ASSOCIATION FOR CURRENT SESSION
-		IdentityHashMap<Object, ViewComponent> forms = objectsForms.remove(iSession);
+		Map<Object, ViewComponent> forms = objectsForms.remove(iSession);
 		if (forms != null) {
 			if (log.isDebugEnabled())
 				log.debug("[ObjectContext.onSessionDestroying] Removing components " + forms.values().size());
@@ -444,7 +443,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iSession == null)
 			throw new UserException(iForm.getContent(), "Cannot display the form since there is no active session");
 
-		IdentityHashMap<Object, ViewComponent> userForms = objectsForms.get(iSession);
+		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
 		userForms.put(iUserObject, iForm);
 	}
 
@@ -454,7 +453,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 				iSession = Roma.session().getActiveSessionInfo();
 
 		// REMOVE OBJECT-FORM ASSOCIATION
-		IdentityHashMap<Object, ViewComponent> userForms = objectsForms.get(iSession);
+		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
 		if (userForms != null) {
 			if (log.isDebugEnabled())
 				log.debug("[ViewAspectAbstract.removeObjectFormAssociation] Flushing form: " + iUserObject);
@@ -484,7 +483,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iSession == null)
 			iSession = Roma.component(SessionAspect.class).getActiveSessionInfo();
 
-		IdentityHashMap<Object, ViewComponent> userForms = objectsForms.get(iSession);
+		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
 
 		if (userForms == null)
 			return null;
@@ -518,7 +517,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iSession == null)
 			iSession = Roma.component(SessionAspect.class).getActiveSessionInfo();
 
-		IdentityHashMap<Object, ViewComponent> userForms = objectsForms.get(iSession);
+		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
 
 		if (userForms == null)
 			return null;
@@ -544,7 +543,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		Map<Object, ViewComponent> perSessionObjects;
 
 		SchemaClass cls;
-		for (Map.Entry<SessionInfo, IdentityHashMap<Object, ViewComponent>> entry : objectsForms.entrySet()) {
+		for (Map.Entry<SessionInfo, Map<Object, ViewComponent>> entry : objectsForms.entrySet()) {
 			perSessionObjects = entry.getValue();
 			for (Map.Entry<Object, ViewComponent> formEntry : perSessionObjects.entrySet()) {
 				if (formEntry.getKey() == null)
