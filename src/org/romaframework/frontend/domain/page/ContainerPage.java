@@ -17,11 +17,11 @@ import org.romaframework.core.config.Refreshable;
 
 @CoreClass(loading = LOADING_MODE.EARLY)
 @ViewClass(label = "")
-public class ContainerPage implements Refreshable {
+public class ContainerPage<T> implements Refreshable {
 
 	@ViewField(render = ViewConstants.RENDER_TAB, label = "", layout = "form://innerPages", selectionField = "activePage")
 	@ValidationField
-	protected Map<String, Object>	innerPages	= new LinkedHashMap<String, Object>();
+	protected Map<String, T>	innerPages	= new LinkedHashMap<String, T>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected Object							activePage;
@@ -31,7 +31,7 @@ public class ContainerPage implements Refreshable {
 		Roma.fieldChanged(this, "innerPages");
 	}
 
-	public void addPage(String iKey, Object iValue) {
+	public void addPage(String iKey, T iValue) {
 		innerPages.put(iKey, iValue);
 		if (activePage == null)
 			activePage = iValue;
@@ -51,7 +51,7 @@ public class ContainerPage implements Refreshable {
 		innerPages.clear();
 	}
 
-	public Map<String, Object> getInnerPages() {
+	public Map<String, T> getInnerPages() {
 		return innerPages;
 	}
 
@@ -79,7 +79,7 @@ public class ContainerPage implements Refreshable {
 	}
 
 	public void changePage(int iActivePageNum) {
-		Iterator<Object> it = innerPages.values().iterator();
+		Iterator<T> it = innerPages.values().iterator();
 		for (int i = 0; i <= iActivePageNum; ++i) {
 			activePage = it.next();
 		}
@@ -87,7 +87,7 @@ public class ContainerPage implements Refreshable {
 	}
 
 	public Object getPage(int iPageNum) {
-		Iterator<Object> it = innerPages.values().iterator();
+		Iterator<T> it = innerPages.values().iterator();
 		for (int i = 0; i < iPageNum; ++i) {
 			it.next();
 		}

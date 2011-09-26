@@ -626,57 +626,17 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		return createAdditionalFilter(entityClass, null);
 	}
 
-	protected QueryByFilter createAdditionalFilter(Class<?> entityClass, QueryByFilter otherAdditionalFilter) {
-		QueryByFilter extendedFilter = createAdditionalFilterForRealm(entityClass, otherAdditionalFilter);
+	protected QueryByFilter createAdditionalFilter(Class<?> entityClass, QueryByFilter extendedFilter) {
 		if (getFilter() instanceof CRUDFilter<?>) {
 			QueryByFilter additionalFilter = ((CRUDFilter<?>) getFilter()).getAdditionalFilter();
 			if (additionalFilter != null) {
 				extendedFilter.merge(additionalFilter);
 			}
 		}
+		addDefaultOrder(extendedFilter);
 		return extendedFilter;
 	}
-
-	/**
-	 * This method is deprecated use createAdditionalFilter() instead.
-	 * 
-	 * @see #createAdditionalFilter(Class)
-	 */
-	@Deprecated
-	protected QueryByFilter createAdditionalFilterForRealm(Class<?> entityClass) {
-		return createAdditionalFilterForRealm(entityClass, null);
-	}
-
-	/**
-	 * Method that create an additional filter to check realms, adding the otherAdditionalFilter's items. This method is deprecated
-	 * use createAdditionalFilter() instead.
-	 * 
-	 * @see #createAdditionalFilter(Class, QueryByFilter)
-	 */
-	@Deprecated
-	protected QueryByFilter createAdditionalFilterForRealm(Class<?> entityClass, QueryByFilter otherAdditionalFilter) {
-		QueryByFilter addFilter = new QueryByFilter(entityClass);
-		if (otherAdditionalFilter != null) {
-			addFilter.merge(otherAdditionalFilter);
-		}
-		// TRY TO SET THE REALM AUTOMATICALLY IF THE OBJECT IS REALM AWARE
-		addRealmCondition(entityClass, addFilter);
-		addDefaultOrder(addFilter);
-		return addFilter;
-	}
-
-	protected void addRealmCondition(Class<?> entityClass, QueryByFilter addFilter) {
-		SchemaClass cls = Roma.schema().getSchemaClass(entityClass);
-		SchemaField realmField = cls.getField("realm");
-		if (realmField != null) {
-			if (realmField.getValue(getFilter().getEntity()) != null) {
-				addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, realmField.getValue(getFilter().getEntity()));
-			} else if (Roma.session().getActiveSessionInfo().getAccount() != null && Roma.session().getActiveSessionInfo().getAccount().getRealm() != null) {
-				addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, Roma.session().getActiveSessionInfo().getAccount().getRealm());
-			}
-		}
-	}
-
+	
 	protected void addDefaultOrder(QueryByFilter addFilter) {
 		SchemaClass entityClass = (SchemaClass) listClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Iterator<SchemaField> it = entityClass.getFieldIterator();

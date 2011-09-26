@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package org.romaframework.frontend.domain;
+package org.romaframework.frontend.view.domain;
 
-import org.romaframework.frontend.domain.page.PagePanelContainer;
+import org.romaframework.frontend.domain.page.DynamicContainerPage;
 
-public class ControlPanel extends PagePanelContainer {
-
-	public ControlPanel() {
-		super("Control Panel");
-	}
+public class ControlPanel extends DynamicContainerPage<ControlPanelTab> {
 }

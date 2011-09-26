@@ -13,5 +13,6 @@
 	<dependencies>
 		<dependency org="org.romaframework" name="roma-core" rev="latest.integration" />
 		<dependency org="commons-pool" name="commons-pool" rev="latest.integration" />
+		<dependency org="log4j" name="log4j" rev="latest.integration"  />
 	</dependencies>
 </ivy-module>
