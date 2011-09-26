@@ -16,6 +16,8 @@
 
 package org.romaframework.frontend.domain.message;
 
+import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 
 @ViewClass(label = "Attention!")
@@ -36,11 +38,13 @@ public class MessageYesNo extends MessageText {
 		super(iId, iTitle);
 	}
 
+	@ViewAction(render=ViewConstants.RENDER_BUTTON)
 	public void yes() {
 		close();
 		setResponse(true);
 	}
 
+	@ViewAction(render=ViewConstants.RENDER_BUTTON)
 	public void no() {
 		close();
 		setResponse(false);
