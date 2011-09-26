@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
+import org.romaframework.core.schema.FeatureNotSet;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,7 +30,7 @@ public @interface ReportingClass {
 
 	String label() default AnnotationConstants.DEF_VALUE;
 
-	Class<?> entity() default Object.class;
+	Class<?> entity() default FeatureNotSet.class;
 
 	String render() default AnnotationConstants.DEF_VALUE;
 

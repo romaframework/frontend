@@ -195,7 +195,8 @@ public class POJOFlow extends FlowAspectAbstract {
 		if (!history.isEmpty()) {
 			Pair<Object, String> last = history.peek();
 
-			if (last.getKey() != null && last.getKey().equals(iNextObject) && (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
+			if (last.getKey() != null && last.getKey().equals(iNextObject)
+					&& (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
 				// SAME OBJECT: JUST A REFRESH, DON'T STORE IN HISTORY
 				return;
 		}
@@ -215,11 +216,12 @@ public class POJOFlow extends FlowAspectAbstract {
 			return;
 		}
 
-		SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowActionFeatures.NEXT);
-
-		if (nextClass != null) {
-			String nextPosition = (String) iAction.getFeature(FlowActionFeatures.POSITION);
-			forward(iContent, nextClass, nextPosition);
+		if (iAction.isSettedFeature(FlowActionFeatures.NEXT)) {
+			SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowActionFeatures.NEXT);
+			if (nextClass != null) {
+				String nextPosition = (String) iAction.getFeature(FlowActionFeatures.POSITION);
+				forward(iContent, nextClass, nextPosition);
+			}
 		}
 	}
 
