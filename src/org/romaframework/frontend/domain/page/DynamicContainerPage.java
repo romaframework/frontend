@@ -20,11 +20,12 @@ public class DynamicContainerPage<T> extends ContainerPage<T> {
 	private Comparator<T>	comparator;
 
 	protected DynamicContainerPage() {
-		this.clazz = SchemaHelper.getSuperclassGenericType(Roma.schema().getSchemaClass(this));
+		this.clazz = SchemaHelper.getSuperclassGenericType(this.getClass());
+		populate();
 	}
 
 	protected DynamicContainerPage(Comparator<T> comparator) {
-		this.clazz = SchemaHelper.getSuperclassGenericType(Roma.schema().getSchemaClass(this));
+		this.clazz = SchemaHelper.getSuperclassGenericType(this.getClass());
 		this.comparator = comparator;
 		populate();
 	}
@@ -56,7 +57,7 @@ public class DynamicContainerPage<T> extends ContainerPage<T> {
 		for (Class<T> class1 : moduleClasses) {
 			if (!Modifier.isAbstract(class1.getModifiers()) && !Modifier.isInterface(class1.getModifiers())) {
 				try {
-					result.add((T) clazz.newInstance());
+					result.add((T) class1.newInstance());
 				} catch (Exception e) {
 					throw new RuntimeException("Error on creating pluggable class " + clazz, e);
 				}

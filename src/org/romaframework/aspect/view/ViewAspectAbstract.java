@@ -574,6 +574,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
+	
+	
 	@Override
 	public void onObjectRefresh(SessionInfo iSession, Object iContent) {
 		ViewComponent handler = getFormByObject(iContent);
@@ -585,10 +587,10 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			Object parentObject = handler.getContainerComponent().getContent();
 			String parentFieldName = handler.getSchemaField().getName();
 
-			ObjectContext.getInstance().fieldChanged(iSession, parentObject, parentFieldName);
+			Roma.fieldChanged(parentObject, parentFieldName);
 		} else {
 			// OBJECT INSIDE ANOTHER ONE: REFRESH USING ITS CONTAINER
-			ObjectContext.getInstance().fieldChanged(iSession, iContent);
+			Roma.fieldChanged(iContent);
 		}
 	}
 

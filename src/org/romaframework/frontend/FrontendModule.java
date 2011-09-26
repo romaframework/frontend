@@ -29,6 +29,7 @@ public class FrontendModule extends SelfRegistrantModule {
 
 		// REGISTER THE APPLICATION DOMAIN AS FIRST ONE PATH
 		classResolver.addDomainPackage(FrontendModule.class.getPackage().getName());
+		classResolver.addPackage(FrontendModule.class.getPackage().getName()+".view.domain");
 	}
 
 	public void shutdown() {
