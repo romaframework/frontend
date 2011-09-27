@@ -6,7 +6,7 @@
 			<form>
 				<area type="column">
 					<area name="help" />
-					<area name="fields" type="grid" size="4" />
+					<area name="fields" type="grid" size="2" />
 					<area name="actions" type="row" />
 				</area>
 			</form>

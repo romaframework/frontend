@@ -34,7 +34,7 @@ import org.romaframework.frontend.view.domain.ControlPanelTab;
 @CoreClass(orderFields = "info sessions", orderActions = "view refresh sendMessage shutdown selectAll deselectAll")
 public abstract class ActiveSessionMain extends SelectableInstance implements MessageResponseListener, ViewCallback, ControlPanelTab {
 
-	@ViewField(render = "table", layout = "block", selectionField = "selection", enabled = AnnotationConstants.FALSE)
+	@ViewField(render = "table", layout = "block", selectionField = "selection", enabled = AnnotationConstants.FALSE,label="")
 	protected List<ActiveSessionListable>	sessions;
 
 	protected int													authenticatedSessions;
