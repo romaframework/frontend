@@ -29,10 +29,10 @@ import org.romaframework.frontend.domain.message.MessageChat;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.frontend.domain.message.MessageTextEdit;
 import org.romaframework.frontend.domain.message.MessageYesNo;
-import org.romaframework.frontend.view.domain.ControlPanelTab;
+import org.romaframework.frontend.view.domain.RomaControlPanelTab;
 
 @CoreClass(orderFields = "info sessions", orderActions = "view refresh sendMessage shutdown selectAll deselectAll")
-public abstract class ActiveSessionMain extends SelectableInstance implements MessageResponseListener, ViewCallback, ControlPanelTab {
+public abstract class ActiveSessionMain extends SelectableInstance implements MessageResponseListener, ViewCallback, RomaControlPanelTab {
 
 	@ViewField(render = "table", layout = "block", selectionField = "selection", enabled = AnnotationConstants.FALSE,label="")
 	protected List<ActiveSessionListable>	sessions;

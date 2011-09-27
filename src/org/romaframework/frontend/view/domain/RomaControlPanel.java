@@ -18,5 +18,5 @@ package org.romaframework.frontend.view.domain;
 
 import org.romaframework.frontend.domain.page.DynamicContainerPage;
 
-public class ControlPanel extends DynamicContainerPage<ControlPanelTab> {
+public class RomaControlPanel extends DynamicContainerPage<RomaControlPanelTab> {
 }

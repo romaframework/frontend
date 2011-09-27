@@ -1,5 +1,5 @@
 package org.romaframework.frontend.view.domain;
 
-public interface ControlPanelTab {
+public interface RomaControlPanelTab {
 
 }

@@ -14,7 +14,7 @@ import org.romaframework.core.config.ApplicationConfiguration;
 import org.romaframework.core.module.Module;
 import org.romaframework.core.module.ModuleManager;
 
-public class ApplicationConfigurationPanel implements ControlPanelTab {
+public class ApplicationConfigurationPanel implements RomaControlPanelTab {
 	@ViewField(render = ViewConstants.RENDER_HTML, label = "")
 	public String getHelp() {
 		return "To make persistent changes please modify the META-INF/component/applicationContext.xml file.";
