@@ -57,7 +57,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.Utility;
 import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.flow.ObjectRefreshListener;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;

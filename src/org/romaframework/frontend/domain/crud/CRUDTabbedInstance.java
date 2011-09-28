@@ -33,7 +33,7 @@ public abstract class CRUDTabbedInstance<T> extends CRUDInstance<T> {
 
 	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, label = "")
 	@ValidationField
-	protected ContainerPage	tabs	= new ContainerPage();
+	protected ContainerPage<Object>	tabs	= new ContainerPage<Object>();
 
 	public CRUDTabbedInstance() {
 	}
@@ -42,7 +42,7 @@ public abstract class CRUDTabbedInstance<T> extends CRUDInstance<T> {
 		super(iEntity);
 	}
 
-	public ContainerPage getTabs() {
+	public ContainerPage<Object> getTabs() {
 		return tabs;
 	}
 
