@@ -35,6 +35,7 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.QueryByExample;
 import org.romaframework.aspect.persistence.QueryByFilter;
+import org.romaframework.aspect.persistence.QueryByFilterItem;
 import org.romaframework.aspect.persistence.QueryByText;
 import org.romaframework.aspect.persistence.annotation.Persistence;
 import org.romaframework.aspect.reporting.annotation.ReportingField;
@@ -655,5 +656,16 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 			if (!SchemaHelper.isMultiValueObject(sf) && Roma.context().persistence().isFieldPersistent(sf))
 				addFilter.addOrder(sf.getName());
 		}
+	}
+	
+	public void onResultSort(String field, String mode) {
+		
+		List<QueryByFilterItem> items = new ArrayList<QueryByFilterItem>(((QueryByExample) queryRequest).getAdditionalFilter()
+				.getItems());
+		((QueryByExample) queryRequest).getAdditionalFilter().clear();
+		((QueryByExample) queryRequest).getAdditionalFilter().setItems(items);
+		((QueryByExample) queryRequest).getAdditionalFilter().addOrder(field,
+				"true".equals(mode) ? QueryByFilter.ORDER_ASC : QueryByFilter.ORDER_DESC);
+		executePagingQuery();
 	}
 }
