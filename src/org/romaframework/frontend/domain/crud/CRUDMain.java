@@ -523,7 +523,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 			if (iSelectedObjects.length == 1 && iSelectedObjects[0] instanceof ComposedEntity<?>)
 				enableUpdate = ((Secure) iSelectedObjects[0]).canWrite();
 
-			Roma.setFeature(this, "update", ViewActionFeatures.ENABLED, enableUpdate);
+//			Roma.setFeature(this, "read", ViewActionFeatures.ENABLED, enableUpdate);
+//			Roma.setFeature(this, "update", ViewActionFeatures.ENABLED, enableUpdate);
 		}
 
 		super.setSelection(iSelectedObjects);

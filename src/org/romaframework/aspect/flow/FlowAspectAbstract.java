@@ -22,13 +22,15 @@ import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaEvent;
+import org.romaframework.frontend.domain.message.MessageOk;
 
 /**
  * Abstract implementation for Flow Aspect.
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
-public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModule<String> implements FlowAspect, SchemaActionListener {
+public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModule<String> implements FlowAspect,
+		SchemaActionListener {
 
 	@Override
 	public void startup() {
@@ -49,5 +51,10 @@ public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModul
 
 	public String aspectName() {
 		return ASPECT_NAME;
+	}
+
+	public void alert(String iTitle, String iBody) {
+		MessageOk msg = new MessageOk("", iTitle, null, iBody);
+		forward(msg, "screen:popup");
 	}
 }
