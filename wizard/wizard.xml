@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="add-module" name="roma-frontend-wizard">
     
-	<import file="../../roma-core-wizard/wizard/base-wizard.xml" />
+	<import file="${wizard.path}/base-wizard.xml" />
     
     <target name="add-module" >
         <property name="module.ioc-file" value="applicationContext-frontend.xml"/>
         <antcall target="copy-module-ioc-file"/>
-        
-        <!-- COPY IMAGES -->
-        <copy todir="${project.path}/WebContent/static/base/image/">
-            <fileset dir="images">
-                <include name="*"/>
-            </fileset>
-        </copy>
     </target>
     
 </project>
