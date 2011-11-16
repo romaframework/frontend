@@ -17,7 +17,7 @@ public class SchemaEventSearch extends SchemaEvent {
 	private static final long	serialVersionUID	= -5781697247853066424L;
 
 	public SchemaEventSearch(SchemaField iField) {
-		super(iField, "search", Arrays.asList(new SchemaParameter[] { new SchemaParameter("param1", Roma.schema().getSchemaClass(String.class)) }));
+		super(iField, "search", Arrays.asList(new SchemaParameter[] { new SchemaParameter("param1",0, Roma.schema().getSchemaClass(String.class)) }));
 	}
 
 	@Override
