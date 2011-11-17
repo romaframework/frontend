@@ -31,50 +31,53 @@ public class SchemaEventEdit extends SchemaEvent {
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
 		Object selectedValue = getSingleSelection(iContent);
-		SchemaClass clazz = Roma.schema().getSchemaClass(EntityHelper.getEntityObject(selectedValue).getClass());
-		SchemaClass selectedValueClass = Roma.schema().getSchemaClass(selectedValue.getClass());
+		if (selectedValue != null) {
+			SchemaClass clazz = Roma.schema().getSchemaClass(EntityHelper.getEntityObject(selectedValue).getClass());
+			SchemaClass selectedValueClass = Roma.schema().getSchemaClass(selectedValue.getClass());
 
-		// NO EVENT FOUND
-		Object domainInstance;
+			// NO EVENT FOUND
+			Object domainInstance;
 
-		if (!selectedValueClass.equals(clazz)) {
-			if (!selectedValueClass.isAssignableAs(clazz)) {
-				domainInstance = EntityHelper.getEntityObject(selectedValue);
-			} else
+			if (!selectedValueClass.equals(clazz)) {
+				if (!selectedValueClass.isAssignableAs(clazz)) {
+					domainInstance = EntityHelper.getEntityObject(selectedValue);
+				} else
+					domainInstance = selectedValue;
+
+			} else {
 				domainInstance = selectedValue;
-
-		} else {
-			domainInstance = selectedValue;
-		}
-
-		// TRY TO DISPLAY CRUD CLASS IF ANY
-		SchemaClass formClass = CRUDHelper.getCRUDInstance(EntityHelper.getEntityObject(selectedValue).getClass());
-
-		Object formInstance;
-		if (formClass == null)
-			// CRUD CREATE CLASS NOT FOUND: DISPLAY SIMPLE OBJECT
-			formInstance = domainInstance;
-		else {
-			try {
-				formInstance = EntityHelper.createObject(domainInstance, formClass);
-			} catch (InstantiationException e) {
-				throw new RuntimeException(e);
 			}
-		}
 
-		if (formInstance instanceof CRUDInstance) {
-			((CRUDInstance<?>) formInstance).setMode(getOpenMode());
-		}
-		if (formInstance instanceof Bindable)
-			((Bindable) formInstance).setSource(iContent, field.getName());
+			// TRY TO DISPLAY CRUD CLASS IF ANY
+			SchemaClass formClass = CRUDHelper.getCRUDInstance(EntityHelper.getEntityObject(selectedValue).getClass());
 
-		if (formClass == null) {
-			final InstanceWrapper instanceWrapper = new InstanceWrapper(iContent, field, formInstance, getOpenMode());
-			Roma.aspect(FlowAspect.class).forward(instanceWrapper, "screen:popup");
-		} else
-			Roma.aspect(FlowAspect.class).forward(formInstance, "screen:popup");
+			Object formInstance;
+			if (formClass == null)
+				// CRUD CREATE CLASS NOT FOUND: DISPLAY SIMPLE OBJECT
+				formInstance = domainInstance;
+			else {
+				try {
+					formInstance = EntityHelper.createObject(domainInstance, formClass);
+				} catch (InstantiationException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			if (formInstance instanceof CRUDInstance) {
+				((CRUDInstance<?>) formInstance).setMode(getOpenMode());
+			}
+			if (formInstance instanceof Bindable)
+				((Bindable) formInstance).setSource(iContent, field.getName());
+
+			if (formClass == null) {
+				final InstanceWrapper instanceWrapper = new InstanceWrapper(iContent, field, formInstance, getOpenMode());
+				Roma.aspect(FlowAspect.class).forward(instanceWrapper, "screen:popup");
+			} else
+				Roma.aspect(FlowAspect.class).forward(formInstance, "screen:popup");
+		}
 		return null;
 	}
 

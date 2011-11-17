@@ -89,7 +89,6 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	}
 
 	public void onShow() {
-		Roma.setFeature(object, selectionFieldName, ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 	}
 
 	protected void init(Object iObject, String iSelectionField, boolean iAutoSelection) {
@@ -163,10 +162,6 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	@Override
 	public String toString() {
 		return list != null ? list.toString() : "null";
-	}
-
-	public void setList(Set<T> list) {
-		setList(new ArrayList<T>(list));
 	}
 
 	public void setList(List<T> list) {
