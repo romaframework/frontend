@@ -27,7 +27,6 @@ import org.romaframework.aspect.session.SessionAspect;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.session.SessionListener;
 import org.romaframework.aspect.view.screen.Screen;
-import org.romaframework.aspect.view.screen.ScreenContainer;
 import org.romaframework.core.Roma;
 import org.romaframework.core.flow.Controller;
 
@@ -42,15 +41,15 @@ public class FormViewer implements SessionListener {
 	/**
 	 * Contains a map of SessionInfo,
 	 */
-	private Map<Object, ScreenContainer>	userView;
-	private SessionAspect									sessionManager;
+	private Map<Object, Screen>	userView;
+	private SessionAspect				sessionManager;
 
-	private static FormViewer							instance	= new FormViewer();
-	private static Log										log				= LogFactory.getLog(FormViewer.class);
+	private static FormViewer		instance	= new FormViewer();
+	private static Log					log				= LogFactory.getLog(FormViewer.class);
 
 	protected FormViewer() {
 		sessionManager = Roma.session();
-		userView = Collections.synchronizedMap(new HashMap<Object, ScreenContainer>());
+		userView = Collections.synchronizedMap(new HashMap<Object, Screen>());
 
 		Controller.getInstance().registerListener(SessionListener.class, this);
 	}
@@ -60,12 +59,7 @@ public class FormViewer implements SessionListener {
 	}
 
 	public Screen getScreen(Object iSession) {
-		ScreenContainer container = userView.get(iSession);
-
-		if (container == null)
-			return null;
-
-		return container.getScreen();
+		return userView.get(iSession);
 	}
 
 	/**
@@ -83,15 +77,9 @@ public class FormViewer implements SessionListener {
 	 * @param iScreen
 	 */
 	public void setScreen(Screen iScreen, SessionInfo iSession) {
-		ScreenContainer current = userView.get(iSession);
-		if (current != null && iScreen != current.getScreen())
-			// SCREEN CHANGED: SET IT
-			current.setScreen(iScreen);
+		userView.put(iSession, iScreen);
 	}
 
-	public void setScreenContainer(ScreenContainer iScreenContainer) {
-		userView.put(sessionManager.getActiveSessionInfo(), iScreenContainer);
-	}
 
 	/**
 	 * Render the an object on the defined area
@@ -105,12 +93,8 @@ public class FormViewer implements SessionListener {
 		Object session = sessionManager.getActiveSessionInfo();
 
 		if (session != null) {
-			ScreenContainer screenCont = userView.get(session);
-
-			if (screenCont != null) {
-				Screen currentDesktop = screenCont.getScreen();
-				display(iArea, iForm, currentDesktop);
-			}
+			Screen currentDesktop = userView.get(session);
+			display(iArea, iForm, currentDesktop);
 		}
 	}
 
@@ -153,10 +137,7 @@ public class FormViewer implements SessionListener {
 	 * Remove user session screen if any
 	 */
 	public void onSessionDestroying(SessionInfo iSession) {
-		ScreenContainer screen = userView.remove(iSession);
-		if (screen != null)
-			screen.destroy();
-
+		Screen screen = userView.remove(iSession);
 		if (log.isDebugEnabled())
 			log.debug("[FormViewer.onSessionDestroying] Removed screen container: " + screen);
 
