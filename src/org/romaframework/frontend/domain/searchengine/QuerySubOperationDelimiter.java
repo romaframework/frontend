@@ -71,7 +71,7 @@ public class QuerySubOperationDelimiter implements QueryItem {
 		showActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineEditFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineEditFilter")
 	public void edit() {
 		operation.showFilters();
 		if (delimiter.equals(BEGIN_DELIMITER))
@@ -81,7 +81,7 @@ public class QuerySubOperationDelimiter implements QueryItem {
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineRemoveFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineRemoveFilter")
 	public void remove() {
 		Integer startPosition;
 		Integer endPosition;
@@ -105,14 +105,14 @@ public class QuerySubOperationDelimiter implements QueryItem {
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddLeftFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddLeftFilter")
 	public void addLeft() {
 		operation.showFilters();
 		operation.setPositionToAdd(0);
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddRightFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddRightFilter")
 	public void addRight() {
 		operation.showFilters();
 		operation.setPositionToAdd(operation.getOperation().size());

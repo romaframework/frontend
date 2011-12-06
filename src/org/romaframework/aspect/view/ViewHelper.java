@@ -137,7 +137,7 @@ public class ViewHelper {
 				}
 			} else if (field.getType() != null) {
 				Object subObj = SchemaHelper.getFieldValue(field, iUserObject);
-				String fieldLayout = (String) field.getFeature(ViewFieldFeatures.LAYOUT);
+				String fieldLayout = (String) field.getFeature(ViewFieldFeatures.POSITION);
 				String fieldRender = (String) field.getFeature(ViewFieldFeatures.RENDER);
 				if (subObj != null
 						&& ((fieldLayout != null && !fieldLayout.equals(ViewConstants.LAYOUT_DEFAULT)) || fieldRender != null && fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))

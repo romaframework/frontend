@@ -45,12 +45,12 @@ public class VisualQueryComposer implements Refreshable {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private Class<?>										targetClass;
 
-	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "targetClass", label = "", layout = "form://classCombo")
+	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "targetClass", label = "", position = "form://classCombo")
 	private List<SchemaClass>						classesList			= Roma.schema().getSchemaClassesByPackage(Roma.component(ApplicationConfiguration.class).getApplicationPackage() + ".domain");
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private VisualQueryFilter[]					filterSelection;
-	@ViewField(render = ViewConstants.RENDER_TABLEEDIT, label = "", selectionField = "filterSelection", layout = "form://filters")
+	@ViewField(render = ViewConstants.RENDER_TABLEEDIT, label = "", selectionField = "filterSelection", position = "form://filters")
 	private List<VisualQueryFilter>			filters					= new ArrayList<VisualQueryFilter>();
 
 	private CommandContext							context;
@@ -120,7 +120,7 @@ public class VisualQueryComposer implements Refreshable {
 		Roma.fieldChanged(this, "filters");
 	}
 
-	@ViewAction(layout = "form://buttonOk")
+	@ViewAction(position = "form://buttonOk")
 	public void ok() {
 		notifyOk();
 		Roma.aspect(FlowAspect.class).back();
@@ -131,7 +131,7 @@ public class VisualQueryComposer implements Refreshable {
 			listener.eventOk(this);
 	}
 
-	@ViewAction(layout = "form://buttonCancel")
+	@ViewAction(position = "form://buttonCancel")
 	public void cancel() {
 		notifyCancel();
 		Roma.aspect(FlowAspect.class).back();

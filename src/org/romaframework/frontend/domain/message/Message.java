@@ -24,7 +24,7 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 
-@ViewClass(render = "popup", layout = "screen:popup:message")
+@ViewClass(render = "popup", position = "screen:popup:message")
 public class Message implements ViewCallback {
 
 	@ViewField(visible = AnnotationConstants.FALSE)

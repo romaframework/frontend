@@ -49,7 +49,7 @@ public abstract class SearchEngineMain<T> extends CRUDMain<T> {
 		searchClass = iSearchClass;
 	}
 
-	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, label = "", layout = "form://filter")
+	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, label = "", position = "form://filter")
 	public QueryOperation getOperation() {
 		return filter;
 	}

@@ -19,7 +19,7 @@ import org.romaframework.core.config.Refreshable;
 @ViewClass(label = "")
 public class ContainerPage<T> implements Refreshable {
 
-	@ViewField(render = ViewConstants.RENDER_TAB, label = "", layout = "form://innerPages", selectionField = "activePage")
+	@ViewField(render = ViewConstants.RENDER_TAB, label = "", position = "form://innerPages", selectionField = "activePage")
 	@ValidationField
 	protected Map<String, T>	innerPages	= new LinkedHashMap<String, T>();
 

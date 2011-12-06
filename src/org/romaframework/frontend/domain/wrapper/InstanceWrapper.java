@@ -23,7 +23,7 @@ public class InstanceWrapper implements CRUDWorkingMode, ViewCallback {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected int					mode;
 
-	@ViewField(layout = ViewConstants.LAYOUT_EXPAND)
+	@ViewField(position = ViewConstants.LAYOUT_EXPAND)
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
 	protected Object			wrapped;
 

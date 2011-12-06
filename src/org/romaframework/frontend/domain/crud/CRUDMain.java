@@ -82,7 +82,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		ViewCallback {
 
 	@ReportingField(visible = AnnotationConstants.FALSE)
-	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = "form://paging")
+	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, position = "form://paging")
 	protected CRUDPaging																	paging;
 
 	protected org.romaframework.aspect.persistence.Query	queryRequest;
@@ -138,10 +138,10 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	@CoreField(embedded = AnnotationConstants.TRUE, useRuntimeType = AnnotationConstants.TRUE)
-	@ViewField(label = "", layout = "form://filter")
+	@ViewField(label = "", position = "form://filter")
 	public abstract ComposedEntity<?> getFilter();
 
-	@ViewField(label = "", selectionField = "selectionFromResult", render = ViewConstants.RENDER_TABLE, enabled = AnnotationConstants.FALSE, layout = "form://result")
+	@ViewField(label = "", selectionField = "selectionFromResult", render = ViewConstants.RENDER_TABLE, enabled = AnnotationConstants.FALSE, position = "form://result")
 	public abstract List<? extends Object> getResult();
 
 	public abstract void setResult(Object iValue);

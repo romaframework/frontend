@@ -81,9 +81,9 @@ public class ReportingFeatureHelper {
 		String fieldLayout = (String) iFeatures.getFeature(ReportingBaseFeatures.LAYOUT);
 		if (fieldLayout == null) {
 			if (iFeatures instanceof SchemaField) {
-				fieldLayout = (String) iFeatures.getFeature(ViewFieldFeatures.LAYOUT);
+				fieldLayout = (String) iFeatures.getFeature(ViewFieldFeatures.POSITION);
 			} else {
-				fieldLayout = (String) iFeatures.getFeature(ViewActionFeatures.LAYOUT);
+				fieldLayout = (String) iFeatures.getFeature(ViewActionFeatures.POSITION);
 			}
 		}
 		return fieldLayout;
