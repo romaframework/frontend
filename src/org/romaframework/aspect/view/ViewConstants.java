@@ -61,9 +61,9 @@ public class ViewConstants {
 	public static final String	RENDER_URL							= "url";
 	public static final String	RENDER_DATAMAP					= "datamap";
 
-	@Deprecated()
+	@Deprecated
 	public static final String	RENDER_MAP							= "map";
-
+	@Deprecated
 	public static final String	RENDER_GEO							= "map";
 
 	public static final String	RENDER_AREA_CELL				= "cell";
@@ -73,21 +73,36 @@ public class ViewConstants {
 	public static final String	RENDER_AREA_POPUP				= "popup";
 	public static final String	RENDER_AREA_TAB					= "tab";
 
+	@Deprecated
 	public static final String	LAYOUT_DEFAULT					= "default";
+	@Deprecated
 	public static final String	LAYOUT_ACCORDION				= "accordion";
+	@Deprecated
 	public static final String	LAYOUT_BLOCK						= "block";
+	@Deprecated
 	public static final String	LAYOUT_FORM							= "form";
+	@Deprecated
 	public static final String	LAYOUT_SCREEN						= "screen";
+	@Deprecated
 	public static final String	LAYOUT_EXPAND						= "expand";
+	@Deprecated
 	public static final String	LAYOUT_MENU							= "menu";
+	@Deprecated
 	public static final String	LAYOUT_POPUP						= "screen:popup";
-
+	@Deprecated
 	public static final String	LAYOUT_GRID							= "grid";
+	@Deprecated
 	public static final String	LAYOUT_COLUMNS					= "columns";
 
+	@Deprecated
 	public static final String	ACTION_PREFIX						= "action";
+	
+	@Deprecated
 	public static final String	FIELD_PREFIX						= "field";
-
+	
+	@Deprecated
 	public static final String	ORIENTATION_HORIZONTAL	= "horizontal";
+	
+	@Deprecated
 	public static final String	ORIENTATION_VERTICAL		= "vertical";
 }

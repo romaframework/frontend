@@ -126,8 +126,7 @@ public class QueryOperation implements ViewCallback {
 		this.operation = operation;
 	}
 
-	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
-	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, position = ViewConstants.LAYOUT_EXPAND)
+	@CoreField(useRuntimeType = AnnotationConstants.TRUE, expand = AnnotationConstants.TRUE)
 	public BaseFilter<?> getEditCondition() {
 		return editCondition;
 	}

@@ -8,7 +8,7 @@
 					<area name="information" align="top center" />
 					<area name="stepsToSelect" align="top center" />
 					<area name="subContent" align="top center" />
-					<area name="fields" type="grid" size="2" align="top center" />
+					<area name="fields" type="form" size="1" align="top center" />
 				</area>
 			</form>
 		</view>
