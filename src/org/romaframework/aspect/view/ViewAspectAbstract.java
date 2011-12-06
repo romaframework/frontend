@@ -294,13 +294,10 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		// SEARCH THE FORM TO VIEW BY ENTITY
-		boolean hasToRenderTheForm = false;
 		ContentForm form = (ContentForm) getFormByObject(iSession, iContent);
 		if (form == null) {
 			// CREATE IT
 			form = ViewHelper.createForm(iSchema, null, iContent, iSession);
-			if (currentSession)
-				hasToRenderTheForm = true;
 		} else {
 			ViewHelper.invokeOnShow(iContent);
 			iPosition = form.getScreenArea();
@@ -323,9 +320,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		else
 			// PUSH CHANGES
 			pushCommand(new ShowViewCommand(iSession, iScreen, form, iPosition));
-
-		if (hasToRenderTheForm)
-			form.renderContent();
 	}
 
 	/**
@@ -403,9 +397,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          User Object to close
 	 */
 	public boolean close(Object iUserObject) {
-		ViewComponent form = getFormByObject(iUserObject);
-		if (form != null)
-			form.close();
+		//TODO:delete
 		return true;
 	}
 
@@ -573,8 +565,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	
-	
 	@Override
 	public void onObjectRefresh(SessionInfo iSession, Object iContent) {
 		ViewComponent handler = getFormByObject(iContent);
