@@ -283,8 +283,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			if (iPosition == null)
 				// GET CURRENT AREA FOR OBJECT
 				iPosition = getScreen().getActiveArea();
-			//TODO: verify in janiculum display null content not show any.
-			FormViewer.getInstance().display(iPosition, iContent, iScreen);
+			Roma.view().getScreen().getArea(iPosition).clear();
 			return;
 		}
 
@@ -398,7 +397,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          User Object to close
 	 */
 	public boolean close(Object iUserObject) {
-		//TODO:delete
+		// TODO:delete
 		return true;
 	}
 

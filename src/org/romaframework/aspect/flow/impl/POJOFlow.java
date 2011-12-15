@@ -63,11 +63,7 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	public void forward(SchemaClass iNextClass, String iPosition) {
-		forward(iNextClass, iPosition);
-	}
-
-	public void forward(Object iCurrentObject, Class<? extends Object> iNextClass, String iPosition) {
-		forward(iNextClass, iPosition);
+		forward(iNextClass, iPosition, null, null);
 	}
 
 	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession) {
@@ -116,7 +112,7 @@ public class POJOFlow extends FlowAspectAbstract {
 			content = back();
 		}
 
-		// UNKNOWN ERROR
+		// UNKNOWN ERRORuser
 		return content;
 	}
 
@@ -142,8 +138,10 @@ public class POJOFlow extends FlowAspectAbstract {
 
 		Pair<Object, String> backObject = moveBack(iSession);
 
-		if (backObject == null)
+		if (backObject == null) {
+			viewAspect.show(null, Roma.view().getScreen().getActiveArea());
 			return null;
+		}
 		viewAspect.show(backObject.getKey(), backObject.getValue(), null, iSession);
 
 		return backObject.getKey();
@@ -154,6 +152,16 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	protected void moveForward(SessionInfo iSession, Object iNextObject, String iPosition) {
+		if (iPosition == null)
+			iPosition = Roma.view().getScreen().getActiveArea();
+		else {
+			if (iPosition.startsWith("screen:"))
+				iPosition = iPosition.substring("screen:".length());
+			while (iPosition.startsWith("/"))
+				iPosition = iPosition.substring(1);
+			if (iPosition.contains(":"))
+				iPosition = iPosition.substring(0, iPosition.indexOf(":"));
+		}
 		Stack<Object> history = getAreaHistory(iSession, iPosition);
 
 		if (!history.isEmpty()) {
