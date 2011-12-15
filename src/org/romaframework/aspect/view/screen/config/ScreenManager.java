@@ -31,7 +31,7 @@ import org.romaframework.core.schema.xmlannotations.XmlFormAreaAnnotation;
  */
 public abstract class ScreenManager extends Configurable<ScreenFactory> {
 
-	public abstract Screen createScreenFromDefaultFactory(String iName, XmlFormAreaAnnotation iAreaTag);
+	public abstract Screen createScreenFromDefaultFactory(String iName, XmlFormAreaAnnotation iAreaTag, String defaultArea);
 
 	public Screen getScreen(String iTypeName) {
 		Screen screen = null;
@@ -54,7 +54,7 @@ public abstract class ScreenManager extends Configurable<ScreenFactory> {
 					// DESKTOP DESCRIPTOR NOT FOUND
 					throw new ConfigurationException("Screen " + iTypeName + " not found");
 
-				screen = createScreenFromDefaultFactory(iTypeName, descr.getRootArea());
+				screen = createScreenFromDefaultFactory(iTypeName, descr.getRootArea(), descr.getDefaultArea());
 			}
 		}
 

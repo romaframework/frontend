@@ -30,6 +30,7 @@ public class ScreenConfiguration {
 
 	private InputStream						file;
 	private XmlFormAreaAnnotation	type;
+	private String								defaultArea;
 
 	public ScreenConfiguration(InputStream iFile) throws IOException {
 		file = iFile;
@@ -46,6 +47,7 @@ public class ScreenConfiguration {
 		try {
 			doc = XmlAnnotationParser.parseScreen(getFile());
 			type = doc.getRootArea();
+			defaultArea = doc.getDefaultArea();
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {
@@ -55,6 +57,10 @@ public class ScreenConfiguration {
 
 	public InputStream getFile() {
 		return file;
+	}
+
+	public String getDefaultArea() {
+		return this.defaultArea;
 	}
 
 	public XmlFormAreaAnnotation getRootArea() {
