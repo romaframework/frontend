@@ -16,6 +16,8 @@
 
 package org.romaframework.aspect.flow.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import org.romaframework.aspect.flow.FlowAspectAbstract;
@@ -51,46 +53,26 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	public Pair<Object, String> current(SessionInfo iSession) {
-		Stack<Pair<Object, String>> history = getHistory(iSession);
-
-		Pair<Object, String> backObject = history.isEmpty() ? null : history.peek();
-
+		String activeArea = Roma.view().getScreen().getActiveArea();
+		Pair<Object, String> backObject = null;
+		Stack<Object> stack = getAreaHistory(iSession, activeArea);
+		if (stack != null && !stack.isEmpty()) {
+			backObject = new Pair<Object, String>(stack.peek(), activeArea);
+		}
 		return backObject;
 	}
 
-	public void forward(Object iCurrentObject, SchemaClass iNextClass, String iPosition) {
-		if (iNextClass == null)
-			return;
-
-		// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-		Object nextObj = Roma.session().getObject(iNextClass);
-
-		forward(iCurrentObject, nextObj, iPosition);
+	public void forward(SchemaClass iNextClass, String iPosition) {
+		forward(iNextClass, iPosition);
 	}
 
 	public void forward(Object iCurrentObject, Class<? extends Object> iNextClass, String iPosition) {
-		if (iNextClass == null)
-			return;
-
-		// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
-		Object nextObj = Roma.session().getObject(iNextClass);
-
-		forward(iCurrentObject, nextObj, iPosition);
-	}
-
-	public void forward(Object iNextObject) {
-		forward(iNextObject, null);
-	}
-
-	public void forward(Object iCurrentObject, Object iNextObject, String iPosition) {
-		forward(iNextObject, iPosition);
-	}
-
-	public void forward(Object iNextObject, String iPosition) {
-		forward(iNextObject, iPosition, null, null);
+		forward(iNextClass, iPosition);
 	}
 
 	public void forward(Object iNextObject, String iPosition, Screen iScreen, SessionInfo iSession) {
+		if (iNextObject == null)
+			return;
 
 		if (iNextObject instanceof String) {
 			SchemaClass cls = Roma.schema().getSchemaClass((String) iNextObject);
@@ -106,6 +88,11 @@ public class POJOFlow extends FlowAspectAbstract {
 
 			// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
 			iNextObject = Roma.session().getObject(cls);
+		} else if (iNextObject instanceof SchemaClass) {
+			SchemaClass cls = ((SchemaClass) iNextObject);
+
+			// SEARCH THE FORM INSTANCE BETWEEN USER SESSSION FORMS
+			iNextObject = Roma.session().getObject(cls);
 		}
 
 		moveForward(iSession, iNextObject, iPosition);
@@ -115,29 +102,17 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	public Object back(Object iGoBackUntil) {
-		Pair<Object, String> currentObject;
 
 		if (iGoBackUntil == null)
 			// GET THE LAST ONE POSITION
 			return back();
 
-		// GO BACK UNTIL THE POJO PASSED IS FOUND
-		currentObject = null;
-		for (Pair<Object, String> history : getHistory()) {
-			if (iGoBackUntil.equals(history.getKey())) {
-				currentObject = history;
-				break;
-			}
+		if (!getAreaHistory(null, Roma.view().getScreen().getActiveArea()).contains(iGoBackUntil)) {
+			return null;
 		}
 
-		if (currentObject == null)
-			// NO BACK POJO TO RETURN
-			return null;
-
-		// BACK OBJECT FOUND: GO BACK STEP-BY-STEP
-		currentObject = current();
 		Object content = back();
-		while (currentObject != null && content != null && !currentObject.getKey().equals(iGoBackUntil)) {
+		while (!iGoBackUntil.equals(content)) {
 			content = back();
 		}
 
@@ -150,13 +125,11 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	public void clearHistory(SessionInfo iSession) {
-		while (!getHistory().isEmpty()) {
-			getHistory(iSession).pop();
-		}
+		getHistory(iSession).clear();
 	}
 
 	public Object back() {
-		return back(null);
+		return back((SessionInfo) null);
 	}
 
 	public Object back(SessionInfo iSession) {
@@ -169,14 +142,9 @@ public class POJOFlow extends FlowAspectAbstract {
 
 		Pair<Object, String> backObject = moveBack(iSession);
 
-		Object currentForm = currentObject.getKey();
-
-		if (!viewAspect.close(currentForm))
-			// SHOW THE PREVIOUS FORM
-			viewAspect.show(backObject.getKey(), backObject.getValue(), null, iSession);
-
 		if (backObject == null)
 			return null;
+		viewAspect.show(backObject.getKey(), backObject.getValue(), null, iSession);
 
 		return backObject.getKey();
 	}
@@ -186,26 +154,21 @@ public class POJOFlow extends FlowAspectAbstract {
 	}
 
 	protected void moveForward(SessionInfo iSession, Object iNextObject, String iPosition) {
-		if (Roma.view().getScreen().getActiveArea() != null && Roma.view().getScreen().getActiveArea().startsWith(Screen.POPUP)) {
-			if (iPosition != null && (!iPosition.startsWith("screen:" + Screen.POPUP) && !iPosition.startsWith(Screen.POPUP)))
-				return;
-		}
-		Stack<Pair<Object, String>> history = getHistory(iSession);
+		Stack<Object> history = getAreaHistory(iSession, iPosition);
 
 		if (!history.isEmpty()) {
-			Pair<Object, String> last = history.peek();
+			Object last = history.peek();
 
-			if (last.getKey() != null && last.getKey().equals(iNextObject)
-					&& (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
+			if (last.equals(iNextObject))
 				// SAME OBJECT: JUST A REFRESH, DON'T STORE IN HISTORY
 				return;
 		}
 
-		history.push(new Pair<Object, String>(iNextObject, iPosition));
+		history.push(iNextObject);
 	}
 
 	protected Pair<Object, String> moveBack(SessionInfo iSession) {
-		getHistory(iSession).pop();
+		getAreaHistory(iSession, Roma.view().getScreen().getActiveArea()).pop();
 		return current();
 	}
 
@@ -220,7 +183,7 @@ public class POJOFlow extends FlowAspectAbstract {
 			SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowActionFeatures.NEXT);
 			if (nextClass != null) {
 				String nextPosition = (String) iAction.getFeature(FlowActionFeatures.POSITION);
-				forward(iContent, nextClass, nextPosition);
+				forward(nextClass, nextPosition);
 			}
 		}
 	}
@@ -277,18 +240,28 @@ public class POJOFlow extends FlowAspectAbstract {
 		}
 	}
 
-	public Stack<Pair<Object, String>> getHistory() {
+	public Map<String, Stack<Object>> getHistory() {
 		return getHistory(null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Stack<Pair<Object, String>> getHistory(SessionInfo iSession) {
-		Stack<Pair<Object, String>> history = (Stack<Pair<Object, String>>) sessionAspect.getProperty(iSession, SESS_PROPERTY_HISTORY);
+	public Map<String, Stack<Object>> getHistory(SessionInfo iSession) {
+		Map<String, Stack<Object>> history = (Map<String, Stack<Object>>) sessionAspect.getProperty(iSession, SESS_PROPERTY_HISTORY);
 		if (history == null) {
-			history = new Stack<Pair<Object, String>>();
+			history = new HashMap<String, Stack<Object>>();
 			sessionAspect.setProperty(SESS_PROPERTY_HISTORY, history);
 		}
 		return history;
+	}
+
+	public Stack<Object> getAreaHistory(SessionInfo iSession, String area) {
+		Map<String, Stack<Object>> areas = getHistory(iSession);
+		Stack<Object> stack = areas.get(area);
+		if (stack == null) {
+			stack = new Stack<Object>();
+			areas.put(area, stack);
+		}
+		return stack;
 	}
 
 	@Override

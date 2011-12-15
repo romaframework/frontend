@@ -15,13 +15,12 @@
  */
 package org.romaframework.frontend.domain.message;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.ApplicationConfiguration;
-import org.romaframework.core.domain.type.Pair;
 
 /**
  * 
@@ -43,13 +42,8 @@ public abstract class AbstractErrorReporter implements ErrorReporter {
 	 */
 	public void reportError(String message, Throwable exception) {
 
-		List<Pair<Object, String>> flowStack = new ArrayList<Pair<Object, String>>(Roma.flow().getHistory());
-		Pair<Object, String> last = flowStack.get(flowStack.size() - 1);
-		if (ErrorMessageTextDetail.class.equals(last.getKey().getClass())) {
-			flowStack.remove(last);
-		}
+		Map<String, Stack<Object>> flowStack = Roma.flow().getHistory();
 		ApplicationConfiguration conf = Roma.component(ApplicationConfiguration.class);
-
 		reportError(conf.getApplicationName(), conf.getApplicationVersion(), Roma.session().getActiveSessionInfo(), flowStack, message, exception);
 	}
 
@@ -69,5 +63,5 @@ public abstract class AbstractErrorReporter implements ErrorReporter {
 	 * @param exception
 	 *          to report.
 	 */
-	protected abstract void reportError(String aplicationName, String version, SessionInfo sessionInfo, List<Pair<Object, String>> flowStack, String message, Throwable exception);
+	protected abstract void reportError(String aplicationName, String version, SessionInfo sessionInfo, Map<String, Stack<Object>> flowStack, String message, Throwable exception);
 }

@@ -29,8 +29,7 @@ import org.romaframework.frontend.domain.message.MessageOk;
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
-public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModule<String> implements FlowAspect,
-		SchemaActionListener {
+public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModule<String> implements FlowAspect, SchemaActionListener {
 
 	@Override
 	public void startup() {
@@ -51,6 +50,14 @@ public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModul
 
 	public String aspectName() {
 		return ASPECT_NAME;
+	}
+
+	public void forward(Object iNextObject) {
+		forward(iNextObject, null);
+	}
+
+	public void forward(Object iNextObject, String iPosition) {
+		forward(iNextObject, iPosition, null, null);
 	}
 
 	public void alert(String iTitle, String iBody) {

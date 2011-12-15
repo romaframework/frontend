@@ -31,8 +31,6 @@ public interface ContentForm extends ViewComponent {
 
 	public void setContent(Object iContent, SessionInfo iSession);
 
-	public boolean isFirstToOpenPopup(Object iObject);
-
 	public String getScreenArea();
 
 	public void setScreenArea(String iDesktopArea);

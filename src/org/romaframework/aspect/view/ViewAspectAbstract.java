@@ -272,7 +272,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 		if (iScreen == null)
 			// GET THE CURRENT ONE
-			iScreen = FormViewer.getInstance().getScreen();
+			iScreen = getScreen();
 
 		List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
 		if (listeners != null)
@@ -282,7 +282,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iContent == null) {
 			if (iPosition == null)
 				// GET CURRENT AREA FOR OBJECT
-				iPosition = Roma.view().getScreen().getActiveArea();
+				iPosition = getScreen().getActiveArea();
+			//TODO: verify in janiculum display null content not show any.
 			FormViewer.getInstance().display(iPosition, iContent, iScreen);
 			return;
 		}
@@ -311,7 +312,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		if (iPosition == null) {
-			iPosition = Roma.view().getScreen().getActiveArea();
+			iPosition = getScreen().getActiveArea();
 		}
 
 		if (iPosition == null)

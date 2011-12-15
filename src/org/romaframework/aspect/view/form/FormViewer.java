@@ -80,7 +80,6 @@ public class FormViewer implements SessionListener {
 		userView.put(iSession, iScreen);
 	}
 
-
 	/**
 	 * Render the an object on the defined area
 	 * 
@@ -98,7 +97,7 @@ public class FormViewer implements SessionListener {
 		}
 	}
 
-	public String display(String iArea, Object iForm, Screen iScreen) {
+	public void display(String iArea, Object iForm, Screen iScreen) {
 		if (iScreen == null || Roma.session().getActiveSessionInfo() == null) {
 			// SCREEN NOT YET SETTED: PUSH THE FORMS IN THE SESSION TO BE DISPLAYED WHEN THE SCREEN WILL BE SETTED
 			LinkedHashMap<String, Object> queuedForms = (LinkedHashMap<String, Object>) Roma.session().getProperty("formQueue");
@@ -108,10 +107,9 @@ public class FormViewer implements SessionListener {
 				Roma.session().setProperty("formQueue", queuedForms);
 			}
 			queuedForms.put(iArea, iForm);
-			return iArea;
 		} else {
 			sync(iScreen);
-			return iScreen.view(iArea, iForm);
+			Roma.view().show(iForm, iArea, iScreen, null);
 		}
 	}
 
@@ -123,7 +121,7 @@ public class FormViewer implements SessionListener {
 		LinkedHashMap<String, Object> queuedForms = (LinkedHashMap<String, Object>) Roma.session().getProperty("formQueue");
 		if (queuedForms != null) {
 			for (Map.Entry<String, Object> entry : queuedForms.entrySet()) {
-				iScreen.view(entry.getKey(), entry.getValue());
+				Roma.view().show(entry.getValue(), entry.getKey(), iScreen, null);
 			}
 			queuedForms.clear();
 			Roma.session().setProperty("formQueue", null);
