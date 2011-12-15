@@ -16,7 +16,7 @@ import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.page.EntityPage;
 
 @CoreClass(orderActions = "createValue resetValueToNull save")
-@ViewClass(layout = ViewConstants.LAYOUT_POPUP)
+@ViewClass(position = ViewConstants.LAYOUT_POPUP)
 public class SessionAttributeInfoInstance extends EntityPage<SessionAttributeInfo> implements ViewCallback {
 	protected String	type;
 	protected boolean	saved;

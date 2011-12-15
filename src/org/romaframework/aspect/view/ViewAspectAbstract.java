@@ -167,7 +167,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 		}
 
-		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.LAYOUT);
+		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.POSITION);
 
 		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
 			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
@@ -178,11 +178,11 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iField.setFeature(ViewFieldFeatures.POSITION, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
 				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
-				iField.setFeature(ViewFieldFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iField.setFeature(ViewFieldFeatures.POSITION, ViewConstants.LAYOUT_ACCORDION);
 			}
 
 		if (SchemaHelper.isMultiValueObject(iField)) {
@@ -217,9 +217,9 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
 				iAction.setFeature(ViewActionFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iAction.setFeature(ViewActionFeatures.LAYOUT, ViewConstants.LAYOUT_MENU);
+				iAction.setFeature(ViewActionFeatures.POSITION, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION))
-				iAction.setFeature(ViewActionFeatures.LAYOUT, ViewConstants.LAYOUT_ACCORDION);
+				iAction.setFeature(ViewActionFeatures.POSITION, ViewConstants.LAYOUT_ACCORDION);
 	}
 
 	/**
@@ -295,20 +295,17 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		// SEARCH THE FORM TO VIEW BY ENTITY
-		boolean hasToRenderTheForm = false;
 		ContentForm form = (ContentForm) getFormByObject(iSession, iContent);
 		if (form == null) {
 			// CREATE IT
 			form = ViewHelper.createForm(iSchema, null, iContent, iSession);
-			if (currentSession)
-				hasToRenderTheForm = true;
 		} else {
 			ViewHelper.invokeOnShow(iContent);
 			iPosition = form.getScreenArea();
 		}
 
 		if (iPosition == null) {
-			iPosition = (String) form.getSchemaObject().getFeature(ViewClassFeatures.LAYOUT);
+			iPosition = (String) form.getSchemaObject().getFeature(ViewClassFeatures.POSITION);
 		}
 
 		if (iPosition == null) {
@@ -324,9 +321,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		else
 			// PUSH CHANGES
 			pushCommand(new ShowViewCommand(iSession, iScreen, form, iPosition));
-
-		if (hasToRenderTheForm)
-			form.renderContent();
 	}
 
 	/**
@@ -404,9 +398,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          User Object to close
 	 */
 	public boolean close(Object iUserObject) {
-		ViewComponent form = getFormByObject(iUserObject);
-		if (form != null)
-			form.close();
+		//TODO:delete
 		return true;
 	}
 
@@ -574,8 +566,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	
-	
 	@Override
 	public void onObjectRefresh(SessionInfo iSession, Object iContent) {
 		ViewComponent handler = getFormByObject(iContent);

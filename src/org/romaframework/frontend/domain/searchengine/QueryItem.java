@@ -36,16 +36,16 @@ public interface QueryItem extends ViewCallback {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public QueryOperation getOperation();
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddRightFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddRightFilter")
 	public void addRight();
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddLeftFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddLeftFilter")
 	public void addLeft();
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineRemoveFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineRemoveFilter")
 	public void remove();
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineEditFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineEditFilter")
 	public void edit();
 
 	@Override

@@ -6,7 +6,7 @@
 			<form>
 				<area name="main" type="row">
 					<area name="panel" type="column">
-						<area name="fields" type="grid" size="6" align="top left" />
+						<area name="fields" type="form" size="3" align="top left" />
 						<area name="actions" type="row" />
 					</area>
 					<area name="detail" align="top center" />

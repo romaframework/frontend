@@ -49,6 +49,6 @@ public class MessageTable extends MessageOk {
 		messages.add(iMessage);
 	}
 
-	@ViewField(render = "table", enabled = AnnotationConstants.FALSE, layout = ViewConstants.LAYOUT_BLOCK)
+	@ViewField(render = "table", enabled = AnnotationConstants.FALSE, position = ViewConstants.LAYOUT_BLOCK)
 	private List<List<?>>	messages;
 }

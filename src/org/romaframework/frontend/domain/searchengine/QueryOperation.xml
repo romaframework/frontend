@@ -8,10 +8,10 @@
 					<area name="availableFilters" />
 					<area name="filterRow" type="column" size="3">
 						<area name="filters" type="placeholder" />
-						<area name="operation" type="grid" size="10" />
+						<area name="operation" type="form" size="5" />
 						<area name="itemActions" type="column" />
 					</area>
-					<area name="editCondition" type="grid" size="4" />
+					<area name="editCondition" type="form" size="2" />
 				</area>
 			</form>
 		</view>

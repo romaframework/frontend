@@ -48,6 +48,6 @@ public class MessageList extends MessageOk implements Destroyable {
 		messages.add(iMessage);
 	}
 
-	@ViewField(render = "rowset", layout = ViewConstants.LAYOUT_BLOCK)
+	@ViewField(render = "rowset", position = ViewConstants.LAYOUT_BLOCK)
 	private List<String>	messages;
 }

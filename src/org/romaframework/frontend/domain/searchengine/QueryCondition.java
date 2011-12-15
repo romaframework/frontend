@@ -83,14 +83,14 @@ public class QueryCondition implements QueryItem {
 		showHideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddRightFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddRightFilter")
 	public void addRight() {
 		operation.showFilters();
 		operation.setPositionToAdd(getPosition() + 1);
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineAddLeftFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineAddLeftFilter")
 	public void addLeft() {
 		operation.showFilters();
 		Integer position = getPosition();
@@ -100,13 +100,13 @@ public class QueryCondition implements QueryItem {
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineRemoveFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineRemoveFilter")
 	public void remove() {
 		operation.removeFilter(getPosition());
 		hideActions();
 	}
 
-	@ViewField(layout = "form://itemActions", style = "searchEngineEditFilter")
+	@ViewField(position = "form://itemActions", style = "searchEngineEditFilter")
 	public void edit() {
 		operation.setEditCondition(filter);
 		operation.showEditFilter();

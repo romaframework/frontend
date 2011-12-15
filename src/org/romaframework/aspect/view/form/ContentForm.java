@@ -25,10 +25,6 @@ import org.romaframework.aspect.session.SessionInfo;
  */
 public interface ContentForm extends ViewComponent {
 
-	public void activate();
-
-	public void passivate();
-
 	public void setContent(Object iContent, SessionInfo iSession);
 
 	public String getScreenArea();

@@ -53,7 +53,7 @@ import org.romaframework.frontend.domain.searchengine.filter.BaseFilter;
  */
 public class QueryOperation implements ViewCallback {
 
-	@ViewField(render = ViewConstants.RENDER_SELECT, layout = "form://availableFilters", selectionField = "selection", label = "")
+	@ViewField(render = ViewConstants.RENDER_SELECT, position = "form://availableFilters", selectionField = "selection", label = "")
 	protected Map<String, String>	filters				= new HashMap<String, String>();
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -126,8 +126,7 @@ public class QueryOperation implements ViewCallback {
 		this.operation = operation;
 	}
 
-	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
-	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = ViewConstants.LAYOUT_EXPAND)
+	@CoreField(useRuntimeType = AnnotationConstants.TRUE, expand = AnnotationConstants.TRUE)
 	public BaseFilter<?> getEditCondition() {
 		return editCondition;
 	}
@@ -140,7 +139,7 @@ public class QueryOperation implements ViewCallback {
 		this.positionToAdd = positionToAdd;
 	}
 
-	@ViewAction(layout = "form://availableFilters", style = "queryOperationAddOperator")
+	@ViewAction(position = "form://availableFilters", style = "queryOperationAddOperator")
 	public void add() throws ClassNotFoundException {
 		if (selection == null) {
 			showSelectOnlyOneError();

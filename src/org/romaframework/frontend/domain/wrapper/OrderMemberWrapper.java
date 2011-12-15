@@ -32,7 +32,7 @@ import org.romaframework.core.config.Refreshable;
 public class OrderMemberWrapper<T> implements ObjectWrapper, Refreshable {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private OrderMemberWrapperElement					selected;
-	@ViewField(render = ViewConstants.RENDER_TABLE, selectionField = "selected", enabled = AnnotationConstants.FALSE, layout = "form://fields")
+	@ViewField(render = ViewConstants.RENDER_TABLE, selectionField = "selected", enabled = AnnotationConstants.FALSE, position = "form://fields")
 	protected List<OrderMemberWrapperElement>	toOrder	= new ArrayList<OrderMemberWrapperElement>();
 
 	public OrderMemberWrapper(Collection<T> iToOrder) {
@@ -52,7 +52,7 @@ public class OrderMemberWrapper<T> implements ObjectWrapper, Refreshable {
 		return result;
 	}
 
-	@ViewField(layout = "form://actions")
+	@ViewField(position = "form://actions")
 	public void up() {
 		if (selected != null) {
 			int index = toOrder.indexOf(selected);
@@ -64,7 +64,7 @@ public class OrderMemberWrapper<T> implements ObjectWrapper, Refreshable {
 		}
 	}
 
-	@ViewField(layout = "form://actions")
+	@ViewField(position = "form://actions")
 	public void down() {
 		if (selected != null) {
 			int index = toOrder.indexOf(selected);

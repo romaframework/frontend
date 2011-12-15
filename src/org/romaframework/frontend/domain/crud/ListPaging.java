@@ -15,12 +15,12 @@ import org.romaframework.core.schema.SchemaHelper;
 
 public class ListPaging<T> implements PagingListener, ViewCallback {
 
-	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, layout = "form://paging")
+	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, position = "form://paging")
 	protected CRUDPaging	paging;
 
 	protected List<T>			realElements;
 
-	@ViewField(render = ViewConstants.RENDER_TABLE, label = "", selectionField = "selected", layout = "form://elements", enabled = AnnotationConstants.FALSE)
+	@ViewField(render = ViewConstants.RENDER_TABLE, label = "", selectionField = "selected", position = "form://elements", enabled = AnnotationConstants.FALSE)
 	protected List<T>			elements;
 
 	@ViewField(visible = AnnotationConstants.FALSE)

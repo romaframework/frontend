@@ -16,7 +16,7 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
 import org.romaframework.core.Roma;
 
-@ViewClass(layout = ViewConstants.LAYOUT_POPUP)
+@ViewClass(position = ViewConstants.LAYOUT_POPUP)
 public class ReportGenerator implements ViewCallback {
 	private Object	content;
 

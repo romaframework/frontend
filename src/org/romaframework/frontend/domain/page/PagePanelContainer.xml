@@ -5,8 +5,8 @@
         <view>
             <form>
                 <area name="main" type="column" align="top left">
-                    <area name="fields" type="grid" size="4" align="top left"/>
-                    <area name="panels" type="grid" size="8" align="top left"/>
+                    <area name="fields" type="form" size="2" align="top left"/>
+                    <area name="panels" type="form" size="4" align="top left"/>
                 </area>
             </form>
         </view>
