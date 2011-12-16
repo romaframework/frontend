@@ -22,7 +22,7 @@ package org.romaframework.frontend.domain.link;
  */
 public abstract class AbstractTitleDynaLink extends AbstractDynaLink {
 	protected String	title;
-	protected String	position	= "screen://body";
+	protected String	position	= "body";
 
 	public AbstractTitleDynaLink(final String iTitle, final String iPosition) {
 		this(iTitle);

@@ -27,7 +27,6 @@ import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
-import org.romaframework.core.domain.type.Pair;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
@@ -48,18 +47,31 @@ public class POJOFlow extends FlowAspectAbstract {
 	protected SessionAspect			sessionAspect;
 	protected ViewAspect				viewAspect;
 
-	public Pair<Object, String> current() {
-		return current(null);
+	public Map<String, Object> current(SessionInfo iSession) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Stack<Object>> stack = getHistory(iSession);
+		for (Map.Entry<String, Stack<Object>> entry : stack.entrySet()) {
+			result.put(entry.getKey(), entry.getValue().peek());
+		}
+		return result;
 	}
 
-	public Pair<Object, String> current(SessionInfo iSession) {
-		String activeArea = Roma.view().getScreen().getActiveArea();
-		Pair<Object, String> backObject = null;
-		Stack<Object> stack = getAreaHistory(iSession, activeArea);
-		if (stack != null && !stack.isEmpty()) {
-			backObject = new Pair<Object, String>(stack.peek(), activeArea);
+	public Object current(String area, SessionInfo iSession) {
+		Map<String, Stack<Object>> stack = getHistory(iSession);
+		if (area == null)
+			area = getScreen(iSession).getActiveArea();
+		Stack<Object> areaStack = stack.get(area);
+		if (areaStack == null || areaStack.isEmpty()) {
+			return null;
 		}
-		return backObject;
+		return areaStack.peek();
+	}
+
+	private Screen getScreen(SessionInfo iSession) {
+		if (iSession == null) {
+			return Roma.view().getScreen();
+		}
+		return Roma.view().getScreen(iSession);
 	}
 
 	public void forward(SchemaClass iNextClass, String iPosition) {
@@ -97,63 +109,23 @@ public class POJOFlow extends FlowAspectAbstract {
 		viewAspect.show(iNextObject, iPosition, iScreen, iSession);
 	}
 
-	public Object back(Object iGoBackUntil) {
-
-		if (iGoBackUntil == null)
-			// GET THE LAST ONE POSITION
-			return back();
-
-		if (!getAreaHistory(null, Roma.view().getScreen().getActiveArea()).contains(iGoBackUntil)) {
-			return null;
-		}
-
-		Object content = back();
-		while (!iGoBackUntil.equals(content)) {
-			content = back();
-		}
-
-		// UNKNOWN ERRORuser
-		return content;
-	}
-
-	public void clearHistory() {
-		clearHistory(null);
-	}
-
 	public void clearHistory(SessionInfo iSession) {
 		getHistory(iSession).clear();
 	}
 
-	public Object back() {
-		return back((SessionInfo) null);
-	}
-
-	public Object back(SessionInfo iSession) {
-		if (iSession == null)
-			iSession = Roma.session().getActiveSessionInfo();
-
-		Pair<Object, String> currentObject = current(iSession);
+	@Override
+	public Object back(String area, SessionInfo iSession) {
+		Object currentObject = current(area, iSession);
 		if (currentObject == null)
 			return null;
-
-		Pair<Object, String> backObject = moveBack(iSession);
-
-		if (backObject == null) {
-			viewAspect.show(null, Roma.view().getScreen().getActiveArea());
-			return null;
-		}
-		viewAspect.show(backObject.getKey(), backObject.getValue(), null, iSession);
-
-		return backObject.getKey();
-	}
-
-	protected void moveForward(Object iNextObject, String iPosition) {
-		moveForward(null, iNextObject, iPosition);
+		Object backObject = moveBack(area, iSession);
+		viewAspect.show(backObject, area, null, iSession);
+		return backObject;
 	}
 
 	protected void moveForward(SessionInfo iSession, Object iNextObject, String iPosition) {
 		if (iPosition == null)
-			iPosition = Roma.view().getScreen().getActiveArea();
+			iPosition = getScreen(iSession).getActiveArea();
 		else {
 			if (iPosition.startsWith("screen:"))
 				iPosition = iPosition.substring("screen:".length());
@@ -175,9 +147,9 @@ public class POJOFlow extends FlowAspectAbstract {
 		history.push(iNextObject);
 	}
 
-	protected Pair<Object, String> moveBack(SessionInfo iSession) {
-		getAreaHistory(iSession, Roma.view().getScreen().getActiveArea()).pop();
-		return current();
+	protected Object moveBack(String area, SessionInfo iSession) {
+		getAreaHistory(iSession, area).pop();
+		return current(area, iSession);
 	}
 
 	public void onAfterAction(Object iContent, SchemaAction iAction, Object returnedValue) {
@@ -264,12 +236,22 @@ public class POJOFlow extends FlowAspectAbstract {
 
 	public Stack<Object> getAreaHistory(SessionInfo iSession, String area) {
 		Map<String, Stack<Object>> areas = getHistory(iSession);
+		if (area == null)
+			area = getScreen(iSession).getActiveArea();
 		Stack<Object> stack = areas.get(area);
 		if (stack == null) {
 			stack = new Stack<Object>();
 			areas.put(area, stack);
 		}
 		return stack;
+	}
+
+	public void clearHistory() {
+		sessionAspect.setProperty(SESS_PROPERTY_HISTORY, null);
+	}
+
+	public void clearHistory(String area) {
+		getHistory().remove(area);
 	}
 
 	@Override
@@ -283,6 +265,15 @@ public class POJOFlow extends FlowAspectAbstract {
 	public void shutdown() {
 		super.shutdown();
 		sessionAspect = null;
+	}
+
+	@Override
+	public void popup(Object popup, boolean modal) {
+		if (modal) {
+			forward(popup, "popup");
+		} else {
+			forward(popup, "popupNonModal");
+		}
 	}
 
 	public void configClass(SchemaClassDefinition class1) {

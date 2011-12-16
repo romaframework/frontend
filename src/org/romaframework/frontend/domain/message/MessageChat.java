@@ -45,6 +45,6 @@ public class MessageChat extends Message {
 		message = "";
 		Roma.fieldChanged(this, "message");
 
-		Roma.aspect(FlowAspect.class).forward(chat, "screen:popup", null, receiver);
+		Roma.aspect(FlowAspect.class).forward(chat, "popup", null, receiver);
 	}
 }

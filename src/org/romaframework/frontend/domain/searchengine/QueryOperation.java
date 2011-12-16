@@ -244,7 +244,7 @@ public class QueryOperation implements ViewCallback {
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void showEditFilter() {
-		Roma.flow().forward(editCondition, "screen:popup");
+		Roma.flow().popup(editCondition);
 		Roma.fieldChanged(this, "operation");
 	}
 
@@ -343,7 +343,7 @@ public class QueryOperation implements ViewCallback {
 		MessageText msg = new MessageOk("delete", "Information");
 		msg.setMessage("$CRUDMain.selectOnlyOne.error");
 		msg.setIcon("information.gif");
-		Roma.aspect(FlowAspect.class).forward(msg, "screen:popup");
+		Roma.aspect(FlowAspect.class).popup(msg);
 	}
 
 }

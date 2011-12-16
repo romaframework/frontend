@@ -11,20 +11,12 @@ import org.romaframework.aspect.reporting.ReportingAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.command.impl.DownloadStreamViewCommand;
 import org.romaframework.core.Roma;
 
-@ViewClass(position = ViewConstants.LAYOUT_POPUP)
 public class ReportGenerator implements ViewCallback {
 	private Object	content;
-
-	// @ViewField(selectionField = "type", render = ViewConstants.RENDER_RADIO)
-	// @ViewField(visible = AnnotationConstants.FALSE)
-	// private String[] types;
-
-	// private List<IconButton> availableTypes;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	private String	type;

@@ -19,12 +19,10 @@ package org.romaframework.frontend.domain.message;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 
-@ViewClass(render = "popup", position = "screen:popup:message")
 public class Message implements ViewCallback {
 
 	@ViewField(visible = AnnotationConstants.FALSE)

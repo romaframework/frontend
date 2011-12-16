@@ -429,7 +429,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 				message = "Select one item";
 			}
 			dialog.setMessage(message);
-			Roma.aspect(FlowAspect.class).forward(dialog);
+			Roma.aspect(FlowAspect.class).popup(dialog);
 			return null;
 		}
 
@@ -457,7 +457,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 			msg.setIcon("question.gif");
 		}
 
-		Roma.aspect(FlowAspect.class).forward(msg);
+		Roma.aspect(FlowAspect.class).popup(msg);
 	}
 
 	public void loadAllPages() {

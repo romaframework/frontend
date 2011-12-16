@@ -4,9 +4,7 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.exception.UserException;
@@ -16,7 +14,6 @@ import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.page.EntityPage;
 
 @CoreClass(orderActions = "createValue resetValueToNull save")
-@ViewClass(position = ViewConstants.LAYOUT_POPUP)
 public class SessionAttributeInfoInstance extends EntityPage<SessionAttributeInfo> implements ViewCallback {
 	protected String	type;
 	protected boolean	saved;
@@ -44,7 +41,7 @@ public class SessionAttributeInfoInstance extends EntityPage<SessionAttributeInf
 
 	public void createValue() {
 		if (entity.getValue() != null) {
-			Roma.aspect(FlowAspect.class).forward(new MessageOk("alert", "Alert", null, "Cannot create a new object: object already existent!"));
+			Roma.aspect(FlowAspect.class).popup(new MessageOk("alert", "Alert", null, "Cannot create a new object: object already existent!"));
 			return;
 		}
 
@@ -70,7 +67,7 @@ public class SessionAttributeInfoInstance extends EntityPage<SessionAttributeInf
 
 	public void resetValueToNull() {
 		if (entity.getValue() == null) {
-			Roma.aspect(FlowAspect.class).forward(new MessageOk("alert", "Alert", null, "Value is already null!"));
+			Roma.aspect(FlowAspect.class).popup(new MessageOk("alert", "Alert", null, "Value is already null!"));
 			return;
 		}
 		entity.setValue(null);

@@ -71,7 +71,7 @@ public abstract class ActiveSessionMain extends SelectableInstance implements Me
 		if (sel == null || sel.length == 0)
 			return;
 
-		Roma.flow().forward(new ActiveSessionInstance(((ActiveSessionListable) sel[0]).getSession()));
+		Roma.flow().popup(new ActiveSessionInstance(((ActiveSessionListable) sel[0]).getSession()));
 	}
 
 	public void refresh() {
@@ -82,7 +82,7 @@ public abstract class ActiveSessionMain extends SelectableInstance implements Me
 		if (getSelection() == null || getSelection().length == 0)
 			return;
 
-		Roma.flow().forward(
+		Roma.flow().popup(
 				new MessageYesNo("delete", "Warning", this, "Are you sure you want to shutdown the " + getSelection().length + " selected session(s) ?").setIcon("question.gif"));
 	}
 
@@ -90,7 +90,7 @@ public abstract class ActiveSessionMain extends SelectableInstance implements Me
 		if (getSelection() == null || getSelection().length == 0)
 			return;
 
-		Roma.flow().forward(new MessageTextEdit("message", "Message", this).setIcon("question.png"));
+		Roma.flow().popup(new MessageTextEdit("message", "Message", this).setIcon("question.png"));
 	}
 
 	public void selectAll() {
@@ -127,7 +127,7 @@ public abstract class ActiveSessionMain extends SelectableInstance implements Me
 
 				formattedMsg = new MessageChat("system message", "System message", Roma.session().getActiveSessionInfo(), s.getSession(), ((MessageTextEdit) iMessage).getDetail());
 
-				Roma.flow().forward(formattedMsg, "screen:popup", null, s.getSession());
+				Roma.flow().forward(formattedMsg, "popup", null, s.getSession());
 			}
 		}
 	}

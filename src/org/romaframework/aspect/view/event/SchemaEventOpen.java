@@ -36,7 +36,7 @@ public class SchemaEventOpen extends SchemaEvent {
 		} else {
 			instance = createSelect(iContent, field);
 		}
-		Roma.aspect(FlowAspect.class).forward(instance, "screen:popup");
+		Roma.aspect(FlowAspect.class).popup(instance);
 		return instance;
 	}
 

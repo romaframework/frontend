@@ -304,15 +304,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 
 		if (iPosition == null) {
-			iPosition = (String) form.getSchemaObject().getFeature(ViewClassFeatures.POSITION);
-		}
-
-		if (iPosition == null) {
 			iPosition = getScreen().getActiveArea();
 		}
-
-		if (iPosition == null)
-			iPosition = ViewConstants.LAYOUT_DEFAULT;
 
 		if (currentSession)
 			// DISPLAY NOW

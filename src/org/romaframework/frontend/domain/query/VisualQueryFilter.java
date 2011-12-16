@@ -69,10 +69,7 @@ public class VisualQueryFilter implements Refreshable {
 	}
 
 	public void onFieldComposer() {
-		FlowAspect flow = Roma.aspect(FlowAspect.class);
-		if (flow != null) {
-			flow.forward(new AttributeChooser(queryClass, this, "fieldName"), "screen:popup:popup");
-		}
+		Roma.flow().popup(new AttributeChooser(queryClass, this, "fieldName"));
 	}
 
 	public QueryOperator getOperator() {

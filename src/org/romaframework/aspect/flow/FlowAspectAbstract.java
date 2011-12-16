@@ -16,6 +16,11 @@
 
 package org.romaframework.aspect.flow;
 
+import java.util.Map;
+import java.util.Stack;
+
+import org.romaframework.aspect.session.SessionInfo;
+import org.romaframework.core.Roma;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.flow.SchemaActionListener;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
@@ -60,8 +65,47 @@ public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModul
 		forward(iNextObject, iPosition, null, null);
 	}
 
+	public Object back() {
+		return back(null, null);
+	}
+
+	public Object back(String area) {
+		return back(area, null);
+	}
+
+	public Object backDefault() {
+		return back(Roma.view().getScreen().getDefautlArea());
+	}
+
+	public void forwardDefault(Object iNextObject) {
+		forward(iNextObject, Roma.view().getScreen().getDefautlArea());
+	}
+
+	public Object back(SessionInfo iSession) {
+		return back(null, iSession);
+	}
+
+	public Object currentDefault() {
+		return current(Roma.view().getScreen().getDefautlArea());
+	}
+
+	public Map<String, Object> current() {
+		return current((SessionInfo) null);
+	}
+
+	public Object current(String area) {
+		return current(area, null);
+	}
+
+	public void popup(Object popup) {
+		popup(popup, true);
+	}
+
+	public Map<String, Stack<Object>> getHistory() {
+		return getHistory(null);
+	}
+
 	public void alert(String iTitle, String iBody) {
-		MessageOk msg = new MessageOk("", iTitle, null, iBody);
-		forward(msg, "screen:popup");
+		popup(new MessageOk("", iTitle, null, iBody));
 	}
 }

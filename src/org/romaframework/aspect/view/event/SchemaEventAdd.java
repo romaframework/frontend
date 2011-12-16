@@ -84,11 +84,11 @@ public class SchemaEventAdd extends SchemaEvent {
 			} else {
 				instanceWrapper = new InstanceWrapper(iContent, field, formInstance, InstanceWrapper.MODE_CREATE);
 			}
-			Roma.aspect(FlowAspect.class).forward(instanceWrapper, "screen:popup");
+			Roma.aspect(FlowAspect.class).popup(instanceWrapper);
 			return instanceWrapper;
 		}
 
-		Roma.aspect(FlowAspect.class).forward(formInstance, "screen:popup");
+		Roma.aspect(FlowAspect.class).popup(formInstance);
 		return formInstance;
 	}
 

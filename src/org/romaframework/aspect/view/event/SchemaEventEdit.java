@@ -74,9 +74,9 @@ public class SchemaEventEdit extends SchemaEvent {
 
 			if (formClass == null) {
 				final InstanceWrapper instanceWrapper = new InstanceWrapper(iContent, field, formInstance, getOpenMode());
-				Roma.aspect(FlowAspect.class).forward(instanceWrapper, "screen:popup");
+				Roma.aspect(FlowAspect.class).popup(instanceWrapper);
 			} else
-				Roma.aspect(FlowAspect.class).forward(formInstance, "screen:popup");
+				Roma.aspect(FlowAspect.class).forward(formInstance);
 		}
 		return null;
 	}

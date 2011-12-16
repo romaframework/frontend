@@ -68,7 +68,7 @@ public class SelectAddWrapper<T> extends SelectWrapper<T> {
 
 		if (newInstance instanceof CRUDInstance)
 			((CRUDInstance) newInstance).setMode(CRUDWorkingMode.MODE_CREATE);
-		Roma.flow().forward(newInstance, "screen:popup");
+		Roma.flow().popup(newInstance);
 	}
 
 	public void onEnable() {

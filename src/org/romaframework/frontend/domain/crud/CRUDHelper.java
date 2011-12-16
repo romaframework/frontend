@@ -33,17 +33,6 @@ import org.romaframework.core.schema.reflection.SchemaClassReflection;
 public class CRUDHelper {
 
 	/**
-	 * Show the form specified.
-	 * 
-	 * @param iSelectObj
-	 * @param iSourceObject
-	 * @param iSourceFieldName
-	 * @return
-	 */
-
-	private static long	popupIndex	= 0;
-
-	/**
 	 * Show the form of the class specified.
 	 * 
 	 * @param <T>
@@ -81,8 +70,7 @@ public class CRUDHelper {
 		iSelectObj.setSource(iSourceObject, iSourceFieldName);
 
 		// SHOW THE FORM
-		Roma.aspect(FlowAspect.class).forward(iSelectObj, "screen:popup:" + "openedByBinder" + popupIndex);
-		popupIndex++;
+		Roma.aspect(FlowAspect.class).popup(iSelectObj);
 
 		// RETURN IT TO THE CALLER TO SET ADDITIONAL INFO
 		return iSelectObj;
