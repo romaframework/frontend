@@ -20,6 +20,7 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.annotation.FlowAction;
 import org.romaframework.aspect.flow.feature.FlowActionFeatures;
+import org.romaframework.aspect.i18n.I18NAspect.Type;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.annotation.Persistence;
 import org.romaframework.aspect.view.ViewCallback;
@@ -58,8 +59,8 @@ public class CRUDPaging implements ViewCallback {
 	protected boolean							pagingEnabled			= true;
 
 	public static final String		QUERY_ALL_MESSAGE	= "queryAll";
-	protected static final String	PAGE_LABEL				= "$page.label";
-	protected static final String	TOTAL_ITEMS_LABEL	= "$totalItems.label";
+	protected static final String	PAGE_LABEL				= "page";
+	protected static final String	TOTAL_ITEMS_LABEL	= "totalItems";
 
 	public CRUDPaging(PagingListener iListener, int iPageElements) {
 		currentPage = 1;
@@ -163,12 +164,12 @@ public class CRUDPaging implements ViewCallback {
 
 	@ViewField(label = "", render = "label")
 	public String getTotalItemsLabel() {
-		return Roma.i18n().resolveString(getClass(), TOTAL_ITEMS_LABEL);
+		return Roma.i18n().get(this, TOTAL_ITEMS_LABEL, Type.LABEL);
 	}
 
 	@ViewField(label = "", render = "label")
 	public String getPageLabel() {
-		return Roma.i18n().resolveString(getClass(), PAGE_LABEL);
+		return Roma.i18n().get(this, PAGE_LABEL, Type.LABEL);
 	}
 
 	public Integer[] getPages() {

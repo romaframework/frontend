@@ -53,7 +53,7 @@ public class MessageText extends Message {
 	}
 
 	public MessageText setMessage(String iMessage) {
-		message = Roma.i18n().resolveString(iMessage);
+		message = Roma.i18n().resolve(iMessage);
 		return this;
 	}
 

@@ -39,7 +39,7 @@ public class Message implements ViewCallback {
 
 	public Message(String iId, String iTitle, MessageResponseListener iListener) {
 		id = iId;
-		title = Roma.i18n().resolveString(iTitle);
+		title = Roma.i18n().resolve(iTitle);
 		listener = iListener;
 	}
 

@@ -20,6 +20,7 @@ import java.util.Stack;
 
 import org.romaframework.aspect.flow.FlowAspectAbstract;
 import org.romaframework.aspect.flow.feature.FlowActionFeatures;
+import org.romaframework.aspect.i18n.I18NAspect.Type;
 import org.romaframework.aspect.session.SessionAspect;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.view.ViewAspect;
@@ -195,8 +196,7 @@ public class POJOFlow extends FlowAspectAbstract {
 		if (!history.isEmpty()) {
 			Pair<Object, String> last = history.peek();
 
-			if (last.getKey() != null && last.getKey().equals(iNextObject)
-					&& (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
+			if (last.getKey() != null && last.getKey().equals(iNextObject) && (iPosition == null || iPosition != null && iPosition.equals(last.getValue())))
 				// SAME OBJECT: JUST A REFRESH, DON'T STORE IN HISTORY
 				return;
 		}
@@ -236,13 +236,13 @@ public class POJOFlow extends FlowAspectAbstract {
 		String confirmMessage = (String) iAction.getFeature(FlowActionFeatures.CONFIRM_MESSAGE);
 		if (confirmMessage == null) {
 			try {
-				confirmMessage = Roma.i18n().resolveString(iAction.getEntity(), "$" + iAction.getName() + ".confirmMessage");
+				confirmMessage = Roma.i18n().get(iContent, iAction.getName(), Type.CONFIRM);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else if (confirmMessage.startsWith("$")) {
 			try {
-				confirmMessage = Roma.i18n().resolveString(confirmMessage);
+				confirmMessage = Roma.i18n().resolve(confirmMessage);
 			} catch (Exception e) {
 			}
 		}
