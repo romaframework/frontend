@@ -424,7 +424,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		if (iSelection == null || iSelection.length != 1) {
 			MessageOk dialog = new MessageOk("crud", "$Message.Information");
 			dialog.setIcon("information.gif");
-			String message = Roma.i18n().resolveString("$CRUDMain.selectOnlyOne.error");
+			String message = Roma.i18n().get("CRUDMain.selectOnlyOne.error");
 			if (message == null || message.trim().length() == 0) {
 				message = "Select one item";
 			}

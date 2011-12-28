@@ -178,7 +178,7 @@ public class FormatHelper {
 
 	public static DateFormat internalDateFormat(String format, String errorMessage) {
 		DateFormat dateFormat = null;
-		format = Roma.component(I18NAspect.class).resolveString(format);
+		format = Roma.component(I18NAspect.class).resolve(format);
 		if (format != null) {
 			try {
 				dateFormat = new SimpleDateFormat(format, Roma.session().getActiveLocale());
@@ -210,7 +210,7 @@ public class FormatHelper {
 
 	public static NumberFormat internalNumberFormat(String format, String errorMessage) {
 		NumberFormat numberFormat = null;
-		format = Roma.component(I18NAspect.class).resolveString(format);
+		format = Roma.component(I18NAspect.class).resolve(format);
 		if (format != null) {
 			try {
 				numberFormat = new DecimalFormat(format, new DecimalFormatSymbols(Roma.session().getActiveLocale()));

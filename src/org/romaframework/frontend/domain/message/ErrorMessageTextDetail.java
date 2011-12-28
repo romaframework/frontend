@@ -67,7 +67,7 @@ public class ErrorMessageTextDetail extends MessageTextDetail {
 	public void sendReport() {
 		try {
 			Roma.component(ErrorReporter.class).reportError(getCustomMessage(), exception);
-			String msg = Roma.i18n().resolveString("$ErrorMessageTextDetail.errorReported");
+			String msg = Roma.i18n().get("ErrorMessageTextDetail.errorReported");
 			MessageOk message = new MessageOk("Error reported", msg, null, msg);
 			Roma.flow().popup(message);
 		} catch (Exception e) {

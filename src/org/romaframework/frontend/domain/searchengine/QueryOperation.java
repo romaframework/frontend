@@ -143,7 +143,7 @@ public class QueryOperation implements ViewCallback {
 	public void add() throws ClassNotFoundException {
 		if (selection == null) {
 			showSelectOnlyOneError();
-		} else if (selection.equals(Roma.i18n().getString("QuerySubOperation.filter.label"))) {
+		} else if (selection.equals(Roma.i18n().get("QuerySubOperation.filter.label"))) {
 			if (positionToAdd != null)
 				addSubOperation(positionToAdd);
 			hideFilters();
@@ -250,13 +250,13 @@ public class QueryOperation implements ViewCallback {
 
 	protected void loadFilters() {
 		I18NAspect i18nAspect = Roma.i18n();
-		filters.put(i18nAspect.getString("QuerySubOperation.filter.label"), "SubOperation");
+		filters.put(i18nAspect.get("QuerySubOperation.filter.label"), "SubOperation");
 		List<Class<?>> filterSchemas = Roma.component(SchemaClassResolver.class).getLanguageClassByInheritance(BaseFilter.class);
 		for (Class<?> schema : filterSchemas) {
 			if (schema.getName().equals(AbstractBaseFilter.class.getName()) || schema.getName().equals(BaseFilter.class.getName())) {
 				continue;
 			}
-			String filterName = i18nAspect.getString(schema.getSimpleName() + ".label");
+			String filterName = i18nAspect.get(schema.getSimpleName() + ".label");
 			if (filterName == null) {
 				filterName = schema.getSimpleName();
 			}

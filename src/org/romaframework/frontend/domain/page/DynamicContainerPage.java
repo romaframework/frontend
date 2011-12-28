@@ -7,8 +7,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.i18n.I18NHelper;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.view.annotation.ViewAction;
+import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassResolver;
@@ -68,7 +69,7 @@ public class DynamicContainerPage<T> extends ContainerPage<T> {
 		else if (clazz.isAssignableAs(Comparable.class))
 			Collections.sort((List) result);
 		for (T instanceTab : result) {
-			String s = I18NHelper.getLabel(instanceTab.getClass());
+			String s = Roma.i18n().get(instanceTab, I18NType.LABEL,ViewClassFeatures.LABEL);
 			addPage(s, instanceTab);
 		}
 	}
