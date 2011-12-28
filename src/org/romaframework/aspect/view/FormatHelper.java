@@ -11,6 +11,7 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.romaframework.aspect.i18n.I18NAspect;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
@@ -122,7 +123,12 @@ public class FormatHelper {
 				formattedValue = toFormat.toString();
 			}
 		} else {
-			formattedValue = toFormat.toString();
+			String format = Roma.i18n().get(schemaField, I18NType.FORMAT, ViewFieldFeatures.FORMAT);
+			if (format != null && !"".equals(format)) {
+				formattedValue = Roma.i18n().resolve(format, toFormat);
+			} else {
+				formattedValue = toFormat.toString();
+			}
 		}
 		if (quoteHtml) {
 			formattedValue = encodeHtml(formattedValue);
