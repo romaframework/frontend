@@ -15,12 +15,14 @@
  */
 package org.romaframework.aspect.reporting;
 
-import org.romaframework.aspect.i18n.I18NHelper;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.reporting.feature.ReportingBaseFeatures;
+import org.romaframework.aspect.reporting.feature.ReportingClassFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaFeatures;
@@ -114,11 +116,11 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getI18NLabel(SchemaClassElement schemaField) {
-		return I18NHelper.getLabel(schemaField, getLabel(schemaField));
+		return Roma.i18n().get(schemaField, I18NType.LABEL,ReportingFieldFeatures.LABEL);
 	}
 
 	public static String getI18NLabel(SchemaClassDefinition schemaClass) {
-		return I18NHelper.getLabel(schemaClass, getLabel(schemaClass));
+		return Roma.i18n().get(schemaClass, I18NType.LABEL,ReportingClassFeatures.LABEL);
 	}
 
 }

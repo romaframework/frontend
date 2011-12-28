@@ -17,8 +17,9 @@ package org.romaframework.frontend.domain.page;
 
 import java.util.List;
 
-import org.romaframework.aspect.i18n.I18NHelper;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.view.ViewCallback;
+import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
@@ -43,7 +44,7 @@ public class HomePageBasic extends ContainerPage implements ViewCallback {
 			SchemaClass mainSchema = Roma.schema().getSchemaClass(CRUDMain.class);
 			for (SchemaClass schemaClass : mains) {
 				if (schemaClass.isAssignableAs(mainSchema) && schemaClass.getName().endsWith(CRUDConstants.MAIN_EXTENSION)) {
-					addPage(I18NHelper.getLabel(SchemaHelper.getSuperclassGenericType(schemaClass)), schemaClass.newInstance());
+					addPage(Roma.i18n().get(SchemaHelper.getSuperclassGenericType(schemaClass), I18NType.LABEL), schemaClass.newInstance());
 				}
 			}
 		} catch (Exception e) {
