@@ -69,7 +69,7 @@ public class DynamicContainerPage<T> extends ContainerPage<T> {
 		else if (clazz.isAssignableAs(Comparable.class))
 			Collections.sort((List) result);
 		for (T instanceTab : result) {
-			String s = Roma.i18n().get(Roma.schema().getSchemaClass(instanceTab.getClass()), I18NType.LABEL,ViewClassFeatures.LABEL);
+			String s = Roma.i18n().get(instanceTab, I18NType.LABEL,ViewClassFeatures.LABEL);
 			addPage(s, instanceTab);
 		}
 	}

@@ -16,7 +16,9 @@
 
 package org.romaframework.frontend.view.domain;
 
+import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.frontend.domain.page.DynamicContainerPage;
 
+@ViewClass(label = "Roma Control Panel")
 public class RomaControlPanel extends DynamicContainerPage<RomaControlPanelTab> {
 }
