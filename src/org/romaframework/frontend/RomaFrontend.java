@@ -21,5 +21,5 @@ import org.romaframework.core.Roma;
  * Utility class to access directly to the most common used component in applications that use any kind of front-end.
  */
 @Deprecated
-public class RomaFrontend extends Roma {
+public class RomaFrontend extends Roma{
 }

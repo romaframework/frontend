@@ -41,7 +41,7 @@ public interface BaseFilter<T> extends ComposedEntity<T> {
 
 	public void back();
 
-	public Set<String> executeQuery(PersistenceAspect db);
+	public Set<String> executeQuery(PersistenceAspect db, Class<?> context);
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public Class<?> getEntityClass();

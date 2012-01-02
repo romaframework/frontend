@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.persistence.QueryOperator;
 import org.romaframework.aspect.view.ViewConstants;

@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;

@@ -89,7 +89,7 @@ public class QueryOperation implements ViewCallback {
 				result = updateResult(result, operationMode, subOperation.executeQuery(db));
 				i = end.getPosition();
 			} else {
-				result = updateResult(result, operationMode, ((QueryCondition) operation.get(i)).getEntity().executeQuery(db));
+				result = updateResult(result, operationMode, ((QueryCondition) operation.get(i)).getEntity().executeQuery(db,null));
 			}
 		}
 		return result;
@@ -293,7 +293,7 @@ public class QueryOperation implements ViewCallback {
 		return result;
 	}
 
-	private void updateOperationAfterRemove(Integer position) {
+	protected void updateOperationAfterRemove(Integer position) {
 		int operationSize = operation.size();
 		if (operationSize == 2 && isQuerySubOperation(operation.get(0)) && isQuerySubOperation(operation.get(1)))
 			return;
@@ -308,7 +308,7 @@ public class QueryOperation implements ViewCallback {
 		}
 	}
 
-	private void updateOperationAfterAdd(Integer position, int operationSize, boolean subOperation) {
+	protected void updateOperationAfterAdd(Integer position, int operationSize, boolean subOperation) {
 		if (operationSize > 1) {
 			if (subOperation) {
 				if (position != 0) {
@@ -331,11 +331,11 @@ public class QueryOperation implements ViewCallback {
 		}
 	}
 
-	private boolean isQueryCondition(QueryItem item) {
+	protected boolean isQueryCondition(QueryItem item) {
 		return item instanceof QueryCondition;
 	}
 
-	private boolean isQuerySubOperation(QueryItem item) {
+	protected boolean isQuerySubOperation(QueryItem item) {
 		return item instanceof QuerySubOperationDelimiter;
 	}
 

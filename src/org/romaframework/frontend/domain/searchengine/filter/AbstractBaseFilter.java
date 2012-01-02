@@ -45,12 +45,12 @@ public abstract class AbstractBaseFilter<T> extends ComposedEntityInstance<T> im
 	}
 
 	@ViewAction(visible = AnnotationConstants.FALSE)
-	public Set<String> executeQuery(PersistenceAspect db) {
+	public Set<String> executeQuery(PersistenceAspect db, Class<?> context) {
 		Set<String> result = new TreeSet<String>();
 		Query query = getFilterQuery();
 		query.setStrategy(queryStrategy);
 		List<Object> employees = retainObjects(db, query);
-		processResults(db, result, employees);
+		processResults(db, result, employees,context);
 		return result;
 	}
 
@@ -59,7 +59,7 @@ public abstract class AbstractBaseFilter<T> extends ComposedEntityInstance<T> im
 		return entities;
 	}
 
-	protected void processResults(PersistenceAspect db, Set<String> result, List<Object> entities) {
+	protected void processResults(PersistenceAspect db, Set<String> result, List<Object> entities, Class<?> context) {
 		for (Object entity : entities) {
 			result.add(db.getOID(entity).trim());
 		}
