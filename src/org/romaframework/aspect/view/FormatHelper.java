@@ -59,21 +59,27 @@ public class FormatHelper {
 		String stringValue = (String) value;
 		Object result = value;
 		SchemaClass fieldType = schemaField.getType().getSchemaClass();
-		if (value != null && !stringValue.isEmpty()) {
+		if (value != null) {
 			if (fieldType.isAssignableAs(Roma.schema().getSchemaClass(Number.class))) {
-				NumberFormat format = FormatHelper.getNumberFormat(schemaField);
-				try {
-					result = format.parse(stringValue);
-				} catch (ParseException e) {
-					throw new RuntimeException("Error on parse value of field:" + schemaField.getName() + " with format:" + format, e);
-				}
+				if (!stringValue.isEmpty()) {
+					NumberFormat format = FormatHelper.getNumberFormat(schemaField);
+					try {
+						result = format.parse(stringValue);
+					} catch (ParseException e) {
+						throw new RuntimeException("Error on parse value of field:" + schemaField.getName() + " with format:" + format, e);
+					}
+				} else
+					result = null;
 			} else if (fieldType.isAssignableAs(Roma.schema().getSchemaClass(Date.class))) {
-				DateFormat format = FormatHelper.getDateFormat(schemaField);
-				try {
-					result = format.parse(stringValue);
-				} catch (ParseException e) {
-					throw new RuntimeException("Error on parse value of field:" + schemaField.getName() + " with format:" + format, e);
-				}
+				if (!stringValue.isEmpty()) {
+					DateFormat format = FormatHelper.getDateFormat(schemaField);
+					try {
+						result = format.parse(stringValue);
+					} catch (ParseException e) {
+						throw new RuntimeException("Error on parse value of field:" + schemaField.getName() + " with format:" + format, e);
+					}
+				} else
+					result = null;
 			} else {
 				result = decodeHtml(stringValue);
 			}
