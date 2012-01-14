@@ -77,7 +77,9 @@ public class FormViewer implements SessionListener {
 	 * @param iScreen
 	 */
 	public void setScreen(Screen iScreen, SessionInfo iSession) {
-		userView.put(iSession, iScreen);
+		Screen old = userView.put(iSession, iScreen);
+		if (old != null)
+			old.clear();
 	}
 
 	/**
