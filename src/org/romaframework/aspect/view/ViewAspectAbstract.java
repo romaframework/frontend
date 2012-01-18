@@ -173,7 +173,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
 			iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 
-		String classRender = iField.getEntity().getFeature(ViewFieldFeatures.RENDER);
+		String classRender = iField.getEntity().getFeature(ViewClassFeatures.RENDER);
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
@@ -206,12 +206,12 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		iAction.toString();
 
 		if (iAction.getEntity().getFeature(ViewClassFeatures.EXPLICIT_ELEMENTS)) {
-			if (!iAction.isSettedFeature(ViewFieldFeatures.VISIBLE) && iAction.getDescriptorInfo() == null) {
-				iAction.setFeature(ViewFieldFeatures.VISIBLE, false);
+			if (!iAction.isSettedFeature(ViewActionFeatures.VISIBLE) && iAction.getDescriptorInfo() == null) {
+				iAction.setFeature(ViewActionFeatures.VISIBLE, false);
 			}
 		}
 		// CHECK RENDER AND LAYOUT MODES
-		String classRender = iAction.getEntity().getFeature(ViewActionFeatures.RENDER);
+		String classRender = iAction.getEntity().getFeature(ViewClassFeatures.RENDER);
 
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {

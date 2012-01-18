@@ -101,7 +101,7 @@ public class SelectionBoxElement<T> {
 
 	public void setAvailableElementSelected(T availableElementSelected) throws ConfigurationException {
 		this.availableElementSelected = availableElementSelected;
-		selectElement();
+		afterAvailableElementSelection();
 	}
 
 	public List<T> getSelectedElements() {
@@ -118,14 +118,22 @@ public class SelectionBoxElement<T> {
 
 	public void setSelectedElementSelected(T selectedElementSelected) throws ConfigurationException {
 		this.selectedElementSelected = selectedElementSelected;
+		afterSelectedElementSelection();
+	}
+
+	protected void afterSelectedElementSelection() {
 		unselectElement();
+	}
+
+	protected void afterAvailableElementSelection() {
+		selectElement();
 	}
 
 	public void addAll() throws IllegalArgumentException {
 		List<T> toAdd = new ArrayList<T>(availableElements);
 		for (T element : toAdd) {
 			availableElementSelected = element;
-			selectElement();
+			afterAvailableElementSelection();
 		}
 	}
 
@@ -133,7 +141,7 @@ public class SelectionBoxElement<T> {
 		List<T> selected = new ArrayList<T>(selectedElements);
 		for (T element : selected) {
 			selectedElementSelected = element;
-			unselectElement();
+			afterSelectedElementSelection();
 		}
 	}
 
