@@ -25,7 +25,7 @@ import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.frontend.domain.crud.CRUDConstants;
 import org.romaframework.frontend.domain.crud.CRUDMain;
 
-public class HomePageBasic extends ContainerPage implements ViewCallback {
+public class HomePageBasic extends ContainerPage<CRUDMain<?>> implements ViewCallback {
 
 	public HomePageBasic() {
 		fillPages();
@@ -43,7 +43,7 @@ public class HomePageBasic extends ContainerPage implements ViewCallback {
 			SchemaClass mainSchema = Roma.schema().getSchemaClass(CRUDMain.class);
 			for (SchemaClass schemaClass : mains) {
 				if (schemaClass.isAssignableAs(mainSchema) && schemaClass.getName().endsWith(CRUDConstants.MAIN_EXTENSION)) {
-					addPage(Roma.i18n().get(SchemaHelper.getSuperclassGenericType(schemaClass), I18NType.LABEL), schemaClass.newInstance());
+					addPage(Roma.i18n().get(SchemaHelper.getSuperclassGenericType(schemaClass), I18NType.LABEL), (CRUDMain<?>) schemaClass.newInstance());
 				}
 			}
 		} catch (Exception e) {
