@@ -6,7 +6,6 @@ import java.util.List;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
@@ -14,7 +13,6 @@ import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 
-@ViewClass(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED)
 public class EnumWrapper implements Bindable {
 
 	private Object				parent;
