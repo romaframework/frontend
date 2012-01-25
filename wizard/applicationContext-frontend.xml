@@ -11,13 +11,6 @@
 		</property>
 	</bean>
 
-	<bean class="org.romaframework.aspect.view.area.AreaModeManager" dependency-check="default" id="AreaModeManager"
-		singleton="true">
-		<property name="components">
-			<list></list>
-		</property>
-	</bean>
-
 	<bean id="LayoutModeManager" class="org.romaframework.aspect.view.layout.LayoutModeManager" singleton="true">
 		<property name="components">
 			<list></list>
