@@ -164,12 +164,12 @@ public class CRUDPaging implements ViewCallback {
 
 	@ViewField(label = "", render = "label")
 	public String getTotalItemsLabel() {
-		return Roma.i18n().resolve(this, TOTAL_ITEMS_LABEL, I18NType.LABEL);
+		return Roma.i18n().resolve(listener, TOTAL_ITEMS_LABEL, I18NType.LABEL);
 	}
 
 	@ViewField(label = "", render = "label")
 	public String getPageLabel() {
-		return Roma.i18n().resolve(this, PAGE_LABEL, I18NType.LABEL);
+		return Roma.i18n().resolve(listener, PAGE_LABEL, I18NType.LABEL);
 	}
 
 	public Integer[] getPages() {
