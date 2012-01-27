@@ -23,7 +23,7 @@ import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.frontend.domain.crud.CRUDException;
 
 @CoreClass(orderActions = "reset refresh")
-@ViewClass(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED)
+@ViewClass(label = "")
 public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	@ViewField(render = ViewConstants.RENDER_SELECT, label = "", selectionField = "selection")
 	protected List<T>													list;
