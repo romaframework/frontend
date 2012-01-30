@@ -167,22 +167,14 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
 		}
 
-		String layoutMode = (String) iField.getFeature(ViewFieldFeatures.POSITION);
-
-		if (ViewConstants.LAYOUT_EXPAND.equals(layoutMode))
-			// IF THE FIELD HAS LAYOUT EXPAND, FORCE THE RENDER=OBJECT EMBEDDED
-			iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_OBJECTEMBEDDED);
-
 		String classRender = iField.getEntity().getFeature(ViewClassFeatures.RENDER);
 		if (classRender != null)
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iField.setFeature(ViewFieldFeatures.POSITION, ViewConstants.LAYOUT_MENU);
 			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION)) {
 				// INSIDE AN ACCORDITION: FORCE ACCORDITION LAYOUT
 				iField.setFeature(ViewFieldFeatures.RENDER, ViewConstants.RENDER_ACCORDION);
-				iField.setFeature(ViewFieldFeatures.POSITION, ViewConstants.LAYOUT_ACCORDION);
 			}
 
 		if (SchemaHelper.isMultiValueObject(iField)) {
@@ -217,9 +209,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			if (classRender.equals(ViewConstants.RENDER_MENU)) {
 				// INSIDE A MENU: FORCE MENU RENDERING AND LAYOUT
 				iAction.setFeature(ViewActionFeatures.RENDER, ViewConstants.RENDER_MENU);
-				iAction.setFeature(ViewActionFeatures.POSITION, ViewConstants.LAYOUT_MENU);
-			} else if (classRender.equals(ViewConstants.RENDER_ACCORDION))
-				iAction.setFeature(ViewActionFeatures.POSITION, ViewConstants.LAYOUT_ACCORDION);
+			}
 	}
 
 	/**
@@ -273,11 +263,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		if (iScreen == null)
 			// GET THE CURRENT ONE
 			iScreen = getScreen();
-
-		List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
-		if (listeners != null)
-			for (ObjectWrapperListener l : listeners)
-				iContent = l.getWrapperForObject(iContent);
 
 		if (iContent == null) {
 			if (iPosition == null)
@@ -471,20 +456,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 		if (userForms == null)
 			return null;
-
-		List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
-		if (listeners != null) {
-			ViewComponent o;
-			for (ObjectWrapperListener l : listeners) {
-				o = (ViewComponent) l.findWrapperInCollection(userForms.values(), iUserObject);
-				if (o != null)
-					// FOUND: RETURN IT
-					return o;
-
-				// NOT FOUND: CONTINUE WITH THE NEXT LISTENER (IF ANY)
-			}
-		}
-
+		
 		return userForms.get(iUserObject);
 	}
 

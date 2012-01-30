@@ -18,7 +18,6 @@ package org.romaframework.aspect.view;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +27,6 @@ import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.aspect.view.form.ContentForm;
 import org.romaframework.core.Roma;
 import org.romaframework.core.exception.ConfigurationException;
-import org.romaframework.core.flow.Controller;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
@@ -60,25 +58,7 @@ public class ViewHelper {
 		try {
 			ContentForm form = ((ViewAspectAbstract) Roma.aspect(ViewAspect.ASPECT_NAME)).createForm(iSchema, iField, null);
 
-			// CHECK IF USE WRAPPER OBJECTS
-			List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
-			if (listeners != null) {
-				Object temp;
-				for (ObjectWrapperListener l : listeners) {
-					temp = l.getWrapperForObject(iUserObject);
-
-					if (temp != iUserObject) {
-						// WRAPPER OBJECT FOUND: RESET THE SCHEMA OBJECT WITH THE NEW ONE
-						SchemaObject obj = Roma.session().getSchemaObject(temp);
-						obj.copyDefinition(form.getSchemaObject());
-						form.setSchemaObject(obj);
-						iUserObject = temp;
-					}
-				}
-			}
-
 			form.setContent(iUserObject, iSession);
-
 			return form;
 		} catch (Exception e) {
 			throw new ViewException(e);
@@ -137,10 +117,8 @@ public class ViewHelper {
 				}
 			} else if (field.getType() != null) {
 				Object subObj = SchemaHelper.getFieldValue(field, iUserObject);
-				String fieldLayout = (String) field.getFeature(ViewFieldFeatures.POSITION);
 				String fieldRender = (String) field.getFeature(ViewFieldFeatures.RENDER);
-				if (subObj != null
-						&& ((fieldLayout != null && !fieldLayout.equals(ViewConstants.LAYOUT_DEFAULT)) || fieldRender != null && fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))
+				if (subObj != null && (fieldRender != null && fieldRender.equals(ViewConstants.RENDER_OBJECTEMBEDDED)))
 					enableFields(subObj, field.getType(), iValue);
 			}
 		}
@@ -228,27 +206,6 @@ public class ViewHelper {
 		}
 
 		return embeddedType;
-	}
-
-	/**
-	 * Return the wrapped content if any.
-	 * 
-	 * @param content
-	 * @return
-	 */
-	public static Object getWrappedContent(Object content) {
-		List<ObjectWrapperListener> listeners = Controller.getInstance().getListeners(ObjectWrapperListener.class);
-		if (listeners != null) {
-			Object temp;
-
-			for (ObjectWrapperListener l : listeners) {
-				temp = l.getObjectFromWrapper(content);
-
-				if (temp != content)
-					return temp;
-			}
-		}
-		return content;
 	}
 
 }

@@ -22,6 +22,7 @@ import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.factory.GenericFactory;
 import org.romaframework.core.schema.SchemaClass;
+import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.reflection.SchemaClassReflection;
 
 /**
@@ -76,7 +77,7 @@ public class CRUDHelper {
 		return iSelectObj;
 	}
 
-	public static SchemaClass getCRUDSchemaClass(SchemaClass iClass, String iSuffix) {
+	public static SchemaClass getCRUDSchemaClass(SchemaClassDefinition iClass, String iSuffix) {
 		// TRY TO DISPLAY CRUD CLASS BY SUFFIX
 		return getCRUDSchemaClass(iClass.getName(), iSuffix);
 	}
@@ -136,7 +137,7 @@ public class CRUDHelper {
 	}
 	
 	
-	public static SchemaClass getCRUDSelect(SchemaClass iClass) {
+	public static SchemaClass getCRUDSelect(SchemaClassDefinition iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.SELECT_EXTENSION);
 	}
 
@@ -148,11 +149,11 @@ public class CRUDHelper {
 		return getCRUDMain(Roma.schema().getSchemaClass(iClass));
 	}
 
-	public static SchemaClass getCRUDMain(SchemaClass iClass) {
+	public static SchemaClass getCRUDMain(SchemaClassDefinition iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.MAIN_EXTENSION);
 	}
 
-	public static SchemaClass getCRUDInstance(SchemaClass iClass) {
+	public static SchemaClass getCRUDInstance(SchemaClassDefinition iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.INSTANCE_EXTENSION);
 	}
 
@@ -160,7 +161,7 @@ public class CRUDHelper {
 		return getCRUDInstance(Roma.schema().getSchemaClass(iClass));
 	}
 
-	public static SchemaClass getCRUDListable(SchemaClass iClass) {
+	public static SchemaClass getCRUDListable(SchemaClassDefinition iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.LISTABLE_EXTENSION);
 	}
 
@@ -168,7 +169,7 @@ public class CRUDHelper {
 		return getCRUDListable(Roma.schema().getSchemaClass(iClass));
 	}
 
-	public static SchemaClass getCRUDFilter(SchemaClass iClass) {
+	public static SchemaClass getCRUDFilter(SchemaClassDefinition iClass) {
 		return getCRUDSchemaClass(iClass, CRUDConstants.FILTER_EXTENSION);
 	}
 

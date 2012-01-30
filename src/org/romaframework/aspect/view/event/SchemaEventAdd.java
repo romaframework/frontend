@@ -9,6 +9,7 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.binding.Bindable;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
+import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
@@ -48,8 +49,12 @@ public class SchemaEventAdd extends SchemaEvent {
 			} else
 				formInstance = new RuntimePair(null, null);
 		} else {
-			SchemaClass iClass = field.getEmbeddedType();
-			 
+			SchemaClassDefinition iClass = field.getEmbeddedType();
+
+//			if (iClass.getSchemaClass().isAssignableAs(ComposedEntity.class)) {
+//				iClass = iClass.getField(ComposedEntity.NAME).getType();
+//			}
+
 			Boolean isEmbedded = field.getFeature(CoreFieldFeatures.EMBEDDED);
 			if (!isEmbedded) {
 				// TRY TO GET THE CRUD-SELECT CLASS, OTHERWISE THE CRUD-INSTANCE
@@ -62,7 +67,7 @@ public class SchemaEventAdd extends SchemaEvent {
 			try {
 				if (formClass == null)
 					// CRUD CREATE CLASS NOT FOUND: DISPLAY SIMPLE OBJECT
-					formInstance = EntityHelper.createObject(null, iClass);
+					formInstance = EntityHelper.createObject(null, iClass.getSchemaClass());
 				else
 					formInstance = SchemaHelper.createObject(formClass);
 			} catch (Exception e) {
