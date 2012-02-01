@@ -2,7 +2,6 @@ package org.romaframework.frontend.domain.wrapper;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
@@ -17,8 +16,13 @@ import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.frontend.domain.crud.CRUDWorkingMode;
 
 @CoreClass(orderActions = "reset refresh add")
-@ViewClass(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED)
+@ViewClass(label = "")
 public class SelectAddWrapper<T> extends SelectWrapper<T> {
+
+	public SelectAddWrapper() {
+		super();
+	}
+
 	public SelectAddWrapper(Class<T> iClass, Object iObject, String iSelectionField) {
 		this(iClass, iObject, iSelectionField, false);
 	}
@@ -52,6 +56,7 @@ public class SelectAddWrapper<T> extends SelectWrapper<T> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ViewAction(label = "")
 	public void add() throws Exception {
+		SchemaClass clazz = sourceField.getType().getSchemaClass();
 		SchemaClass insatanceSchema = CRUDHelper.getCRUDInstance(clazz);
 		Object newInstance;
 		if (insatanceSchema == null)
