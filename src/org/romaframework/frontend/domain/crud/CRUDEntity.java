@@ -80,7 +80,7 @@ public class CRUDEntity<T> extends EntityPage<T> implements Bindable {
 			if (pos != -1) {
 				try {
 					PersistenceAspect db = Roma.context().persistence();
-					T reloadedObj = db.loadObject(getEntity(), null, PersistenceAspect.STRATEGY_DETACHING);
+					T reloadedObj = db.refreshObject(getEntity(), null, PersistenceAspect.STRATEGY_DETACHING);
 
 					if (reloadedObj != null)
 						result.get(pos).setEntity(reloadedObj);

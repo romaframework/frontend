@@ -108,7 +108,7 @@ public abstract class CRUDSelect<T> extends CRUDMain<T> implements Bindable {
 					o = ((ComposedEntity<?>) fullSelection[i]).getEntity();
 				else
 					o = fullSelection[i];
-				fullSelection[i] = Roma.context().persistence().loadObject(o, PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING);
+				fullSelection[i] = Roma.context().persistence().refreshObject(o, PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING);
 				if (fullSelection[i] == null) {
 					if (o != null)
 						throw new PersistenceException("Error on detaching object " + o + ". Check if Class '" + o.getClass() + "' is detachable");
