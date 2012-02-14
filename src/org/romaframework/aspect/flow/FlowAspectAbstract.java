@@ -27,7 +27,10 @@ import org.romaframework.core.module.SelfRegistrantConfigurableModule;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaEvent;
+import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageOk;
+import org.romaframework.frontend.domain.message.MessageResponseListener;
+import org.romaframework.frontend.domain.message.MessageYesNo;
 
 /**
  * Abstract implementation for Flow Aspect.
@@ -106,6 +109,30 @@ public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModul
 	}
 
 	public void alert(String iTitle, String iBody) {
-		popup(new MessageOk("", iTitle, null, iBody));
+		alert(iTitle, iBody, null);
+	}
+
+	public void alert(String iTitle, String iBody, final AlertListener iListener) {
+		if (iListener == null) {
+			popup(new MessageOk("", iTitle, null, iBody));
+		} else {
+			popup(new MessageOk("", iTitle, new MessageResponseListener() {
+				public void responseMessage(Message iMessage, Object iResponse) {
+					iListener.onAccept();
+				}
+			}, iBody));
+		}
+	}
+
+	public void confirm(String iTitle, String iBody, final ConfirmListener iListener) {
+		if (iListener == null) {
+			popup(new MessageYesNo("", iTitle, null, iBody));
+		} else {
+			popup(new MessageYesNo("", iTitle, new MessageResponseListener() {
+				public void responseMessage(Message iMessage, Object iResponse) {
+					iListener.onResponse(Boolean.TRUE.equals(iResponse));
+				}
+			}, iBody));
+		}
 	}
 }
