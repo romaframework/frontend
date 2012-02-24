@@ -61,7 +61,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 		super(iEntity);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void onShow() {
 		if (Roma.reporting() == null || mode == MODE_CREATE || mode == MODE_EMBEDDED)
 			Roma.setFeature(this, "report", ViewActionFeatures.VISIBLE, Boolean.FALSE);
@@ -79,7 +79,7 @@ public class CRUDInstance<T> extends CRUDEntity<T> implements ViewCallback, CRUD
 		if (mode != MODE_EMBEDDED && repository == null) {
 			if (entity != null) {
 				// TRY TO LOAD ITS REPOSITORY
-				repository = Roma.repository((Class<T>) entity.getClass());
+				repository = (GenericRepository)Roma.repository((Class)entity.getClass());
 			}
 
 			if (repository == null)
