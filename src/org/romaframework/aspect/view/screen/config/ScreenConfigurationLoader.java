@@ -100,16 +100,15 @@ public class ScreenConfigurationLoader extends Configurable<ScreenConfiguration>
 	 */
 	public void signalUpdatedFile(File iFile) {
 		synchronized (this) {
-			for (ScreenConfiguration d : configuration.values()) {
+			ScreenConfiguration d = configuration.get(iFile.getName());
+			if (d != null) {
 				if (d.getFile().equals(iFile)) {
 					log.warn("[DesktopConfigurationLoader.signalUpdatedFile] Reloading file: " + iFile);
-
 					try {
 						d.load();
 					} catch (Exception e) {
 						log.error("[DesktopConfigurationLoader.signalUpdatedFile] Error on loading updated descriptor: " + iFile.getAbsolutePath());
 					}
-					break;
 				}
 			}
 		}

@@ -31,16 +31,16 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	 * The wrapper object
 	 */
 	@ViewField(label = "")
-	protected String	value;
+	protected String		value;
 	/**
 	 * The class of the wrapped object
 	 */
-	protected Class<?>		typeClass;
+	protected Class<?>	typeClass;
 
 	/**
 	 * The formatter to be used for the parsing
 	 */
-	protected Format	formatter;
+	protected Format		formatter;
 
 	public TextWrapper(Object iValue) {
 		this(iValue, iValue != null ? iValue.getClass() : String.class);
@@ -89,7 +89,7 @@ public class TextWrapper implements ObjectWrapper, Comparable<TextWrapper> {
 	 */
 	@ViewField(visible = AnnotationConstants.FALSE)
 	public Object getFinalValue() throws Exception, IllegalAccessException, InvocationTargetException {
-		if (value != null && value.trim() != "") {
+		if (value != null && "".equals(value.trim())) {
 			// TODO change the exception throwed
 			if (formatter == null) {
 				return typeClass.getConstructor(new Class[] { String.class }).newInstance(new Object[] { value });
