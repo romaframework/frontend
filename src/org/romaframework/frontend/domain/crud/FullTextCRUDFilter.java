@@ -20,12 +20,12 @@ import org.romaframework.core.schema.SchemaObject;
 public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback {
 
 	@ViewField(label = "Cerca")
-	private String					fullTextSearch;
+	protected String				fullTextSearch;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	private boolean					expanded	= false;
+	protected boolean				expanded	= false;
 
-	private T								mockEntity;
+	protected T							mockEntity;
 
 	@CoreField(useRuntimeType = AnnotationConstants.TRUE)
 	@ViewField(render = ViewConstants.RENDER_OBJECTEMBEDDED, label = "")
@@ -108,6 +108,7 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 	}
 
 	public void onShow() {
+		Roma.setFeature(advancedFilter, "resetFilter", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		refresh();
 	}
 
@@ -146,6 +147,14 @@ public class FullTextCRUDFilter<T> extends CRUDFilter<T> implements ViewCallback
 
 	public boolean isExpanded() {
 		return expanded;
+	}
+
+	@Override
+	public void resetFilter() {
+		fullTextSearch = "";
+		if (advancedFilter != null)
+			advancedFilter.resetFilter();
+		super.resetFilter();
 	}
 
 }
