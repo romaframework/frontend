@@ -122,6 +122,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 					if (dependsFieldSchema == null)
 						continue;
 					String[] fieldDepends = dependsFieldSchema.getFeature(ViewFieldFeatures.DEPENDS);
+					if (fieldDepends == null)
+						fieldDepends = new String[0];
 					Set<String> fieldDependsList = new HashSet<String>(Arrays.asList(fieldDepends));
 					fieldDependsList.add(iField.getName());
 					dependsFieldSchema.setFeature(ViewFieldFeatures.DEPENDS, fieldDependsList.toArray(new String[] {}));
