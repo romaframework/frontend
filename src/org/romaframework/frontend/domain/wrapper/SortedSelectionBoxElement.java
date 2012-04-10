@@ -47,7 +47,7 @@ public class SortedSelectionBoxElement<T> extends SelectionBoxElement<T> {
 		if (selectedElementSelected != null)
 			elementIndex = selectedElements.indexOf(selectedElementSelected);
 
-		if (elementIndex >= 0 && elementIndex < selectedElements.size()) {
+		if (elementIndex >= 0 && elementIndex < (selectedElements.size() - 1)) {
 			selectedElements.remove(selectedElementSelected);
 			selectedElements.add(elementIndex + 1, selectedElementSelected);
 			Roma.fieldChanged(this, "selectedElements");
