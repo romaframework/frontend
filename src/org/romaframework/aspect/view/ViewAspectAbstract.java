@@ -38,6 +38,7 @@ import org.romaframework.aspect.view.command.impl.ChangeScreenViewCommand;
 import org.romaframework.aspect.view.command.impl.RefreshViewCommand;
 import org.romaframework.aspect.view.command.impl.ShowViewCommand;
 import org.romaframework.aspect.view.event.SchemaEventAdd;
+import org.romaframework.aspect.view.event.SchemaEventAddInline;
 import org.romaframework.aspect.view.event.SchemaEventDown;
 import org.romaframework.aspect.view.event.SchemaEventEdit;
 import org.romaframework.aspect.view.event.SchemaEventOpen;
@@ -178,6 +179,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 			}
 
 		if (SchemaHelper.isMultiValueObject(iField)) {
+			iField.setEvent(new SchemaEventAddInline(iField));
 			iField.setEvent(new SchemaEventAdd(iField));
 			iField.setEvent(new SchemaEventView(iField));
 			iField.setEvent(new SchemaEventEdit(iField));
@@ -456,7 +458,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 		if (userForms == null)
 			return null;
-		
+
 		return userForms.get(iUserObject);
 	}
 
