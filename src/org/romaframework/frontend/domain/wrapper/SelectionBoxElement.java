@@ -64,18 +64,25 @@ public class SelectionBoxElement<T> {
 
 	public SelectionBoxElement(Object iInstance, String iFieldName, List<T> sourceList) throws IllegalArgumentException {
 		allElements = sourceList;
-		init(iInstance, iFieldName);
+		instance = iInstance;
+		fieldName = iFieldName;
+		init();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected SelectionBoxElement(Object iInstance, String iFieldName) throws IllegalArgumentException {
 		SchemaClass genericClass = SchemaHelper.getSuperclassGenericType(Roma.schema().getSchemaClass(this.getClass()));
+		instance = iInstance;
+		fieldName = iFieldName;
 		allElements = loadElements((Class<T>) genericClass.getLanguageType());
-		init(iInstance, iFieldName);
+		init();
 	}
 
 	protected SelectionBoxElement(Object iInstance, String iFieldName, Class<T> iClass) throws IllegalArgumentException {
+		instance = iInstance;
+		fieldName = iFieldName;
 		allElements = loadElements(iClass);
-		init(iInstance, iFieldName);
+		init();
 	}
 
 	protected List<T> loadElements(Class<T> iClass) {
@@ -91,8 +98,8 @@ public class SelectionBoxElement<T> {
 
 	}
 
-	public void setAvailableElements(Collection<T> elemntiDisponibili) {
-		this.availableElements = elemntiDisponibili;
+	public void setAvailableElements(Collection<T> iAvailableElements) {
+		this.availableElements = iAvailableElements;
 	}
 
 	public T getAvailableElementSelected() {
@@ -108,8 +115,8 @@ public class SelectionBoxElement<T> {
 		return selectedElements;
 	}
 
-	public void setSelectedElements(List<T> elementiSelezionate) {
-		this.selectedElements = elementiSelezionate;
+	public void setSelectedElements(List<T> iSelectedElements) {
+		this.selectedElements = iSelectedElements;
 	}
 
 	public T getSelectedElementSelected() {
@@ -145,6 +152,7 @@ public class SelectionBoxElement<T> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void selectElement() throws IllegalArgumentException {
 		if (availableElementSelected == null) {
@@ -169,11 +177,11 @@ public class SelectionBoxElement<T> {
 			}
 		}
 		availableElementSelected = null;
-		Roma.fieldChanged(this, "selectedElements");
-		Roma.fieldChanged(this, "availableElements");
+		refreshElements();
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@ViewAction(visible = AnnotationConstants.FALSE)
 	public void unselectElement() throws IllegalArgumentException {
 		if (selectedElementSelected == null) {
@@ -193,15 +201,13 @@ public class SelectionBoxElement<T> {
 			throw new IllegalArgumentException("Field " + fieldName + " isn't a collection.");
 		}
 		selectedElementSelected = null;
-		Roma.fieldChanged(this, "selectedElements");
-		Roma.fieldChanged(this, "availableElements");
+		refreshElements();
 
 	}
 
-	private void init(Object iInstance, String iFieldName) throws IllegalArgumentException {
+	@SuppressWarnings("unchecked")
+	private void init() throws IllegalArgumentException {
 		availableElements.addAll(allElements);
-		instance = iInstance;
-		fieldName = iFieldName;
 		Object value = SchemaHelper.getFieldValue(instance, fieldName);
 		if (value instanceof Collection<?>) {
 			for (T elem : ((Collection<T>) value)) {
@@ -213,4 +219,16 @@ public class SelectionBoxElement<T> {
 		}
 	}
 
+	protected void refreshElements() {
+		refreshSelectedElements();
+		refreshAvailableElements();
+	}
+
+	protected void refreshSelectedElements() {
+		Roma.fieldChanged(this, "selectedElements");
+	}
+
+	protected void refreshAvailableElements() {
+		Roma.fieldChanged(this, "availableElements");
+	}
 }

@@ -36,7 +36,7 @@ public class SortedSelectionBoxElement<T> extends SelectionBoxElement<T> {
 		if (elementIndex > 0 && elementIndex < selectedElements.size()) {
 			selectedElements.remove(selectedElementSelected);
 			selectedElements.add(elementIndex - 1, selectedElementSelected);
-			Roma.fieldChanged(this, "selectedElements");
+			refreshSelectedElements();
 		}
 	}
 
@@ -50,7 +50,7 @@ public class SortedSelectionBoxElement<T> extends SelectionBoxElement<T> {
 		if (elementIndex >= 0 && elementIndex < (selectedElements.size() - 1)) {
 			selectedElements.remove(selectedElementSelected);
 			selectedElements.add(elementIndex + 1, selectedElementSelected);
-			Roma.fieldChanged(this, "selectedElements");
+			refreshSelectedElements();
 		}
 	}
 
@@ -74,11 +74,11 @@ public class SortedSelectionBoxElement<T> extends SelectionBoxElement<T> {
 		super.removeAll();
 	}
 
-	// @Override
+	@Override
 	protected void afterSelectedElementSelection() {
 	}
 
-	// @Override
+	@Override
 	protected void afterAvailableElementSelection() {
 	}
 }
