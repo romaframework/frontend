@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
-import org.romaframework.core.Roma;
 
 /**
  * An extension of SelectionBoxElement that allows to keep the selected elements list ordered
