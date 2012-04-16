@@ -1,6 +1,7 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
@@ -13,6 +14,7 @@ import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
+import org.romaframework.core.schema.SchemaParameter;
 import org.romaframework.core.schema.reflection.SchemaFieldReflection;
 import org.romaframework.frontend.domain.binding.RuntimePair;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
@@ -26,7 +28,7 @@ public class SchemaEventAdd extends SchemaEvent {
 	private static final long	serialVersionUID	= 3961580751044485125L;
 
 	public SchemaEventAdd(SchemaField field) {
-		super(field, SchemaEvent.COLLECTION_ADD_EVENT, null);
+		super(field, SchemaEvent.COLLECTION_ADD_EVENT, new ArrayList<SchemaParameter>());
 	}
 
 	@Override
@@ -51,9 +53,9 @@ public class SchemaEventAdd extends SchemaEvent {
 		} else {
 			SchemaClassDefinition iClass = field.getEmbeddedType();
 
-//			if (iClass.getSchemaClass().isAssignableAs(ComposedEntity.class)) {
-//				iClass = iClass.getField(ComposedEntity.NAME).getType();
-//			}
+			// if (iClass.getSchemaClass().isAssignableAs(ComposedEntity.class)) {
+			// iClass = iClass.getField(ComposedEntity.NAME).getType();
+			// }
 
 			Boolean isEmbedded = field.getFeature(CoreFieldFeatures.EMBEDDED);
 			if (!isEmbedded) {

@@ -1,17 +1,19 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
+import org.romaframework.core.schema.SchemaParameter;
 
 public class SchemaEventAddInline extends SchemaEvent {
 
 	private static final long	serialVersionUID	= -4441941839016286308L;
 
 	public SchemaEventAddInline(SchemaField field) {
-		super(field, COLLECTION_ADD_INLINE_EVENT, null);
+		super(field, COLLECTION_ADD_INLINE_EVENT, new ArrayList<SchemaParameter>());
 	}
 
 	@Override

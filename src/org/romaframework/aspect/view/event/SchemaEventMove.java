@@ -1,6 +1,7 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
@@ -8,13 +9,14 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
+import org.romaframework.core.schema.SchemaParameter;
 
 public abstract class SchemaEventMove extends SchemaEvent {
 
 	private static final long	serialVersionUID	= -6853938367107400294L;
 
 	public SchemaEventMove(SchemaField field, String iName) {
-		super(field, iName, null);
+		super(field, iName, new ArrayList<SchemaParameter>());
 	}
 
 	protected void move(Object parent, final int displacement) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {

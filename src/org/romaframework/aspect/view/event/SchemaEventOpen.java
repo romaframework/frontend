@@ -1,6 +1,7 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import org.romaframework.aspect.core.feature.CoreFieldFeatures;
 import org.romaframework.aspect.flow.FlowAspect;
@@ -10,6 +11,7 @@ import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
+import org.romaframework.core.schema.SchemaParameter;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.frontend.domain.wrapper.InstanceWrapper;
@@ -19,7 +21,7 @@ public class SchemaEventOpen extends SchemaEvent {
 	private static final long	serialVersionUID	= -1527990754566339469L;
 
 	public SchemaEventOpen(SchemaField field) {
-		super(field, "open", null);
+		super(field, "open", new ArrayList<SchemaParameter>());
 	}
 
 	@Override

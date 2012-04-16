@@ -1,6 +1,7 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,12 +28,11 @@ public class SchemaEventEdit extends SchemaEvent {
 	}
 
 	public SchemaEventEdit(SchemaField field) {
-		super(field, SchemaEvent.COLLECTION_EDIT_EVENT, null);
+		super(field, SchemaEvent.COLLECTION_EDIT_EVENT, new ArrayList<SchemaParameter>());
 	}
 
 	@Override
-	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public Object invokeFinal(Object iContent, Object[] params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object selectedValue = getSingleSelection(iContent);
 		if (selectedValue != null) {
 			SchemaClass clazz = Roma.schema().getSchemaClass(EntityHelper.getEntityObject(selectedValue).getClass());

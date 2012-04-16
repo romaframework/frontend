@@ -1,19 +1,21 @@
 package org.romaframework.aspect.view.event;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
+import org.romaframework.core.schema.SchemaParameter;
 
 public class SchemaEventRemove extends SchemaEvent {
 
 	private static final long	serialVersionUID	= 3961580751044485125L;
 
 	public SchemaEventRemove(SchemaField field) {
-		super(field, COLLECTION_REMOVE_EVENT, null);
+		super(field, COLLECTION_REMOVE_EVENT, new ArrayList<SchemaParameter>());
 	}
 
 	@Override
