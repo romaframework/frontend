@@ -4,9 +4,7 @@
 	<aspects>
 		<view>
 			<form>
-				<area name="main" type="column">
-					<area name="fields" type="grid" size="2" />
-				</area>
+				<area name="list" />
 			</form>
 		</view>
 	</aspects>
