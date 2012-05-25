@@ -57,9 +57,8 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 		clazz = Roma.schema().getSchemaClass(iClassName);
 		object = iObject;
 		selectionFieldName = iSelectionField;
-
-		if (Roma.existComponent(clazz.getName() + "Repository"))
-			repository = Roma.component(clazz.getName() + "Repository");
+		sourceField = clazz.getField(iSelectionField);
+		repository = (PersistenceAspectRepository) Roma.repository((Class) sourceField.getLanguageType());
 
 		if (!iLazy)
 			load();

@@ -10,12 +10,13 @@ import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
+import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.entity.EntityHelper;
 import org.romaframework.core.repository.GenericRepository;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
 
-public class QueryPaging<T, E> implements PagingListener, ViewCallback {
+public class QueryPaging<T extends ComposedEntity<E>, E> implements PagingListener, ViewCallback {
 
 	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, position = "form://paging")
 	protected CRUDPaging						paging;
