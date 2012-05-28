@@ -88,6 +88,8 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	}
 
 	public void onShow() {
+		boolean value = Roma.getFeature(object, sourceField.getName(), ViewFieldFeatures.ENABLED);
+		Roma.setFeature(this, "list", ViewFieldFeatures.ENABLED, value);
 	}
 
 	protected void init(Object iObject, String iSelectionField, boolean iAutoSelection) {
