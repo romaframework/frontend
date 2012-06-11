@@ -78,8 +78,7 @@ import org.romaframework.frontend.util.RomaCsvGenerator;
 @CoreClass(orderFields = "filter paging result", orderActions = "search create read update delete report selectAll deselectAll")
 @LoggingClass(mode = LoggingConstants.MODE_DB)
 @SuppressWarnings("unchecked")
-public abstract class CRUDMain<T> extends SelectableInstance implements PagingListener, MessageResponseListener, Refreshable,
-		ViewCallback {
+public abstract class CRUDMain<T> extends SelectableInstance implements PagingListener, MessageResponseListener, Refreshable, ViewCallback {
 
 	@ReportingField(visible = AnnotationConstants.FALSE)
 	@ViewField(label = "", render = ViewConstants.RENDER_OBJECTEMBEDDED, position = "form://paging")
@@ -104,14 +103,13 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	protected boolean																			handleDoubleClick			= true;
 	private static final int															DOUBLE_CLICK_TIMEOUT	= 1000;
 
-	protected CRUDMain(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
-			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
+	protected CRUDMain(Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
+			Class<? extends ComposedEntity<?>> iEditClass) {
 		this(null, iListClass, iCreateClass, iReadClass, iEditClass);
 	}
 
-	protected CRUDMain(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass,
-			Class<? extends ComposedEntity<?>> iCreateClass, Class<? extends ComposedEntity<?>> iReadClass,
-			Class<? extends ComposedEntity<?>> iEditClass) {
+	protected CRUDMain(GenericRepository<T> iRepository, Class<? extends ComposedEntity<?>> iListClass, Class<? extends ComposedEntity<?>> iCreateClass,
+			Class<? extends ComposedEntity<?>> iReadClass, Class<? extends ComposedEntity<?>> iEditClass) {
 
 		paging = new CRUDPaging(this);
 
@@ -282,10 +280,11 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	protected void executePagingQuery() {
 		if (paging != null)
 			queryRequest.setRangeFrom(0, paging.getPageElements());
+		int count = (int) repository.countByCriteria(queryRequest);
 		executeQuery();
 
 		if (paging != null) {
-			paging.setTotalItems(queryRequest.getTotalItems());
+			paging.setTotalItems(count);
 			paging.setCurrentPage(1);
 			Roma.fieldChanged(this, "paging");
 		}
@@ -333,8 +332,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 */
 	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	@ViewAction(visible = AnnotationConstants.TRUE)
-	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException {
+	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		return createInstance();
 	}
 
@@ -409,12 +407,10 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected Object loadObjectDetails(Object iObj) {
-		Object obj = repository.load(((ComposedEntity<T>) iObj).getEntity(), PersistenceAspect.FULL_MODE_LOADING,
-				PersistenceAspect.STRATEGY_DETACHING);
+		Object obj = repository.load(((ComposedEntity<T>) iObj).getEntity(), PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING);
 
 		if (obj == null) {
-			throw new ConfigurationException(
-					"Cannot load object. Check the PersistenceAspect configuration and assure the class you're using is detachable");
+			throw new ConfigurationException("Cannot load object. Check the PersistenceAspect configuration and assure the class you're using is detachable");
 		}
 
 		return obj;
@@ -524,8 +520,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 			if (iSelectedObjects.length == 1 && iSelectedObjects[0] instanceof ComposedEntity<?>)
 				enableUpdate = ((Secure) iSelectedObjects[0]).canWrite();
 
-//			Roma.setFeature(this, "read", ViewActionFeatures.ENABLED, enableUpdate);
-//			Roma.setFeature(this, "update", ViewActionFeatures.ENABLED, enableUpdate);
+			// Roma.setFeature(this, "read", ViewActionFeatures.ENABLED, enableUpdate);
+			// Roma.setFeature(this, "update", ViewActionFeatures.ENABLED, enableUpdate);
 		}
 
 		super.setSelection(iSelectedObjects);
@@ -534,9 +530,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	}
 
 	protected boolean checkDoubleClick(Object[] iSelectedObjects) {
-		if (handleDoubleClick && iSelectedObjects != null && iSelectedObjects.length == 1 && getSelection() != null
-				&& getSelection().length == 1 && iSelectedObjects[0].equals(getSelection()[0])
-				&& System.currentTimeMillis() - lastSelectionTime < DOUBLE_CLICK_TIMEOUT) {
+		if (handleDoubleClick && iSelectedObjects != null && iSelectedObjects.length == 1 && getSelection() != null && getSelection().length == 1
+				&& iSelectedObjects[0].equals(getSelection()[0]) && System.currentTimeMillis() - lastSelectionTime < DOUBLE_CLICK_TIMEOUT) {
 
 			// DOUBLE CLICK:
 			onDoubleClick();
@@ -614,8 +609,8 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 		return Roma.context().persistence();
 	}
 
-	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, IllegalArgumentException, SecurityException, NoSuchMethodException {
+	protected Object createInstance(Object... iArgs) throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException, SecurityException,
+			NoSuchMethodException {
 		SchemaClass entityClass = createClass.getField(ComposedEntity.NAME).getType().getSchemaClass();
 		Object entityObject = SchemaHelper.createObject(entityClass, iArgs);
 
@@ -657,15 +652,13 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 				addFilter.addOrder(sf.getName());
 		}
 	}
-	
+
 	public void onResultSort(String field, String mode) {
-		
-		List<QueryByFilterItem> items = new ArrayList<QueryByFilterItem>(((QueryByExample) queryRequest).getAdditionalFilter()
-				.getItems());
+
+		List<QueryByFilterItem> items = new ArrayList<QueryByFilterItem>(((QueryByExample) queryRequest).getAdditionalFilter().getItems());
 		((QueryByExample) queryRequest).getAdditionalFilter().clear();
 		((QueryByExample) queryRequest).getAdditionalFilter().setItems(items);
-		((QueryByExample) queryRequest).getAdditionalFilter().addOrder(field,
-				"true".equals(mode) ? QueryByFilter.ORDER_ASC : QueryByFilter.ORDER_DESC);
+		((QueryByExample) queryRequest).getAdditionalFilter().addOrder(field, "true".equals(mode) ? QueryByFilter.ORDER_ASC : QueryByFilter.ORDER_DESC);
 		executePagingQuery();
 	}
 }
