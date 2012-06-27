@@ -15,11 +15,8 @@
 		<field name="name" />
 		<field name="entity">
 			<aspects>
-				<core useRuntimeType="true" />
-				<view layout="expand" visible="true" render="objectembedded" />
+				<core useRuntimeType="true" expand="true"/>
 			</aspects>
-			<class>
-			</class>
 		</field>
 		<field name="backObject">
 			<aspects>
