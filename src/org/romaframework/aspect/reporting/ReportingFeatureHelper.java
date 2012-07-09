@@ -16,13 +16,14 @@
 package org.romaframework.aspect.reporting;
 
 import org.romaframework.aspect.i18n.I18NType;
-import org.romaframework.aspect.reporting.feature.ReportingBaseFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingClassFeatures;
 import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
+import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
+import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
@@ -90,7 +91,7 @@ public class ReportingFeatureHelper {
 		if (fieldLayout == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldLayout = (String) iFeatures.getFeature(ViewFieldFeatures.POSITION);
-			} else {
+			} else if (iFeatures instanceof SchemaAction) {
 				fieldLayout = (String) iFeatures.getFeature(ViewActionFeatures.POSITION);
 			}
 		}
@@ -107,8 +108,8 @@ public class ReportingFeatureHelper {
 		if (fieldRender == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.RENDER);
-			} else {
-				fieldRender = (String) iFeatures.getFeature(ViewActionFeatures.RENDER);
+			} else if (iFeatures instanceof SchemaClass) {
+				fieldRender = (String) iFeatures.getFeature(ViewClassFeatures.RENDER);
 			}
 		}
 		return fieldRender;
@@ -124,8 +125,8 @@ public class ReportingFeatureHelper {
 		if (fieldRender == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.LABEL);
-			} else {
-				fieldRender = (String) iFeatures.getFeature(ViewActionFeatures.LABEL);
+			} else if (iFeatures instanceof SchemaClass) {
+				fieldRender = (String) iFeatures.getFeature(ViewClassFeatures.LABEL);
 			}
 		}
 		return fieldRender;
