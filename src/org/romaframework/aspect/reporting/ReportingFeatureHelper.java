@@ -23,6 +23,7 @@ import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
+import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaFeatures;
@@ -80,7 +81,12 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getLayout(SchemaFeatures iFeatures) {
-		String fieldLayout = (String) iFeatures.getFeature(ReportingBaseFeatures.LAYOUT);
+		String fieldLayout = null;
+		if (iFeatures instanceof SchemaClass) {
+			fieldLayout = (String) iFeatures.getFeature(ReportingClassFeatures.LAYOUT);
+		} else {
+			fieldLayout = (String) iFeatures.getFeature(ReportingFieldFeatures.LAYOUT);
+		}
 		if (fieldLayout == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldLayout = (String) iFeatures.getFeature(ViewFieldFeatures.POSITION);
@@ -92,7 +98,12 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getRender(SchemaFeatures iFeatures) {
-		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.RENDER);
+		String fieldRender = null;
+		if (iFeatures instanceof SchemaClass) {
+			fieldRender = (String) iFeatures.getFeature(ReportingClassFeatures.RENDER);
+		} else {
+			fieldRender = (String) iFeatures.getFeature(ReportingFieldFeatures.RENDER);
+		}
 		if (fieldRender == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.RENDER);
@@ -104,7 +115,12 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getLabel(SchemaFeatures iFeatures) {
-		String fieldRender = (String) iFeatures.getFeature(ReportingBaseFeatures.LABEL);
+		String fieldRender = null;
+		if (iFeatures instanceof SchemaClass) {
+			fieldRender = (String) iFeatures.getFeature(ReportingClassFeatures.LABEL);
+		} else {
+			fieldRender = (String) iFeatures.getFeature(ReportingFieldFeatures.LABEL);
+		}
 		if (fieldRender == null) {
 			if (iFeatures instanceof SchemaField) {
 				fieldRender = (String) iFeatures.getFeature(ViewFieldFeatures.LABEL);
@@ -116,11 +132,11 @@ public class ReportingFeatureHelper {
 	}
 
 	public static String getI18NLabel(SchemaClassElement schemaField) {
-		return Roma.i18n().get(schemaField, I18NType.LABEL,ReportingFieldFeatures.LABEL);
+		return Roma.i18n().get(schemaField, I18NType.LABEL, ReportingFieldFeatures.LABEL);
 	}
 
 	public static String getI18NLabel(SchemaClassDefinition schemaClass) {
-		return Roma.i18n().get(schemaClass, I18NType.LABEL,ReportingClassFeatures.LABEL);
+		return Roma.i18n().get(schemaClass, I18NType.LABEL, ReportingClassFeatures.LABEL);
 	}
 
 }
