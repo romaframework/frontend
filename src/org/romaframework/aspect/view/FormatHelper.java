@@ -16,6 +16,7 @@ import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
+import org.romaframework.core.util.parser.ObjectVariableResolver;
 
 public class FormatHelper {
 
@@ -131,7 +132,7 @@ public class FormatHelper {
 		} else {
 			String format = Roma.i18n().get(schemaField, I18NType.FORMAT, ViewFieldFeatures.FORMAT);
 			if (format != null && !"".equals(format)) {
-				formattedValue = Roma.i18n().resolve(format, toFormat);
+				formattedValue = new ObjectVariableResolver(format).resolveVariables(toFormat);
 			} else {
 				formattedValue = toFormat.toString();
 			}
