@@ -59,7 +59,7 @@ public class CRUDEntity<T> extends EntityPage<T> implements Bindable {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
+//	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	public void cancel() {
 		Object backObj = Roma.aspect(FlowAspect.class).back();
 

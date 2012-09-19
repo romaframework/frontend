@@ -93,7 +93,7 @@ public abstract class CRUDSelect<T> extends CRUDMain<T> implements Bindable {
 		select();
 	}
 
-	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
+//	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	public void select() {
 		selectAndForceClosing(false);
 	}

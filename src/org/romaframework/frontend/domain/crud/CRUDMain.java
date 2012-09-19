@@ -330,7 +330,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
+//	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	@ViewAction(visible = AnnotationConstants.TRUE)
 	public Object create() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		return createInstance();
@@ -345,7 +345,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 * @throws InvocationTargetException
 	 */
 	@ViewAction(visible = AnnotationConstants.TRUE)
-	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
+//	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	public Object read() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object selectedObj = getOnlyOneSelectedItem(getSelection());
 
@@ -375,7 +375,7 @@ public abstract class CRUDMain<T> extends SelectableInstance implements PagingLi
 	 * @throws InvocationTargetException
 	 */
 	@ViewAction(visible = AnnotationConstants.TRUE)
-	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
+//	@Persistence(mode = PersistenceConstants.MODE_ATOMIC)
 	public Object update() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object selectedObj = getOnlyOneSelectedItem(getSelection());
 
