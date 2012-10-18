@@ -36,7 +36,7 @@ import org.romaframework.core.Roma;
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
-@CoreClass(orderFields = "totalItemsLabel totalItems pageLabel pages", orderActions = "first prev next last queryAll csv")
+@CoreClass(orderFields = "totalItems pageLabel pages", orderActions = "first prev next last queryAll csv")
 @ViewClass(label = "")
 public class CRUDPaging implements ViewCallback {
 
@@ -160,11 +160,6 @@ public class CRUDPaging implements ViewCallback {
 		} else {
 			listener.loadAllPages();
 		}
-	}
-
-	@ViewField(label = "", render = "label")
-	public String getTotalItemsLabel() {
-		return Roma.i18n().resolve(listener, TOTAL_ITEMS_LABEL, I18NType.LABEL);
 	}
 
 	@ViewField(label = "", render = "label")
