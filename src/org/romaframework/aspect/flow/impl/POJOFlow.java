@@ -114,7 +114,6 @@ public class POJOFlow extends FlowAspectAbstract {
 		getHistory(iSession).clear();
 	}
 
-	@Override
 	public Object back(String area, SessionInfo iSession) {
 		Object currentObject = current(area, iSession);
 		if (currentObject == null)
@@ -267,7 +266,6 @@ public class POJOFlow extends FlowAspectAbstract {
 		sessionAspect = null;
 	}
 
-	@Override
 	public void popup(Object popup, boolean modal) {
 		if (modal) {
 			forward(popup, "popup");

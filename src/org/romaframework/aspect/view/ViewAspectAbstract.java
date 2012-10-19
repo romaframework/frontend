@@ -534,7 +534,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 	}
 
-	@Override
 	public void onObjectRefresh(SessionInfo iSession, Object iContent) {
 		ViewComponent handler = getFormByObject(iContent);
 		if (handler == null)
