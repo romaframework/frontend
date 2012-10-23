@@ -24,6 +24,10 @@ public class MessageOk extends MessageText {
 	public MessageOk(String iId, String iTitle) {
 		super(iId, iTitle);
 	}
+  
+	public MessageOk(String iId, String iTitle, String iMessage) {
+		super(iId, iTitle, null, iMessage);
+	}
 
 	public MessageOk(String iId, String iTitle, MessageResponseListener iListener) {
 		super(iId, iTitle, iListener);
