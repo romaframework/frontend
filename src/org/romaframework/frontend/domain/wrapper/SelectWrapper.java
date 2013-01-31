@@ -38,6 +38,8 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected SchemaField											sourceField;
 
+	private boolean														autoSelection	= false;
+
 	public SelectWrapper() {
 	}
 
@@ -70,6 +72,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 
 	public SelectWrapper(Set<T> iSetValues, Object iObject, String iSelectionField, boolean iAutoSelection) {
 		list = new ArrayList<T>(iSetValues);
+		this.autoSelection = iAutoSelection;
 		init(iObject, iSelectionField, iAutoSelection);
 	}
 
@@ -79,7 +82,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 
 	public SelectWrapper(T[] iArrayValues, Object iObject, String iSelectionField, boolean iAutoSelection) {
 		list = new ArrayList<T>();
-
+		this.autoSelection = iAutoSelection;
 		if (list != null)
 			for (T item : iArrayValues)
 				list.add(item);
@@ -191,7 +194,7 @@ public class SelectWrapper<T> implements ViewCallback, ObjectWrapper, Bindable {
 		clazz = Roma.schema().getSchemaClass(source);
 		repository = (PersistenceAspectRepository) Roma.repository((Class) sourceField.getLanguageType());
 		load();
-		if (list != null && list.size() == 1) {
+		if (this.autoSelection && list != null && list.size() == 1) {
 			setSelection(list.get(0));
 			Roma.fieldChanged(this, "list");
 		}
