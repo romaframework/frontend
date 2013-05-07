@@ -6,30 +6,30 @@ import org.romaframework.aspect.validation.annotation.ValidationField;
 
 @CoreClass(orderFields = "name type value")
 public abstract class SessionAttributeInfo {
-  @ValidationField(required = AnnotationConstants.TRUE)
-  protected String name;
+	@ValidationField(required = AnnotationConstants.TRUE)
+	protected String	name;
 
-  public SessionAttributeInfo(String name) {
-    this.name = name;
-  }
+	public SessionAttributeInfo(String name) {
+		this.name = name;
+	}
 
-  public abstract Object getValue();
+	public abstract Object getValue();
 
-  public abstract void setValue(Object value);
+	public abstract void setValue(Object value);
 
-  @Override
-  public String toString() {
-    return getValue() != null ? getValue().toString() : "";
-  }
+	@Override
+	public String toString() {
+		return getValue() != null ? getValue().toString() : "";
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public String getType() {
-    Object value = getValue();
-    if (value == null)
-      return "";
-    return value.getClass().getName();
-  }
+	public String getType() {
+		Object value = getValue();
+		if (value == null)
+			return "";
+		return value.getClass().getName();
+	}
 }

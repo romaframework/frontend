@@ -29,10 +29,7 @@ import org.romaframework.core.aspect.Aspect;
 import org.romaframework.core.exception.ConfigurationNotFoundException;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
-import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaClassDefinition;
-import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.core.schema.SchemaObject;
@@ -61,23 +58,6 @@ public class DataBindingAspect extends SelfRegistrantConfigurableModule<String> 
 		Controller.getInstance().registerListener(SchemaObjectListener.class, this);
 	}
 
-	public void beginConfigClass(SchemaClassDefinition iClass) {
-	}
-
-	public void configClass(SchemaClassDefinition iClass) {
-	}
-
-	public void configField(SchemaField iField) {
-	}
-
-	public void configAction(SchemaAction iAction) {
-	}
-
-	public void configEvent(SchemaEvent iEvent) {
-	}
-
-	public void endConfigClass(SchemaClassDefinition iClass) {
-	}
 
 	public void onCreate(SchemaObject iObject) {
 		if (iObject.getInstance() != null) {

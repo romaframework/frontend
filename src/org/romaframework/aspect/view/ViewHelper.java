@@ -31,7 +31,6 @@ import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaHelper;
 import org.romaframework.core.schema.SchemaObject;
-import org.romaframework.core.schema.virtual.VirtualObject;
 
 /**
  * Helper class to resolve common tasks about View Aspect.
@@ -135,7 +134,7 @@ public class ViewHelper {
 			return;
 
 		try {
-			if (content instanceof ViewCallback || content instanceof VirtualObject)
+			if (content instanceof ViewCallback)
 				SchemaHelper.invokeEvent(content, SHOW_EVENT_NAME);
 		} catch (Exception e) {
 			log.error("[ViewHelper.invokeOnShow] Error on invoking onShow() method on object: " + content, e);
@@ -158,7 +157,7 @@ public class ViewHelper {
 			return;
 
 		try {
-			if (content instanceof ViewCallback || content instanceof VirtualObject)
+			if (content instanceof ViewCallback)
 				SchemaHelper.invokeEvent(content, DISPOSE_EVENT_NAME);
 		} catch (Exception e) {
 			log.error("[ViewHelper.invokeOnDispose] Error on invoking onDispose() method on object: " + content, e);

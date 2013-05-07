@@ -56,7 +56,7 @@ public class SessionAttributeInfoInstance extends EntityPage<SessionAttributeInf
 
 			if (cls == null)
 				cls = Class.forName(type);
-
+			
 			entity.setValue(SchemaHelper.createObject(null, cls));
 		} catch (Exception e) {
 			throw new UserException(entity, "Error on creating object", e);

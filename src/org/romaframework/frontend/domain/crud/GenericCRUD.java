@@ -10,10 +10,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.domain.entity.ComposedEntity;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaHelper;
-import org.romaframework.frontend.domain.crud.CRUDFilter;
-import org.romaframework.frontend.domain.crud.CRUDHelper;
-import org.romaframework.frontend.domain.crud.CRUDInstance;
-import org.romaframework.frontend.domain.crud.CRUDMain;
 
 public class GenericCRUD<T> extends CRUDMain<T> {
 

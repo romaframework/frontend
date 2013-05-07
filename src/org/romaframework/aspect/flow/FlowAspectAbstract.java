@@ -24,9 +24,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.flow.Controller;
 import org.romaframework.core.flow.SchemaActionListener;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
-import org.romaframework.core.schema.SchemaAction;
-import org.romaframework.core.schema.SchemaClassDefinition;
-import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
@@ -44,18 +41,7 @@ public abstract class FlowAspectAbstract extends SelfRegistrantConfigurableModul
 		Controller.getInstance().registerListener(SchemaActionListener.class, this);
 	}
 
-	public void beginConfigClass(SchemaClassDefinition iClass) {
-	}
-
-	public void endConfigClass(SchemaClassDefinition iClass) {
-	}
-
-	public void configAction(SchemaAction iAction) {
-	}
-
-	public void configEvent(SchemaEvent iEvent) {
-	}
-
+	
 	public String aspectName() {
 		return ASPECT_NAME;
 	}

@@ -30,9 +30,7 @@ import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
-import org.romaframework.core.schema.SchemaField;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.frontend.domain.message.MessageYesNo;
@@ -158,7 +156,7 @@ public class POJOFlow extends FlowAspectAbstract {
 			return;
 		}
 
-		if (iAction.isSettedFeature(FlowActionFeatures.NEXT)) {
+		if (iAction.isSetFeature(FlowActionFeatures.NEXT)) {
 			SchemaClass nextClass = (SchemaClass) iAction.getFeature(FlowActionFeatures.NEXT);
 			if (nextClass != null) {
 				String nextPosition = (String) iAction.getFeature(FlowActionFeatures.POSITION);
@@ -272,12 +270,6 @@ public class POJOFlow extends FlowAspectAbstract {
 		} else {
 			forward(popup, "popupNonModal");
 		}
-	}
-
-	public void configClass(SchemaClassDefinition class1) {
-	}
-
-	public void configField(SchemaField field) {
 	}
 
 	public Object getUnderlyingComponent() {

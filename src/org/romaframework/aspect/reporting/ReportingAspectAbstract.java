@@ -18,16 +18,12 @@ package org.romaframework.aspect.reporting;
 
 import java.lang.annotation.Annotation;
 
-import org.romaframework.aspect.core.feature.CoreFieldFeatures;
-import org.romaframework.aspect.reporting.feature.ReportingFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.Utility;
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
-import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassResolver;
 import org.romaframework.core.schema.SchemaEvent;
-import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.xmlannotations.XmlActionAnnotation;
 
 /**
@@ -49,36 +45,10 @@ public abstract class ReportingAspectAbstract extends SelfRegistrantConfigurable
 
 	protected abstract void refresh(SchemaClassDefinition updatedClass);
 
-	public void beginConfigClass(SchemaClassDefinition iClass) {
-	}
 
-	public void endConfigClass(SchemaClassDefinition iClass) {
-	}
-
-	public void configClass(SchemaClassDefinition iClass) {
-
-		refresh(iClass);
-	}
-
-	public void configField(SchemaField iField) {
-
-		setFieldDefaults(iField);
-	}
-
-	public void configAction(SchemaAction iAction) {
-		// Reporting cannot be used on actions
-	}
 
 	public String aspectName() {
 		return ASPECT_NAME;
-	}
-
-	public void setFieldDefaults(SchemaField iField) {
-		if ((Boolean) iField.getFeature(CoreFieldFeatures.EMBEDDED)) {
-			if (iField.getFeature(ReportingFieldFeatures.RENDER) == null)
-				// IF THE FIELD IS EMBEDDED, THEN THE DEFAULT RENDER IS OBJECTEMBEDDED
-				iField.setFeature(ReportingFieldFeatures.RENDER, ReportingConstants.RENDER_OBJECTEMBEDDED);
-		}
 	}
 
 	public void configEvent(SchemaEvent iEvent, Annotation iAnnotation, XmlActionAnnotation iNode) {

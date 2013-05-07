@@ -16,7 +16,6 @@
 package org.romaframework.aspect.geo;
 
 import org.romaframework.core.module.SelfRegistrantConfigurableModule;
-import org.romaframework.core.schema.SchemaField;
 
 public abstract class MapAspectAbstract extends SelfRegistrantConfigurableModule<String> implements GeoAspect {
 
@@ -24,9 +23,6 @@ public abstract class MapAspectAbstract extends SelfRegistrantConfigurableModule
 
 	public String aspectName() {
 		return ASPECT_NAME;
-	}
-
-	public void configField(SchemaField iField) {
 	}
 
 }
