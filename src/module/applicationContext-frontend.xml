@@ -4,4 +4,5 @@
 	<bean id="FrontendModule" class="org.romaframework.frontend.FrontendModule" singleton="true" />
 	<bean id="ScreenConfigurationLoader" class="org.romaframework.aspect.view.screen.config.ScreenConfigurationLoader"
 		singleton="true" />
+	<bean id="FlowAspect" singleton="true" class="org.romaframework.aspect.flow.impl.POJOFlow" lazy-init="false" />
 </beans>

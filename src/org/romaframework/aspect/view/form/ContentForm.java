@@ -16,7 +16,6 @@
 
 package org.romaframework.aspect.view.form;
 
-import org.romaframework.aspect.session.SessionInfo;
 
 /**
  * Base Form class for form that can handle a POJO as content.
@@ -24,8 +23,6 @@ import org.romaframework.aspect.session.SessionInfo;
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
 public interface ContentForm extends ViewComponent {
-
-	public void setContent(Object iContent, SessionInfo iSession);
 
 	public String getScreenArea();
 

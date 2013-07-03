@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.aspect.view.form.ContentForm;
 import org.romaframework.core.Roma;
@@ -45,19 +44,15 @@ public class ViewHelper {
 
 	private static Log					log									= LogFactory.getLog(ViewHelper.class);
 
-	public static ContentForm createForm(Object iUserObject, SessionInfo iSession) {
-		return createForm(Roma.session().getSchemaObject(iUserObject), null, iUserObject, iSession);
+	public static ContentForm createForm(Object iUserObject) {
+		return createForm(Roma.session().getSchemaObject(iUserObject), null, iUserObject);
 	}
 
 	public static ContentForm createForm(SchemaObject iSchema, SchemaField iField, Object iUserObject) {
-		return createForm(iSchema, iField, iUserObject, Roma.session().getActiveSessionInfo());
-	}
-
-	public static ContentForm createForm(SchemaObject iSchema, SchemaField iField, Object iUserObject, SessionInfo iSession) {
 		try {
 			ContentForm form = ((ViewAspectAbstract) Roma.aspect(ViewAspect.ASPECT_NAME)).createForm(iSchema, iField, null);
 
-			form.setContent(iUserObject, iSession);
+			form.setContent(iUserObject);
 			return form;
 		} catch (Exception e) {
 			throw new ViewException(e);

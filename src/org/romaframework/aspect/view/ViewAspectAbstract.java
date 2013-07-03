@@ -17,14 +17,12 @@
 package org.romaframework.aspect.view;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -84,8 +82,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		objectsForms.clear();
 	}
 
-	
-
 	/**
 	 * Display the form reading information from POJO received in the current desktop, in default position.
 	 * 
@@ -110,18 +106,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 	/**
 	 * Display the form reading information from POJO received following the layout rules. Display the object on iWhere position in
-	 * the current desktop.
-	 * 
-	 * @param iContent
-	 * @param iPosition
-	 * @throws ViewException
-	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession) throws ViewException {
-		show(iContent, iPosition, iScreen, iSession, null);
-	}
-
-	/**
-	 * Display the form reading information from POJO received following the layout rules. Display the object on iWhere position in
 	 * the desktop received as the argument iDesktop.
 	 * 
 	 * @param iContent
@@ -132,7 +116,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 *          Desktop instance to use
 	 * @throws Exception
 	 */
-	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession, SchemaObject iSchema) throws ViewException {
+	public void show(Object iContent, String iPosition, Screen iScreen, SessionInfo iSession) throws ViewException {
 
 		if (iScreen == null)
 			// GET THE CURRENT ONE
@@ -148,15 +132,13 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 
 		boolean currentSession = iSession == null || iSession.equals(Roma.session().getActiveSessionInfo());
 
-		if (iSchema == null && iContent != null) {
-			iSchema = Roma.session().getSchemaObject(iContent);
-		}
+		SchemaObject iSchema = Roma.session().getSchemaObject(iContent);
 
 		// SEARCH THE FORM TO VIEW BY ENTITY
 		ContentForm form = (ContentForm) getFormByObject(iSession, iContent);
 		if (form == null) {
 			// CREATE IT
-			form = ViewHelper.createForm(iSchema, null, iContent, iSession);
+			form = ViewHelper.createForm(iSchema, null, iContent);
 		} else {
 			ViewHelper.invokeOnShow(iContent);
 			iPosition = form.getScreenArea();
@@ -279,9 +261,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	 * @param iUserObject
 	 * @param iForm
 	 */
-	public void createObjectFormAssociation(Object iUserObject, ViewComponent iForm, SessionInfo iSession) {
-		if (iSession == null)
-			iSession = Roma.session().getActiveSessionInfo();
+	public void createObjectFormAssociation(Object iUserObject, ViewComponent iForm) {
+		SessionInfo iSession = Roma.session().getActiveSessionInfo();
 
 		if (iSession == null)
 			throw new UserException(iForm.getContent(), "Cannot display the form since there is no active session");
@@ -290,10 +271,8 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		userForms.put(iUserObject, iForm);
 	}
 
-	public void removeObjectFormAssociation(Object iUserObject, SessionInfo iSession) {
-		if (iSession == null)
-			if (iSession == null)
-				iSession = Roma.session().getActiveSessionInfo();
+	public void removeObjectFormAssociation(Object iUserObject) {
+		SessionInfo iSession = Roma.session().getActiveSessionInfo();
 
 		// REMOVE OBJECT-FORM ASSOCIATION
 		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
@@ -335,32 +314,6 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 	}
 
 	/**
-	 * Return the first form of the declaring Class iClassOfObject.
-	 * 
-	 * @param iSession
-	 *          User session, null to get the current active
-	 * @param iClassOfObject
-	 *          The Class of the object
-	 * @return ContentComponent instance if any, otherwise null
-	 */
-	public List<ViewComponent> getFormsByClass(Object iSession, SchemaClass iClassOfObject) {
-		if (iSession == null)
-			iSession = Roma.component(SessionAspect.class).getActiveSessionInfo();
-
-		Map<Object, ViewComponent> userForms = objectsForms.get(iSession);
-
-		if (userForms == null)
-			return null;
-
-		List<ViewComponent> result = new ArrayList<ViewComponent>();
-		for (Map.Entry<Object, ViewComponent> entry : userForms.entrySet()) {
-			if (entry.getValue().getSchemaObject().getSchemaClass().equals(iClassOfObject))
-				result.add(entry.getValue());
-		}
-		return result;
-	}
-
-	/**
 	 * Return all the forms for all the active session that render POJOs of class iClass.
 	 * 
 	 * @param iClass
@@ -390,7 +343,7 @@ public abstract class ViewAspectAbstract extends SelfRegistrantConfigurableModul
 		}
 		return result;
 	}
-	
+
 	protected void updateFieldDependencies(SchemaClassDefinition iClass) {
 		Iterator<SchemaField> iterator = iClass.getFieldIterator();
 		while (iterator.hasNext()) {
